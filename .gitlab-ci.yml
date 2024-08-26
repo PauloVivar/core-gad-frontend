@@ -17,8 +17,6 @@ format-code:
   image: node:20
   script:
     - npx @biomejs/biome format --write ./src
-  only:
-    - branches
   needs:
     - check-format
   rules:
