@@ -4,7 +4,7 @@ import {
   getCoreRowModel,
   getPaginationRowModel,
   useReactTable
-} from '@tanstack/react-table';
+} from '@tanstack/react-table'
 
 import {
   Table,
@@ -54,96 +54,102 @@ export function DataTable<TData, TValue>({
 
   return (
     <>
-    <div className="rounded-md border">
-      <Table>
-        <TableHeader>
-          {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow key={headerGroup.id}>
-              {headerGroup.headers.map((header) => {
-                return (
-                  <TableHead key={header.id}>
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
-                  </TableHead>
-                )
-              })}
-            </TableRow>
-          ))}
-        </TableHeader>
-        <TableBody>
-          {table.getRowModel().rows?.length ? (
-            table.getRowModel().rows.map((row) => (
-              <TableRow
-                key={row.id}
-                data-state={row.getIsSelected() && 'selected'}
-              >
-                {row.getVisibleCells().map((cell) => (
-                  <TableCell key={cell.id}>
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </TableCell>
-                ))}
+      <div className="rounded-md border">
+        <Table>
+          <TableHeader>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <TableRow key={headerGroup.id}>
+                {headerGroup.headers.map((header) => {
+                  return (
+                    <TableHead key={header.id}>
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
+                    </TableHead>
+                  )
+                })}
               </TableRow>
-            ))
-          ) : (
-            <TableRow>
-              <TableCell colSpan={columns.length} className="h-24 text-center">
-                No results.
-              </TableCell>
-            </TableRow>
-          )}
-        </TableBody>
-      </Table>
-      <div className="bg-muted p-4 rounded-md flex justify-between items-center">
-        <div className="text-lg font-semibold">
-          Total: ${totalValue.toFixed(2)}
-        </div>
-        <Button onClick={handlePayment} disabled={totalValue === 0}>
-          Realizar pago
-        </Button>
-        <div>
-          <div className="flex gap-4 justify-center items-center">
-            <img
-              width={56}
-              height={40}
-              className="object-cover w-14 h-10"
-              src="/corporate-images/placetopay.svg"
-              alt="placetoPay"
-            />
-            <img
-              width={50}
-              height={40}
-              src="/corporate-images/visa.svg"
-              alt="placetoPay"
-            />
-            <img
-              width={80}
-              height={40}
-              className="object-cover w-20 h-10"
-              src="/corporate-images/diners-club.svg"
-              alt="placetoPay"
-            />
-            <img
-              width={96}
-              height={40}
-              className="object-cover w-24 h-10"
-              src="/corporate-images/discover.svg"
-              alt="placetoPay"
-            />
-            <img
-              width={36}
-              height={36}
-              src="/corporate-images/mastercard.svg"
-              alt="placetoPay"
-            />
+            ))}
+          </TableHeader>
+          <TableBody>
+            {table.getRowModel().rows?.length ? (
+              table.getRowModel().rows.map((row) => (
+                <TableRow
+                  key={row.id}
+                  data-state={row.getIsSelected() && 'selected'}
+                >
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell key={cell.id}>
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell
+                  colSpan={columns.length}
+                  className="h-24 text-center"
+                >
+                  No results.
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+        <div className="bg-muted p-4 rounded-md flex justify-between items-center">
+          <div className="text-lg font-semibold">
+            Total: ${totalValue.toFixed(2)}
+          </div>
+          <Button onClick={handlePayment} disabled={totalValue === 0}>
+            Realizar pago
+          </Button>
+          <div>
+            <div className="flex gap-4 justify-center items-center">
+              <img
+                width={56}
+                height={40}
+                className="object-cover w-14 h-10"
+                src="/corporate-images/placetopay.svg"
+                alt="placetoPay"
+              />
+              <img
+                width={50}
+                height={40}
+                src="/corporate-images/visa.svg"
+                alt="placetoPay"
+              />
+              <img
+                width={80}
+                height={40}
+                className="object-cover w-20 h-10"
+                src="/corporate-images/diners-club.svg"
+                alt="placetoPay"
+              />
+              <img
+                width={96}
+                height={40}
+                className="object-cover w-24 h-10"
+                src="/corporate-images/discover.svg"
+                alt="placetoPay"
+              />
+              <img
+                width={36}
+                height={36}
+                src="/corporate-images/mastercard.svg"
+                alt="placetoPay"
+              />
+            </div>
           </div>
         </div>
       </div>
-    </div>
-<div className="flex items-center justify-end space-x-2 py-4">
+      <div className="flex items-center justify-end space-x-2 py-4">
         <Button
           variant="outline"
           size="sm"
