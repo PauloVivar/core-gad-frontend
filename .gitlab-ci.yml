@@ -10,7 +10,7 @@ format-code:
   script:
     - npx @biomejs/biome format --write ./src
   rules:
-    - if: '$CI_COMMIT_BRANCH == "main"
+    - if: '$CI_COMMIT_BRANCH == "main"'
 
 build-job:       # This job runs in the build stage, which runs first.
   stage: build
