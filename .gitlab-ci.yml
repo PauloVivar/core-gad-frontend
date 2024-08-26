@@ -1,7 +1,16 @@
 stages:          # List of stages for jobs, and their order of execution
+  - format
   - build
   - test
   - deploy
+
+format-code:
+  stage: format
+  image: node:20
+  script:
+    - npx @biomejs/biome format --write ./src
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"
 
 build-job:       # This job runs in the build stage, which runs first.
   stage: build
