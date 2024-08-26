@@ -3,22 +3,12 @@ stages:          # List of stages for jobs, and their order of execution
   - build
   - test
   - deploy
-
-check-format:
-    stage: format
-    image: node:20
-    script: 
-        - npx @biomejs/biome ci ./src
-    only:
-        - branches
     
 format-code:
   stage: format
   image: node:20
   script:
     - npx @biomejs/biome format --write ./src
-  needs:
-    - check-format
   rules:
     - if: '$CI_PIPELINE_SOURCE == "push"'
 
