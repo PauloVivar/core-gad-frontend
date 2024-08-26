@@ -99,7 +99,7 @@ export function DataTable<TData, TValue>({
           Total: ${totalValue.toFixed(2)}
         </div>
         <Button onClick={handlePayment} disabled={totalValue === 0}>
-          Pagar
+          Realizar pago
         </Button>
         <div>
           <div className="flex gap-4 justify-center items-center">
