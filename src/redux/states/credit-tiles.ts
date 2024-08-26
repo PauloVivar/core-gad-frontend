@@ -21,4 +21,4 @@ export const creditTitlesSlice = createSlice({
   }
 })
 
-export const { loadingCreditTitles} = creditTitlesSlice.actions
+export const { loadingCreditTitles } = creditTitlesSlice.actions

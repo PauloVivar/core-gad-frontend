@@ -1,4 +1,4 @@
-import { CreditTitle } from "./CreditTitle"
+import { CreditTitle } from './CreditTitle'
 
 export interface CreditTitleRepository {
   get: (id: string) => Promise<CreditTitle | null>

@@ -40,7 +40,10 @@ export function DataTable<TData, TValue>({
   const totalValue = useMemo(() => {
     return table
       .getSelectedRowModel()
-      .rows.reduce((sum, row) => sum + row.original.valor + row.original.interes, 0)
+      .rows.reduce(
+        (sum, row) => sum + row.original.valor + row.original.interes,
+        0
+      )
   }, [table.getSelectedRowModel().rows])
 
   const handlePayment = () => {
@@ -99,13 +102,41 @@ export function DataTable<TData, TValue>({
           Pagar
         </Button>
         <div>
-        <div className="flex gap-4 justify-center items-center">
-          <img width={56} height={40} className="object-cover w-14 h-10" src="/corporate-images/placetopay.svg" alt="placetoPay"/>
-          <img width={50} height={40} src="/corporate-images/visa.svg" alt="placetoPay"/>
-          <img width={80} height={40} className="object-cover w-20 h-10" src="/corporate-images/diners-club.svg" alt="placetoPay"/>
-          <img width={96} height={40} className="object-cover w-24 h-10" src="/corporate-images/discover.svg" alt="placetoPay"/>
-          <img width={36} height={36} src="/corporate-images/mastercard.svg" alt="placetoPay"/>
-        </div>
+          <div className="flex gap-4 justify-center items-center">
+            <img
+              width={56}
+              height={40}
+              className="object-cover w-14 h-10"
+              src="/corporate-images/placetopay.svg"
+              alt="placetoPay"
+            />
+            <img
+              width={50}
+              height={40}
+              src="/corporate-images/visa.svg"
+              alt="placetoPay"
+            />
+            <img
+              width={80}
+              height={40}
+              className="object-cover w-20 h-10"
+              src="/corporate-images/diners-club.svg"
+              alt="placetoPay"
+            />
+            <img
+              width={96}
+              height={40}
+              className="object-cover w-24 h-10"
+              src="/corporate-images/discover.svg"
+              alt="placetoPay"
+            />
+            <img
+              width={36}
+              height={36}
+              src="/corporate-images/mastercard.svg"
+              alt="placetoPay"
+            />
+          </div>
         </div>
       </div>
     </div>

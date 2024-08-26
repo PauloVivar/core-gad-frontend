@@ -41,7 +41,10 @@ const AppRoutes = () => {
             <Route path="/" element={<Home />} />
             <Route path="/*" element={<NotFound />} />
             <Route path="/credit-titles" element={<CreditTitlesPage />} />
-            <Route path="/credit-titles/page/:page" element={<CreditTitlesPage />} />
+            <Route
+              path="/credit-titles/page/:page"
+              element={<CreditTitlesPage />}
+            />
             {/* <Route path='/*' element={<Navigate to='/login' />} /> */}
           </>
         )}

@@ -1,18 +1,18 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit'
 
 //Se inicializa id=0 para seleccionar y update.
 export const initialTermForm = {
   id: 0,
   version: '',
   content: '',
-  effectiveDate: '',
-};
+  effectiveDate: ''
+}
 
 const initialErrors = {
   version: '',
   content: '',
-  effectiveDate: '',
-};
+  effectiveDate: ''
+}
 
 export const termsSlice = createSlice({
   name: 'terms',
@@ -22,13 +22,13 @@ export const termsSlice = createSlice({
     visibleForm: false,
     errors: initialErrors,
 
-    latestTerm: null,                       //último término
+    latestTerm: null, //último término
     latestTermError: null,
-    
-    userTermsStatus: null,                  //status del término
-    recordingTermsInteraction: false,       //grabar estado de la interacción
+
+    userTermsStatus: null, //status del término
+    recordingTermsInteraction: false, //grabar estado de la interacción
     recordingTermsInteractionError: null,
-    isLoading: true,
+    isLoading: true
   },
   reducers: {
     addTerm: (state, action) => {
@@ -38,15 +38,15 @@ export const termsSlice = createSlice({
       //     ...action.payload,
       //   }
       // ];
-      const newTerm = action.payload;
-      state.terms.unshift(newTerm);
-      state.latestTerm = newTerm;           //actualizar latestTerm
+      const newTerm = action.payload
+      state.terms.unshift(newTerm)
+      state.latestTerm = newTerm //actualizar latestTerm
 
-      state.termSelected= initialTermForm;
-      state.visibleForm= false;
+      state.termSelected = initialTermForm
+      state.visibleForm = false
     },
     removeTerm: (state, action) => {
-      state.terms = state.terms.filter(term => term.id !== action.payload);
+      state.terms = state.terms.filter((term) => term.id !== action.payload)
     },
     updateTerm: (state, action) => {
       // state.terms = state.terms.map(term => {
@@ -54,91 +54,93 @@ export const termsSlice = createSlice({
       //     return {
       //       ...action.payload,
       //     };
-      //   } 
+      //   }
       //   return term;
       // });
-      const updatedTerm = action.payload;
-      state.terms = state.terms.map(term => 
+      const updatedTerm = action.payload
+      state.terms = state.terms.map((term) =>
         term.id === updatedTerm.id ? updatedTerm : term
-      );
+      )
       if (state.latestTerm && state.latestTerm.id === updatedTerm.id) {
-        state.latestTerm = updatedTerm;     //actualizar latestTerm si es necesario
+        state.latestTerm = updatedTerm //actualizar latestTerm si es necesario
       }
-      
-      state.termSelected= initialTermForm;
-      state.visibleForm= false;
+
+      state.termSelected = initialTermForm
+      state.visibleForm = false
     },
     loadingTerms: (state, action) => {
-      state.terms = action.payload;
-      state.isLoading = false;
+      state.terms = action.payload
+      state.isLoading = false
     },
     onSelectedTermForm: (state, action) => {
-      state.termSelected = action.payload;
-      state.visibleForm = true;
+      state.termSelected = action.payload
+      state.visibleForm = true
     },
     onOpenForm: (state) => {
-      state.visibleForm = true;
+      state.visibleForm = true
     },
     onCloseForm: (state) => {
-      state.visibleForm =false;
-      state.termSelected= initialTermForm;
+      state.visibleForm = false
+      state.termSelected = initialTermForm
     },
 
     //últimos terms
     fetchLatestTermStart(state) {
-      state.isLoading = true;
-      state.latestTermError = null;
+      state.isLoading = true
+      state.latestTermError = null
     },
     fetchLatestTermSuccess(state, action) {
-      const newLatestTerm = action.payload;
-      state.latestTerm = newLatestTerm;
+      const newLatestTerm = action.payload
+      state.latestTerm = newLatestTerm
       // Sincronizar con el array de términos
-      const existingTermIndex = state.terms.findIndex(term => term.id === newLatestTerm.id);
+      const existingTermIndex = state.terms.findIndex(
+        (term) => term.id === newLatestTerm.id
+      )
       if (existingTermIndex !== -1) {
         // Actualizar el término existente
-        state.terms[existingTermIndex] = newLatestTerm;
+        state.terms[existingTermIndex] = newLatestTerm
       } else {
         // Agregar el nuevo término al principio del array
-        state.terms.unshift(newLatestTerm);
+        state.terms.unshift(newLatestTerm)
       }
-      state.isLoading = false;
+      state.isLoading = false
       //old
       //state.latestTerm = action.payload;
       //state.isLoading = false;
     },
     fetchLatestTermError(state, action) {
-      state.latestTermError = action.payload;
-      state.isLoading = false;
+      state.latestTermError = action.payload
+      state.isLoading = false
     },
 
     //verificar el estado de los términos del usuario
     setUserTermsStatus(state, action) {
-      state.userTermsStatus = action.payload;
+      state.userTermsStatus = action.payload
     },
 
     //interacciones user y terms
     recordTermsInteractionStart: (state) => {
-      state.recordingTermsInteraction = true;
-      state.recordingTermsInteractionError = null;
+      state.recordingTermsInteraction = true
+      state.recordingTermsInteractionError = null
     },
     recordTermsInteractionSuccess: (state, action) => {
-      state.recordingTermsInteraction = false;
-      state.userTermsStatus = action.payload;
+      state.recordingTermsInteraction = false
+      state.userTermsStatus = action.payload
     },
     recordTermsInteractionError: (state, action) => {
-      state.recordingTermsInteraction = false;
-      state.recordingTermsInteractionError = action.payload;
+      state.recordingTermsInteraction = false
+      state.recordingTermsInteractionError = action.payload
     },
 
     //error de terms
     loadingError: (state, action) => {
-      state.errors = action.payload;
+      state.errors = action.payload
       //state.isLoading = false;
     }
-  },
-});
+  }
+})
 
-export const { 
+export const {
   addTerm,
   removeTerm,
   updateTerm,
@@ -156,5 +158,5 @@ export const {
   recordTermsInteractionSuccess,
   recordTermsInteractionError,
 
-  loadingError,
-} = termsSlice.actions;
+  loadingError
+} = termsSlice.actions

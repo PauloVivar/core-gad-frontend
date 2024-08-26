@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit'
 
 //Se inicializa id=0 para seleccionar y update.
 export const initialUserForm = {
@@ -7,73 +7,73 @@ export const initialUserForm = {
   email: '',
   password: '',
   admin: false,
-  acceptedTerms: false, //test
-};
+  acceptedTerms: false //test
+}
 
 const initialErrors = {
   username: '',
   email: '',
-  password: '',
-};
+  password: ''
+}
 
-export const usersSlice = createSlice ({
+export const usersSlice = createSlice({
   name: 'users',
   initialState: {
     users: [],
-    userSelected: initialUserForm,            //selecionar row de tabla usuarios para update
-    visibleForm: false,                       //ocultar formulario
-    errors: initialErrors,                    //guardar errores config en el backend
-    isLoading: true,                          //espera hasta que carga la grilla(tabla)
-    paginator: {},                            //paginacion
+    userSelected: initialUserForm, //selecionar row de tabla usuarios para update
+    visibleForm: false, //ocultar formulario
+    errors: initialErrors, //guardar errores config en el backend
+    isLoading: true, //espera hasta que carga la grilla(tabla)
+    paginator: {} //paginacion
   },
   reducers: {
     addUser: (state, action) => {
       state.users = [
         ...state.users,
         {
-          ...action.payload,
+          ...action.payload
         }
-      ];
-      state.userSelected= initialUserForm;
-      state.visibleForm= false;
+      ]
+      state.userSelected = initialUserForm
+      state.visibleForm = false
     },
     removeUser: (state, action) => {
-      state.users = state.users.filter(user => user.id !== action.payload);
+      state.users = state.users.filter((user) => user.id !== action.payload)
     },
     updateUser: (state, action) => {
-      state.users = state.users.map(user => {
+      state.users = state.users.map((user) => {
         if (user.id === action.payload.id) {
           return {
-            ...action.payload,
+            ...action.payload
             //password: user.password, //para ocultar input password de form
-          };
-        } 
-        return user;
-      });
-      state.userSelected= initialUserForm;
-      state.visibleForm= false;
+          }
+        }
+        return user
+      })
+      state.userSelected = initialUserForm
+      state.visibleForm = false
     },
     loadingUsers: (state, action) => {
-      state.users = action.payload.content;
-      state.paginator = action.payload;
-      state.isLoading = false;
+      state.users = action.payload.content
+      state.paginator = action.payload
+      state.isLoading = false
     },
     onSelectedUserForm: (state, action) => {
-      state.userSelected = action.payload;
-      state.visibleForm = true;
+      state.userSelected = action.payload
+      state.visibleForm = true
     },
     onOpenForm: (state) => {
-      state.visibleForm = true;
+      state.visibleForm = true
     },
     onCloseForm: (state) => {
-      state.visibleForm =false;
-      state.userSelected= initialUserForm;
+      state.visibleForm = false
+      state.userSelected = initialUserForm
     },
     loadingError: (state, action) => {
-      state.errors = action.payload;
+      state.errors = action.payload
     }
   }
-});
+})
 
 export const {
   addUser,
@@ -83,6 +83,5 @@ export const {
   onSelectedUserForm,
   onOpenForm,
   onCloseForm,
-  loadingError,
-} = usersSlice.actions;
-
+  loadingError
+} = usersSlice.actions

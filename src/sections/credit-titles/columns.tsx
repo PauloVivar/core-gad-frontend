@@ -1,16 +1,16 @@
-import { ColumnDef } from "@tanstack/react-table";
-import { Checkbox } from "@/components/ui/checkbox"
+import { ColumnDef } from '@tanstack/react-table'
+import { Checkbox } from '@/components/ui/checkbox'
 
-import { CreditTitle } from "@/modules/credit-titles/domain/CreditTitle";
+import { CreditTitle } from '@/modules/credit-titles/domain/CreditTitle'
 
 export const columns: ColumnDef<CreditTitle>[] = [
   {
-    id: "select",
+    id: 'select',
     header: ({ table }) => (
       <Checkbox
         checked={
           table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && "indeterminate")
+          (table.getIsSomePageRowsSelected() && 'indeterminate')
         }
         onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
         aria-label="Select all"
@@ -19,40 +19,39 @@ export const columns: ColumnDef<CreditTitle>[] = [
     cell: ({ row }) => (
       <Checkbox
         checked={row.getIsSelected()}
-        onCheckedChange={
-          (value) => row.toggleSelected(!!value)}
+        onCheckedChange={(value) => row.toggleSelected(!!value)}
         aria-label="Select row"
       />
     ),
     enableSorting: false,
-    enableHiding: false,
+    enableHiding: false
   },
   {
-    accessorKey: "anio",
-    header: "Año",
+    accessorKey: 'anio',
+    header: 'Año'
   },
   {
-    accessorKey: "mes",
-    header: "Mes",
+    accessorKey: 'mes',
+    header: 'Mes'
   },
   {
-    accessorKey: "secundario",
-    header: "Secundario",
+    accessorKey: 'secundario',
+    header: 'Secundario'
   },
   {
-    accessorKey: "concepto",
-    header: "Concepto",
+    accessorKey: 'concepto',
+    header: 'Concepto'
   },
   {
-    accessorKey: "valor",
-    header: "Valor",
+    accessorKey: 'valor',
+    header: 'Valor'
   },
   {
-    accessorKey: "interes",
-    header: "Interes",
+    accessorKey: 'interes',
+    header: 'Interes'
   },
   {
-    accessorKey: "detalle",
-    header: "Detalle",
+    accessorKey: 'detalle',
+    header: 'Detalle'
   }
 ]
