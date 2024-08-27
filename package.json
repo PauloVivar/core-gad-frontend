@@ -9,7 +9,7 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "format": "biome format --write ./src"
+    "format": "biome format --write ./src ./tests"
   },
   "dependencies": {
     "@heroicons/react": "^2.1.4",
