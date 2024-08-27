@@ -2,7 +2,7 @@ function sum(a, b) {
   return a + b
 };
 
-describe('sum function', () => {
+describe('sum function tests', () => {
   it('should correctly add two numbers', () => {
     // Arrange
     const a = 3
