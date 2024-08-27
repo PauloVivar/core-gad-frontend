@@ -1,6 +1,6 @@
 function sum(a, b) {
   return a + b
-};
+}
 
 describe('sum function tests', () => {
   it('should correctly add two numbers', () => {
@@ -14,4 +14,4 @@ describe('sum function tests', () => {
     // Assert
     expect(result).toBe(8)
   })
-});
+})

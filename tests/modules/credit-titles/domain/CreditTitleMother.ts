@@ -30,6 +30,8 @@ const CreditTitleFactory = Factory.define<CreditTitle>(() => ({
 }))
 
 export const CreditTitleMother = {
-  create: (params?: Partial<CreditTitle>): CreditTitle => CreditTitleFactory.build(params),
-  createList: (length = 5): CreditTitle[] => CreditTitleFactory.buildList(length)
+  create: (params?: Partial<CreditTitle>): CreditTitle =>
+    CreditTitleFactory.build(params),
+  createList: (length = 5): CreditTitle[] =>
+    CreditTitleFactory.buildList(length)
 }
