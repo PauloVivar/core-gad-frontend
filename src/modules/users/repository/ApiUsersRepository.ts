@@ -1,9 +1,23 @@
 import { usersApi } from '@/interceptors/users'
+import { AxiosResponse } from 'axios'
 
 //url viene por defecto de usersApi
 const BASE_URL = ''
 
-const findAll = async () => {
+interface User {
+  id?: number;
+  username: string;
+  email: string;
+  password?: string;
+  admin: boolean;
+}
+
+interface RegisterUser extends User {
+  acceptedTerms: boolean;
+}
+
+//const findAll = async () => {
+const findAll = async (): Promise<AxiosResponse> => {
   try {
     const response = await usersApi.get(BASE_URL)
     return response
@@ -13,7 +27,7 @@ const findAll = async () => {
   }
 }
 
-const findAllPages = async (page = 0) => {
+const findAllPages = async (page: number = 0): Promise<AxiosResponse> => {
   try {
     const response = await usersApi.get(`${BASE_URL}/page/${page}`)
     return response
@@ -23,7 +37,8 @@ const findAllPages = async (page = 0) => {
   }
 }
 
-const save = async ({ username, email, password, admin }) => {
+//const save = async ({ username, email, password, admin }) => {
+const save = async ({ username, email, password, admin }: User): Promise<AxiosResponse> => {
   return await usersApi.post(BASE_URL, {
     username,
     email,
@@ -32,7 +47,7 @@ const save = async ({ username, email, password, admin }) => {
   })
 }
 
-const update = async ({ id, username, email, admin }) => {
+const update = async ({ id, username, email, admin }: User): Promise<AxiosResponse> => {
   return await usersApi.put(`${BASE_URL}/${id}`, {
     username,
     email,
@@ -41,29 +56,17 @@ const update = async ({ id, username, email, admin }) => {
   })
 }
 
-const remove = async (id) => {
+const remove = async (id: number): Promise<AxiosResponse> => {
   return await usersApi.delete(`${BASE_URL}/${id}`)
 }
 
-const register = async ({
-  username,
-  email,
-  password,
-  admin,
-  acceptedTerms
-}) => {
+const register = async (userData: RegisterUser): Promise<AxiosResponse> => {
   try {
-    return await usersApi.post(`${BASE_URL}/registration`, {
-      username,
-      email,
-      password,
-      admin,
-      acceptedTerms
-    })
+    return await usersApi.post(`${BASE_URL}/registration`, userData);
   } catch (error) {
-    console.error('Error al registrar usuario:', error)
-    throw error
+    console.error('Error al registrar usuario:', error);
+    throw error;
   }
-}
+};
 
 export { findAll, findAllPages, save, update, remove, register }
