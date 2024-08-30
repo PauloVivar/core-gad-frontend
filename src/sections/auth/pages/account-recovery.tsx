@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, FC } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -41,8 +41,11 @@ const resetPasswordSchema = z.object({
   })
 })
 
-const AccountRecovery = () => {
-  const [step, setStep] = useState('request')
+type RequestResetFormData = z.infer<typeof requestResetSchema>;
+type ResetPasswordFormData = z.infer<typeof resetPasswordSchema>;
+
+const AccountRecovery: FC = () => {
+  const [step, setStep] = useState<'request' | 'reset'>('request')
   const navigate = useNavigate()
   const { toast } = useToast()
 
@@ -53,14 +56,14 @@ const AccountRecovery = () => {
     clearPasswordResetStatus
   } = useAuth()
 
-  const requestForm = useForm({
+  const requestForm = useForm<RequestResetFormData>({
     resolver: zodResolver(requestResetSchema),
     defaultValues: {
       email: ''
     }
   })
 
-  const resetForm = useForm({
+  const resetForm = useForm<ResetPasswordFormData>({
     resolver: zodResolver(resetPasswordSchema),
     defaultValues: {
       code: '',
@@ -101,7 +104,8 @@ const AccountRecovery = () => {
     }
   }, [passwordResetError, toast])
 
-  const onRequestSubmit = async (data) => {
+  //const onRequestSubmit = async (data) => {
+  const onRequestSubmit = async (data: RequestResetFormData) => {
     //console.log('Solicitando restablecimiento de contraseña:', data);
     try {
       await handlerRequestPasswordReset(data.email)
@@ -117,7 +121,8 @@ const AccountRecovery = () => {
     //requestForm.reset();
   }
 
-  const onResetSubmit = async (data) => {
+  //const onResetSubmit = async (data) => {
+  const onResetSubmit = async (data: ResetPasswordFormData) => {
     //console.log('Restableciendo contraseña:', data);
     try {
       await handlerResetPassword(data.code, data.newPassword)

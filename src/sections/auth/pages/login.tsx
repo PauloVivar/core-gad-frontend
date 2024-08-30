@@ -39,24 +39,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { Loader2 } from 'lucide-react';
-import { Checkbox } from '@/components/ui/checkbox';
-import { useToast } from '@/components/ui/use-toast';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { AlertCircle } from 'lucide-react';
-import { Layout } from '@/components/Layout';
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover';
-import { format } from 'date-fns';
-import { cn } from '@/lib/utils';
-import { Calendar } from '@/components/ui/calendar';
-import { CalendarIcon } from 'lucide-react';
 import {
   Select,
   SelectContent,
@@ -64,7 +46,25 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Calendar } from '@/components/ui/calendar';
+import { Input } from '@/components/ui/input';
+import { useToast } from '@/components/ui/use-toast';
+import { Layout } from '@/components/Layout';
+import { Separator } from '@/components/ui/separator';
+import { format } from 'date-fns';
+import { cn } from '@/lib/utils';
+import { 
+  AlertCircle, 
+  CalendarIcon,
+  Loader2 
+} from 'lucide-react';
+
 
 import log_azo from '../../../assets/log_azo.png';
 
@@ -115,24 +115,6 @@ const userLoginSchema = z.object({
     message: 'La contraseña de usuario debe tener al menos 5 caracteres.',
   }),
 });
-
-//Validation Schema Register
-// const userRegisterSchema = z.object({
-//   //id: z.number(),
-//   username: z.string().min(1, {
-//     message: 'El username es requerido.',
-//   }),
-//   password: z.string().min(5, {
-//     message: 'La contraseña de usuario debe tener al menos 5 caracteres.',
-//   }),
-//   email: z.string().email({
-//     message: 'Ingrese un email válido.',
-//   }),
-//   admin: z.boolean().default(false).optional(),
-//   acceptedTerms: z.boolean().refine(val => val === true, {
-//     message: 'Debe aceptar los Términos y Condiciones.',
-//   }),
-// });
 
 const userRegisterSchema = (showNewContribuyenteFields: boolean) => z.object({
   legalPerson: z.enum(['44', '45', '46'], {
@@ -379,6 +361,9 @@ const Login: FC = () => {
         username: loginForm.getValues().username,
         password: loginForm.getValues().password,
       });
+
+      console.log('prueba');
+      console.log('test_onLoginSubmit:', loginResult);
 
       if (loginResult.isAuth && loginResult.user) {
         const termsStatus = await getCheckUserTermsStatus(loginResult.user.id);
@@ -628,6 +613,10 @@ const Login: FC = () => {
 
                   <CardFooter className='flex flex-col'>
                     <Button type='submit'>Iniciar Sesión</Button>
+                    <NavLink to='/recover-account' className='hover:underline font-medium text-sm p-2'>
+                      ¿Olvidaste tu contraseña?
+                    </NavLink>
+                    <Separator />
                     <div className='mt-4 text-center text-sm'>
                       ¿No tienes una cuenta?{' '}
                       <NavLink to='/register' className='underline'>
@@ -1035,6 +1024,10 @@ const Login: FC = () => {
                         'Crear Cuenta'
                       )}
                     </Button>
+                    <NavLink to='/recover-account' className='hover:underline font-medium text-sm p-2'>
+                      ¿Olvidaste tu contraseña?
+                    </NavLink>
+                    <Separator />
                     <div className='mt-4 text-center text-sm'>
                       ¿Ya tienes una cuenta?{' '}
                       <NavLink to='/login' className='underline'>
