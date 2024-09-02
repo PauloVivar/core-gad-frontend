@@ -5,7 +5,8 @@ import { termsSlice } from './states/terms'
 import { creditTitlesSlice } from './states/credit-tiles'
 import { paymentCartSlice } from './states/payment-cart'
 
-export default configureStore({
+//export default configureStore({
+const store = configureStore({
   reducer: {
     users: usersSlice.reducer,
     auth: authSlice.reducer,
@@ -14,3 +15,9 @@ export default configureStore({
     paymentCart: paymentCartSlice.reducer
   }
 })
+
+// Inferir los tipos `RootState` y `AppDispatch` desde la propia store
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
+
+export default store;

@@ -41,7 +41,7 @@ const Navbar = () => {
           <div className="sticky top-0 z-20">
             {/* Logo Azogues */}
             <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6 bg-muted ">
-              <NavLink className="flex items-center gap-2 font-semibold">
+              <NavLink to='' className="flex items-center gap-2 font-semibold">
                 {/* <InboxStackIcon className='h-6 w-6' /> */}
                 <img src={log_azo} className="h-10 w-10"></img>
                 <span className="">Azogues Alcaldía</span>
