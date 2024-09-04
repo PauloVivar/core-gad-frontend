@@ -8,5 +8,5 @@ test('Not found component display header', () => {
 
   const heading = screen.getByText(/NotFound/i)
 
-  expect(heading).toBeInTheDocument();
+  expect(heading).toBeInTheDocument()
 })
