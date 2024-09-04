@@ -1,15 +1,37 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-//mod email
-const initialLogin = JSON.parse(sessionStorage.getItem('login')) || {
+// Definir interfaces para los tipos de estado
+interface User {
+  // Definicón de las propiedades del usuario
+  id: number
+  username: string
+}
+
+interface LoginState {
+  user: User | undefined
+  isAuth: boolean
+  isAdmin: boolean
+  isLoginLoading: boolean
+}
+
+interface AuthState extends LoginState {
+  passwordResetRequested: boolean
+  passwordResetSuccess: boolean
+  passwordResetError: string | null
+}
+
+// Estado inicial: mod email
+const initialLogin: LoginState = JSON.parse(
+  sessionStorage.getItem('login') || 'null'
+) || {
+  user: undefined,
   isAuth: false,
   isAdmin: false,
-  user: undefined,
   isLoginLoading: false
 }
 
-//test
-const initialState = {
+//estados para resetear clave de usuario
+const initialState: AuthState = {
   ...initialLogin,
   passwordResetRequested: false,
   passwordResetSuccess: false,
@@ -18,9 +40,13 @@ const initialState = {
 
 export const authSlice = createSlice({
   name: 'auth',
-  initialState: initialLogin,
+  //initialState: initialLogin,
+  initialState,
   reducers: {
-    onLogin: (state, action) => {
+    onLogin: (
+      state,
+      action: PayloadAction<{ isAdmin: boolean; user: User }>
+    ) => {
       state.isAuth = true
       state.isAdmin = action.payload.isAdmin
       state.user = action.payload.user
@@ -46,7 +72,7 @@ export const authSlice = createSlice({
       state.passwordResetSuccess = true
       state.passwordResetError = null
     },
-    onPasswordResetFailure: (state, action) => {
+    onPasswordResetFailure: (state, action: PayloadAction<string>) => {
       state.passwordResetRequested = false
       state.passwordResetSuccess = false
       state.passwordResetError = action.payload
