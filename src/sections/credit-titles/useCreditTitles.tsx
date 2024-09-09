@@ -1,6 +1,6 @@
 import { searchCreditTitles } from '@/modules/credit-titles/application/search/searchCreditTitles'
 import { createApiCreditTitlesRepository } from '@/modules/credit-titles/infrastructure/ApiCreditTitleRepository'
-import { loadingCreditTitles } from '@/redux/states/credit-tiles'
+import { loadingCreditTitles } from '@/redux/states/credit-titles'
 import { useDispatch, useSelector } from 'react-redux'
 
 const repository = createApiCreditTitlesRepository()

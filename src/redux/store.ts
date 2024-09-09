@@ -2,7 +2,7 @@ import { configureStore } from '@reduxjs/toolkit'
 import { usersSlice } from './states/users'
 import { authSlice } from './states/auth'
 import { termsSlice } from './states/terms'
-import { creditTitlesSlice } from './states/credit-tiles'
+import { creditTitlesSlice } from './states/credit-titles'
 import { paymentCartSlice } from './states/payment-cart'
 
 //export default configureStore({
