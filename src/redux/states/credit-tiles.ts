@@ -10,12 +10,12 @@ export const creditTitlesSlice = createSlice({
     creditTitleSelected: initialState,
     visibleForm: false,
     isLoading: true,
-    paginator: {}
+    totalRows: 0
   },
   reducers: {
     loadingCreditTitles: (state, action) => {
-      state.creditTitles = action.payload.content
-      state.paginator = action.payload
+      state.creditTitles = action.payload.creditTitles
+      state.totalRows = action.payload.totalCount
       state.isLoading = false
     }
   }
