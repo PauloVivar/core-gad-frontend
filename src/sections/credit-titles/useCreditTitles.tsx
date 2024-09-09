@@ -1,4 +1,4 @@
-import { getAllCreditTitles } from '@/modules/credit-titles/application/get-all/getAllCreditTitles'
+import { searchCreditTitles } from '@/modules/credit-titles/application/search/searchCreditTitles'
 import { createApiCreditTitlesRepository } from '@/modules/credit-titles/infrastructure/ApiCreditTitleRepository'
 import { loadingCreditTitles } from '@/redux/states/credit-tiles'
 import { useDispatch, useSelector } from 'react-redux'
@@ -6,15 +6,22 @@ import { useDispatch, useSelector } from 'react-redux'
 const repository = createApiCreditTitlesRepository()
 
 export const useCreditTitles = () => {
-  const { creditTitles } = useSelector((state) => state.creditTitles)
+  const { creditTitles, totalRows } = useSelector((state) => state.creditTitles)
   const dispatch = useDispatch()
 
-  const getCreditTitles = async (page = '1') => {
-    const result = await getAllCreditTitles(repository)(page)
-    console.log('hola')
-    console.log(result.content)
+  const getCreditTitles = async (query: string) => {
+    const result = await searchCreditTitles(repository)(query)
     dispatch(loadingCreditTitles(result))
   }
 
-  return { getCreditTitles, creditTitles }
+  const getPaginator = (pageSize: number, pageNumber: number) => {
+    return {
+      pageSize,
+      pageNumber,
+      totalRows,
+      totalPages: Math.ceil(totalRows / pageSize)
+    }
+  }
+
+  return { getCreditTitles, creditTitles, totalRows, getPaginator }
 }

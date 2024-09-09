@@ -36,14 +36,15 @@ export function DataTable<TData, TValue>({
     onRowSelectionChange: setRowSelection,
     state: {
       rowSelection
-    }
+    },
+    manualPagination: true
   })
 
   const totalValue = useMemo(() => {
     return table
       .getSelectedRowModel()
       .rows.reduce(
-        (sum, row) => sum + row.original.valor + row.original.interes,
+        (sum, row) => sum + row.original.amount + row.original.interest,
         0
       )
   }, [table.getSelectedRowModel().rows])
@@ -148,24 +149,6 @@ export function DataTable<TData, TValue>({
             </div>
           </div>
         </div>
-      </div>
-      <div className="flex items-center justify-end space-x-2 py-4">
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => table.previousPage()}
-          disabled={!table.getCanPreviousPage()}
-        >
-          Previous
-        </Button>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => table.nextPage()}
-          disabled={!table.getCanNextPage()}
-        >
-          Next
-        </Button>
       </div>
     </>
   )

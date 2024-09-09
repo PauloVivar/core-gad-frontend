@@ -27,31 +27,31 @@ export const columns: ColumnDef<CreditTitle>[] = [
     enableHiding: false
   },
   {
-    accessorKey: 'anio',
+    accessorKey: 'year',
     header: 'Año'
   },
   {
-    accessorKey: 'mes',
+    accessorKey: 'month',
     header: 'Mes'
   },
   {
-    accessorKey: 'secundario',
+    accessorKey: 'secondary',
     header: 'Secundario'
   },
   {
-    accessorKey: 'concepto',
+    accessorKey: 'concept',
     header: 'Concepto'
   },
   {
-    accessorKey: 'valor',
+    accessorKey: 'amount',
     header: 'Valor'
   },
   {
-    accessorKey: 'interes',
+    accessorKey: 'interest',
     header: 'Interes'
   },
   {
-    accessorKey: 'detalle',
+    accessorKey: 'detail',
     header: 'Detalle'
   }
 ]
