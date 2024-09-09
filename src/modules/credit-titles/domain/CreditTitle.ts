@@ -1,25 +1,40 @@
 export interface CreditTitle {
-  code: number
-  date: string
-  concept: string
+  code: string
+  secondary: string
+  year: number
+  month: number
+  issuanceDate: string // Date in YYYY-MM-DD format
+  detail: string
   reference: string
-  amountCollected: number
-  amountCollectedInWords: string
-  value: number
-  valueInWords: string
+  concept: string
+  amount: number
+  sequence: number
+  installments: number
+  paid: number
+  verified: number
   interest: number
-  interestInWords: string
-  surcharges: number
-  surchargesInWords: string
-  change: number
-  changeInWords: string
-  totalToPay: number
-  totalInWords: string
-  paymentMethod: string
-  account: string
-  bank: string
-  check: string
-  notes: string
+  collectionDate: string // Date in YYYY-MM-DD format
   collector: string
-  invoiceNumber: number
+  endorser: string
+  responsible: string
+  specific: string
+  amountInWords: string
+  cashInflow: number
+  taxpayer: string
+  titleNumber: number
+  entryDate: string // Date in YYYY-MM-DD format
+  verificationDate: string | null // Nullable date
+  additionalAmount: number
+  localLocation: string
+  geographicLocation: string
+  status: string
+  notification: number
+  nationalId: string | null // Nullable string
+  enforcementDate: string | null // Nullable date
+  enforcement: number
+  resolutionDocument: string
+  originEntryDate: string // Date in YYYY-MM-DD format
+  judicialProcess: number
+  requestId: number
+  processUrl: string
 }
