@@ -1,10 +1,10 @@
 import { CreditTitle } from '../../domain/CreditTitle'
 import { CreditTitleRepository } from '../../domain/CreditTitleRepository'
 
-export function getAllCreditTitles(
+export function searchCreditTitles(
   creditTitleRepository: CreditTitleRepository
 ) {
-  return async function (page: string): Promise<CreditTitle[]> {
-    return creditTitleRepository.getAll(page)
+  return async function (query: string): Promise<CreditTitle[]> {
+    return creditTitleRepository.search(query)
   }
 }
