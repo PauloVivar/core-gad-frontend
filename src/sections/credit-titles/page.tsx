@@ -14,14 +14,7 @@ export function CreditTitlesPage() {
 
   useEffect(() => {
     getCreditTitles(
-      `filters=
-        crdcontribuyente%20EQUAL%200301036349
-        %20AND%20
-        ingcodigo%20GREATER_THAN%20-1
-      &pageSize=${pageSize}
-      &pageNumber=${pageNumber}
-      &orderBy=
-      &order=NONE`
+      `filters=crdcontribuyente%20EQUAL%200301036349%20AND%20ingcodigo%20GREATER_THAN%20-1&pageSize=${pageSize}&pageNumber=${pageNumber}&orderBy=&order=NONE`
     )
   }, [pageSize, pageNumber])
 
