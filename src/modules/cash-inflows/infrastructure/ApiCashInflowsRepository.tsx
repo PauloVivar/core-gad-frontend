@@ -1,9 +1,11 @@
 import { CashInflow } from '../domain/CashInflow'
+import { CashInflowRepository } from '../domain/CashInflowRespository'
 
-export function CreateCashInflowsRepository() {
+export function createApiCashInflowRepository(): CashInflowRepository {
   return {
     get,
-    search
+    search,
+    create
   }
 }
 
@@ -21,4 +23,14 @@ async function search(query: string) {
   ).then((response) => response.json())
 
   return cashInflows
+}
+
+async function create(cashInflow: CashInflow) {
+  await fetch(`http://localhost:8080/ingresos-caja`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(cashInflow)
+  })
 }
