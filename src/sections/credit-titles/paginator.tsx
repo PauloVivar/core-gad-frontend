@@ -1,11 +1,8 @@
-import { Button } from '@/components/ui/button'
 import {
   Pagination,
   PaginationContent,
   PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious
+  PaginationLink
 } from '@/components/ui/pagination'
 import {
   ChevronDoubleLeftIcon,
