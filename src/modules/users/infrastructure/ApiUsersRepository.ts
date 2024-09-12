@@ -1,16 +1,15 @@
 import { usersApi } from '@/interceptors/users'
 import { AxiosResponse } from 'axios'
+import { User } from '../domain/User'
+
+export function createApiUsersRepository() {
+  return {
+    get
+  }
+}
 
 //url viene por defecto de usersApi
 const BASE_URL = ''
-
-interface User {
-  id?: number
-  username: string
-  email: string
-  password?: string
-  admin: boolean
-}
 
 interface RegisterUser extends User {
   acceptedTerms: boolean
@@ -38,12 +37,12 @@ const findAllPages = async (page: number = 0): Promise<AxiosResponse> => {
 }
 
 //const save = async ({ username, email, password, admin }) => {
-const save = async ({
-  username,
-  email,
-  password,
-  admin
-}: User): Promise<AxiosResponse> => {
+const save = async (
+  username: string,
+  email: string,
+  password: string,
+  admin: string
+): Promise<AxiosResponse> => {
   return await usersApi.post(BASE_URL, {
     username,
     email,
@@ -52,12 +51,12 @@ const save = async ({
   })
 }
 
-const update = async ({
-  id,
-  username,
-  email,
-  admin
-}: User): Promise<AxiosResponse> => {
+const update = async (
+  id: number,
+  username: string,
+  email: string,
+  admin: boolean
+): Promise<AxiosResponse> => {
   return await usersApi.put(`${BASE_URL}/${id}`, {
     username,
     email,
@@ -79,4 +78,9 @@ const register = async (userData: RegisterUser): Promise<AxiosResponse> => {
   }
 }
 
-export { findAll, findAllPages, save, update, remove, register }
+const get = async (id: string) => {
+  const response = await usersApi.get(`/${id}`)
+  return response.data
+}
+
+export { findAll, findAllPages, save, update, remove, register, get }
