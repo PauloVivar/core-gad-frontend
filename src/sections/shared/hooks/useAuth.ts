@@ -15,12 +15,9 @@ import {
 } from '@/redux/states/auth'
 import Swal from 'sweetalert2'
 import { AppDispatch, RootState } from '@/redux/store'
-
-// Interfaces
-interface User {
-  id: number
-  username: string
-}
+import { getUser } from '@/modules/users/application/get/getUser'
+import { createApiUsersRepository } from '@/modules/users/infrastructure/ApiUsersRepository'
+import { User } from '@/modules/users/domain/User'
 
 interface LoginCredentials {
   username: string
@@ -37,6 +34,9 @@ interface AuthState {
   passwordResetSuccess: boolean
   passwordResetError: string | null
 }
+
+// const sessionRepository = createSessionStorageUsersRepository()
+const apiRepository = createApiUsersRepository()
 
 function useAuth() {
   //const [login, dispatch] = useReducer(loginReducer, initialLogin);
@@ -76,10 +76,9 @@ function useAuth() {
 
       //3 formas de obtener el username de token:
       //1.- response.data.username  2.- claims.username  3.- claims.sub (del payload de jwt)
-      const user = {
-        id: claims.userId, //backend incluye userId en el token
-        username: claims.sub
-      }
+      const user = await getUser(apiRepository)(claims.userId)
+      // console.log(user)
+
       //const user = { username: 'admin' };
       //console.log('Usuario creado:', user);
 
