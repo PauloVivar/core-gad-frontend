@@ -6,7 +6,7 @@ import { Skeleton } from './components/ui/skeleton'
 
 import { Navbar } from './components/Navbar'
 
-import { CreditTitlesPage, Home, NotFound } from './sections'
+import { Home, NotFound } from './sections'
 import { AccountRecovery, Login } from './sections/auth/pages'
 
 const AppRoutes = () => {
@@ -40,7 +40,6 @@ const AppRoutes = () => {
 
             <Route path="/" element={<Home />} />
             <Route path="/*" element={<NotFound />} />
-            <Route path="/titulos-de-credito" element={<CreditTitlesPage />} />
             {/* <Route path='/*' element={<Navigate to='/login' />} /> */}
           </>
         )}

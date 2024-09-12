@@ -1,7 +1,13 @@
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { useAuth } from '@/sections/shared/hooks'
 //import { Navbar } from '../components/Navbar';
-import { TermsPage, Home, UsersPage, SelectRegisterPage } from '@/sections'
+import {
+  TermsPage,
+  Home,
+  UsersPage,
+  SelectRegisterPage,
+  CreditTitlesPage
+} from '@/sections'
 
 function UserRoutes() {
   const { login } = useAuth()
@@ -23,6 +29,7 @@ function UserRoutes() {
             <Route path="terms" element={<TermsPage />} />
           </>
         )}
+        <Route path="users/titulos-de-credito" element={<CreditTitlesPage />} />
         {/* <Route path='/' element={<Navigate to='/users' />} /> */}
         <Route path="/" element={<Navigate to="/" />} />
       </Routes>
