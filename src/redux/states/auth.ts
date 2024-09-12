@@ -1,12 +1,7 @@
+import { User } from '@/modules/users/domain/User'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 // Definir interfaces para los tipos de estado
-interface User {
-  // Definicón de las propiedades del usuario
-  id: number
-  username: string
-}
-
 interface LoginState {
   user: User | undefined
   isAuth: boolean
