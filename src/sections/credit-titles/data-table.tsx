@@ -16,17 +16,17 @@ import {
 } from '@/components/ui/table'
 import { useMemo, useState } from 'react'
 import { Button } from '@/components/ui/button'
+import { useCashInflows } from '../shared/hooks/useCashInflows'
+import { CreditTitle } from '@/modules/credit-titles/domain/CreditTitle'
 
-interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[]
-  data: TData[]
+interface DataTableProps {
+  columns: ColumnDef<CreditTitle, unknown>[]
+  data: CreditTitle[]
 }
 
-export function DataTable<TData, TValue>({
-  columns,
-  data
-}: DataTableProps<TData, TValue>) {
+export function DataTable({ columns, data }: DataTableProps) {
   const [rowSelection, setRowSelection] = useState({})
+  const { create: createCashInflow, get: getCashInflow } = useCashInflows()
 
   const table = useReactTable({
     data,
@@ -49,8 +49,41 @@ export function DataTable<TData, TValue>({
       )
   }, [table.getSelectedRowModel().rows])
 
-  const handlePayment = () => {
-    alert(`Processing payment for $${totalValue.toFixed(2)}`)
+  const firtsCreditTitle = useMemo(() => {
+    return table.getSelectedRowModel().rows[0]?.original.code
+  }, [table.getSelectedRowModel().rows])
+
+  const amountTotal = useMemo(() => {
+    return table
+      .getSelectedRowModel()
+      .rows.reduce((sum, row) => sum + row.original.amount, 0)
+  }, [table.getSelectedRowModel().rows])
+
+  const interestTotal = useMemo(() => {
+    return table
+      .getSelectedRowModel()
+      .rows.reduce((sum, row) => sum + row.original.interest, 0)
+  }, [table.getSelectedRowModel().rows])
+
+  const handlePayment = async () => {
+    // alert(`Processing payment for $${totalValue.toFixed(2)}, first credit title: ${firtsCreditTitle}, amount: ${amountTotal}, interest: ${interestTotal}`)
+    await createCashInflow({
+      code: 987654321,
+      concept: 'TITULOS DE CREDITO',
+      reference: firtsCreditTitle,
+      amount: amountTotal,
+      interest: interestTotal,
+      notes: 'Cobro por concepto de: TITULOS DE CREDITO',
+      totalToPay: Number(totalValue.toFixed(2))
+    })
+
+    const data = await getCashInflow(987654321)
+
+    if (data?.processUrl) {
+      window.open(data.processUrl, '_blank')
+    } else {
+      console.error('No processUrl found in the response')
+    }
   }
 
   return (
