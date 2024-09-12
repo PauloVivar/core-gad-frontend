@@ -8,7 +8,7 @@ import {
   update,
   remove,
   register
-} from '@/modules/users/repository/ApiUsersRepository'
+} from '@/modules/users/infrastructure/ApiUsersRepository'
 import {
   checkContribuyenteExists,
   getContribuyenteInfo
