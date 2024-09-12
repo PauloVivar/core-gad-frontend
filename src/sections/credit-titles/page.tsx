@@ -24,7 +24,7 @@ export function CreditTitlesPage() {
     <Layout>
       <DataTable columns={columns} data={creditTitles} />
       <Paginatior
-        url="/users/titulos-de-credito"
+        url="/titulos-de-credito"
         paginator={getPaginator(pageSize, pageNumber)}
       />
     </Layout>

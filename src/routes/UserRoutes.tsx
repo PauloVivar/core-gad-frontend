@@ -29,7 +29,7 @@ function UserRoutes() {
             <Route path="terms" element={<TermsPage />} />
           </>
         )}
-        <Route path="users/titulos-de-credito" element={<CreditTitlesPage />} />
+        <Route path="titulos-de-credito" element={<CreditTitlesPage />} />
         {/* <Route path='/' element={<Navigate to='/users' />} /> */}
         <Route path="/" element={<Navigate to="/" />} />
       </Routes>
