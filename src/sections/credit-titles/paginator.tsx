@@ -9,7 +9,6 @@ import {
   ChevronDoubleRightIcon
 } from '@heroicons/react/24/outline'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
-import { useState } from 'react'
 
 export interface Paginator {
   pageSize: number
@@ -25,11 +24,6 @@ export interface PaginatorProps {
 
 export const Paginatior: React.FC<PaginatorProps> = ({ url, paginator }) => {
   const { pageSize, pageNumber, totalPages } = paginator
-  const [activePage, setActivePage] = useState(pageNumber)
-
-  const handleClick = (page: number) => {
-    setActivePage(page)
-  }
 
   return (
     <Pagination>
@@ -44,9 +38,10 @@ export const Paginatior: React.FC<PaginatorProps> = ({ url, paginator }) => {
           <PaginationItem>
             <PaginationLink
               href={`${url}?pageSize=${pageSize}&pageNumber=${1}`}
-              isActive={activePage == 1}
-              onClick={() => handleClick(1)}
-              className={pageSize == 1 ? 'disabled' : ''}
+              isActive
+              className={
+                pageNumber == 1 ? 'pointer-events-none opacity-50' : ''
+              }
             >
               <ChevronDoubleLeftIcon className="size-4" />
             </PaginationLink>
@@ -56,8 +51,10 @@ export const Paginatior: React.FC<PaginatorProps> = ({ url, paginator }) => {
             <PaginationItem>
               <PaginationLink
                 href={`${url}?pageSize=${pageSize}&pageNumber=${pageNumber - 1}`}
-                isActive={activePage == pageNumber - 1}
-                onClick={() => handleClick(pageNumber - 1)}
+                isActive
+                className={
+                  pageNumber == 1 ? 'pointer-events-none opacity-50' : ''
+                }
               >
                 <ChevronLeft className="size-4" />
               </PaginationLink>
@@ -79,8 +76,10 @@ export const Paginatior: React.FC<PaginatorProps> = ({ url, paginator }) => {
           <PaginationItem>
             <PaginationLink
               href={`${url}?pageSize=${pageSize}&pageNumber=${totalPages}`}
-              isActive={activePage == totalPages}
-              onClick={() => handleClick(totalPages)}
+              isActive
+              className={
+                totalPages == pageNumber ? 'pointer-events-none opacity-50' : ''
+              }
             >
               <ChevronDoubleRightIcon className="size-4" />
             </PaginationLink>
