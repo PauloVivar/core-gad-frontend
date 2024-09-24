@@ -139,6 +139,32 @@ const Navbar = () => {
                   <PresentationChartBarIcon className="h-4 w-4" />
                   Usuarios{' '}
                 </NavLink>
+                <NavLink
+                  to="/titulos-de-credito"
+                  className={({ isActive }) =>
+                    `${commonClasses} ${
+                      isActive
+                        ? 'bg-muted text-primary transition-all hover:text-primary'
+                        : 'text-muted-foreground transition-all hover:text-primary'
+                    }`
+                  }
+                >
+                  <PresentationChartBarIcon className="h-4 w-4" />
+                  Deudas pendientes
+                </NavLink>
+                <NavLink
+                  to="/mis-transacciones"
+                  className={({ isActive }) =>
+                    `${commonClasses} ${
+                      isActive
+                        ? 'bg-muted text-primary transition-all hover:text-primary'
+                        : 'text-muted-foreground transition-all hover:text-primary'
+                    }`
+                  }
+                >
+                  <PresentationChartBarIcon className="h-4 w-4" />
+                  Mis transacciones
+                </NavLink>
 
                 {!login.isAdmin || (
                   <>
