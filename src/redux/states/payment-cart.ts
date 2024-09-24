@@ -1,23 +1,24 @@
-import { CreditTitle } from '@/modules/credit-titles/domain/CreditTitle'
-import { createSlice, current } from '@reduxjs/toolkit'
+// import { CreditTitle } from '@/modules/credit-titles/domain/CreditTitle'
+import { createSlice } from '@reduxjs/toolkit'
 
-const initialState: CreditTitle[] = []
+// const initialState: CreditTitle[] = []
 
 export const paymentCartSlice = createSlice({
   name: 'cart',
-  initialState,
+  initialState: {
+    payments: [],
+    transactions: [],
+    totalRows: 0
+  },
   reducers: {
-    addCreditTitleToCart: (state, action) => {
-      return action.payload
+    loadingPayments: (state, action) => {
+      state.payments = action.payload.payments
+      state.totalRows = action.payload.totalCount
     },
-    removeCreditTitleFromCart: (state, action) => {
-      const filterState = current(state).filter(
-        (c: CreditTitle) => c.code !== action.payload
-      )
-      return filterState
+    loadingTransactions: (state, action) => {
+      state.transactions = action.payload.payments
     }
   }
 })
 
-export const { addCreditTitleToCart, removeCreditTitleFromCart } =
-  paymentCartSlice.actions
+export const { loadingPayments, loadingTransactions } = paymentCartSlice.actions
