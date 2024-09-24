@@ -8,6 +8,7 @@ import {
   SelectRegisterPage,
   CreditTitlesPage
 } from '@/sections'
+import { TransactionsPage } from '@/sections/transactions/page'
 
 function UserRoutes() {
   const { login } = useAuth()
@@ -30,6 +31,7 @@ function UserRoutes() {
           </>
         )}
         <Route path="titulos-de-credito" element={<CreditTitlesPage />} />
+        <Route path="mis-transacciones" element={<TransactionsPage />} />
         {/* <Route path='/' element={<Navigate to='/users' />} /> */}
         <Route path="/" element={<Navigate to="/" />} />
       </Routes>

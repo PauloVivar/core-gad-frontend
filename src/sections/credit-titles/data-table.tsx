@@ -16,8 +16,9 @@ import {
 } from '@/components/ui/table'
 import { useMemo, useState } from 'react'
 import { Button } from '@/components/ui/button'
-import { useCashInflows } from '../shared/hooks/useCashInflows'
+// import { useCashInflows } from '../shared/hooks/useCashInflows'
 import { CreditTitle } from '@/modules/credit-titles/domain/CreditTitle'
+import { usePayments } from '../payments/usePayments'
 
 interface DataTableProps {
   columns: ColumnDef<CreditTitle, unknown>[]
@@ -26,7 +27,8 @@ interface DataTableProps {
 
 export function DataTable({ columns, data }: DataTableProps) {
   const [rowSelection, setRowSelection] = useState({})
-  const { create: createCashInflow, get: getCashInflow } = useCashInflows()
+  // const { create: createCashInflow, get: getCashInflow } = useCashInflows()
+  const { createPayment } = usePayments()
 
   const table = useReactTable({
     data,
@@ -53,6 +55,11 @@ export function DataTable({ columns, data }: DataTableProps) {
     return table.getSelectedRowModel().rows[0]?.original.code
   }, [table.getSelectedRowModel().rows])
 
+  // get all selected code credit titles
+  const creditTitles = useMemo(() => {
+    return table.getSelectedRowModel().rows.map((row) => row.original.code)
+  }, [table.getSelectedRowModel().rows])
+
   const amountTotal = useMemo(() => {
     return table
       .getSelectedRowModel()
@@ -67,23 +74,18 @@ export function DataTable({ columns, data }: DataTableProps) {
 
   const handlePayment = async () => {
     // alert(`Processing payment for $${totalValue.toFixed(2)}, first credit title: ${firtsCreditTitle}, amount: ${amountTotal}, interest: ${interestTotal}`)
-    await createCashInflow({
-      code: 987654321,
+    await createPayment({
       concept: 'TITULOS DE CREDITO',
+      value: totalValue,
       reference: firtsCreditTitle,
-      amount: amountTotal,
-      interest: interestTotal,
-      notes: 'Cobro por concepto de: TITULOS DE CREDITO',
-      totalToPay: Number(totalValue.toFixed(2))
+      creditTitles: creditTitles
+    }).then((data) => {
+      if (data?.processUrl) {
+        window.open(data.processUrl, '_blank')
+      } else {
+        console.error('No processUrl found in the response')
+      }
     })
-
-    const data = await getCashInflow(987654321)
-
-    if (data?.processUrl) {
-      window.open(data.processUrl, '_blank')
-    } else {
-      console.error('No processUrl found in the response')
-    }
   }
 
   return (
