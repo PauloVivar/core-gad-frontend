@@ -1,4 +1,4 @@
-import { Payment } from '../domain/Payment'
+import { Payment, PaymentsResponse } from '../domain/Payment'
 import { PaymentRepository } from '../domain/PaymentRepository'
 
 export function createApiPaymentRepository(): PaymentRepository {
@@ -36,7 +36,7 @@ async function search(query: string) {
 
 async function getByDni(dni: string) {
   const payment = await fetch(`http://localhost:8080/pagos/cedula/${dni}`).then(
-    (res) => res.json() as Promise<Payment[]>
+    (res) => res.json() as Promise<PaymentsResponse>
   )
   return payment
 }

@@ -1,3 +1,5 @@
+import { Response } from '@/modules/shared/domain/response'
+
 export interface Payment {
   id: string
   concept: string
@@ -8,3 +10,5 @@ export interface Payment {
   processUrl?: string
   cedula?: string
 }
+
+export type PaymentsResponse = Response<Payment>
