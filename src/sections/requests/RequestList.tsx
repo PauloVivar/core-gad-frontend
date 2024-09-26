@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
-import { getRequests } from '../../../modules/requests/application/getRequests'
-import { createApiRequestRepository } from '../../../modules/requests/infrastructure/ApiRequestRepository'
+import { getRequests } from '../../modules/requests/application/getRequests'
+import { createApiRequestRepository } from '../../modules/requests/infrastructure/ApiRequestRepository'
 import {
   Table,
   TableBody,
@@ -12,7 +12,7 @@ import {
 } from '@/components/ui/table'
 import { Button } from '@/components/ui/button'
 import { PencilIcon, TrashIcon } from 'lucide-react'
-import { RequestEntity } from '../../../modules/requests/domain/RequestEntity'
+import { RequestEntity } from '../../modules/requests/domain/RequestEntity'
 
 const repository = createApiRequestRepository()
 

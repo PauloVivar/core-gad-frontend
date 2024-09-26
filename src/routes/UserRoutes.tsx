@@ -6,7 +6,8 @@ import {
   Home,
   UsersPage,
   SelectRegisterPage,
-  CreditTitlesPage
+  CreditTitlesPage,
+  RequestsPage
 } from '@/sections'
 import { TransactionsPage } from '@/sections/transactions/page'
 
@@ -19,6 +20,7 @@ function UserRoutes() {
         <Route path="/" element={<Home />} />
         <Route path="users" element={<UsersPage />} />
         <Route path="users/page/:page" element={<UsersPage />} />
+        <Route path="/requests" element={<RequestsPage />} />
 
         {!login.isAdmin || (
           <>

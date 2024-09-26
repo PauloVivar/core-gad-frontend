@@ -1,13 +1,13 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { createRequest } from '../../../modules/requests/application/createRequest'
-import { createApiRequestRepository } from '../../../modules/requests/infrastructure/ApiRequestRepository'
+import { createRequest } from '../../modules/requests/application/createRequest'
+import { createApiRequestRepository } from '../../modules/requests/infrastructure/ApiRequestRepository'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import { RequestEntity } from '../../../modules/requests/domain/RequestEntity'
+import { RequestEntity } from '../../modules/requests/domain/RequestEntity'
 import {
   RequestStatus,
   RequestType
-} from '../../../modules/requests/domain/RequestEntity'
+} from '../../modules/requests/domain/RequestEntity'
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'

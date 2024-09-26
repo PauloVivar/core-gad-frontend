@@ -3,14 +3,14 @@ import { RequestEntity, RequestStatus } from './RequestEntity'
 
 export interface RequestRepository {
   findAll: () => Promise<RequestEntity[]>
-  findAllPaginated: (
-    page: number,
-    size: number
-  ) => Promise<{
-    content: RequestEntity[]
-    totalElements: number
-    totalPages: number
-  }>
+  // findAllPaginated: (
+  //   page: number,
+  //   size: number
+  // ) => Promise<{
+  //   content: RequestEntity[]
+  //   totalElements: number
+  //   totalPages: number
+  // }>
   findById: (id: number) => Promise<RequestEntity>
   create: (request: Omit<RequestEntity, 'id'>) => Promise<RequestEntity>
   update: (

@@ -26,13 +26,61 @@ import {
   ArrowRightEndOnRectangleIcon,
   UserPlusIcon
 } from '@heroicons/react/24/outline'
+import { ChevronDownIcon } from 'lucide-react'
+import { ReactNode, useState } from 'react'
+
+interface SubmenuItemProps {
+  label: string
+  to?: string
+  onClick: () => void
+  showSubmenu: boolean
+  children: ReactNode
+}
 
 const Navbar = () => {
   const { login, handlerLogout } = useAuth()
 
+  //test
+  const [showTramitesSubmenu, setShowTramitesSubmenu] = useState(false)
+  const [showAvaluosSubmenu, setShowAvaluosSubmenu] = useState(false)
+
   const commonClasses = 'flex items-center gap-3 rounded-lg px-3 py-2'
   const commonClassesMobile =
     'mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2'
+
+  //test
+  //const SubmenuItem = ({ label, onClick, showSubmenu, children }) => (
+  const SubmenuItem: React.FC<SubmenuItemProps> = ({
+    label,
+    to,
+    onClick,
+    showSubmenu,
+    children
+  }) => (
+    <div className="relative">
+      {to ? (
+        <NavLink
+          to={to}
+          className={({ isActive }) =>
+            `${commonClasses} w-full flex justify-between items-center text-left ${isActive ? 'bg-muted text-primary' : 'text-muted-foreground hover:text-primary'}`
+          }
+        >
+          {label}
+        </NavLink>
+      ) : (
+        <button
+          onClick={onClick}
+          className={`${commonClasses} w-full flex justify-between items-center text-left`}
+        >
+          {label}
+          <ChevronDownIcon
+            className={`h-4 w-4 transition-transform ${showSubmenu ? 'rotate-180' : ''}`}
+          />
+        </button>
+      )}
+      {showSubmenu && <div className="ml-4 mt-2 space-y-2">{children}</div>}
+    </div>
+  )
 
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
@@ -86,7 +134,7 @@ const Navbar = () => {
                   Consulta y Pago de Obligaciones
                 </NavLink>
 
-                <NavLink
+                {/* <NavLink
                   to="/procedures"
                   className={({ isActive }) =>
                     `${commonClasses} ${
@@ -95,10 +143,32 @@ const Navbar = () => {
                         : 'text-muted-foreground transition-all hover:text-primary'
                     }`
                   }
-                >
-                  <InboxIcon className="h-4 w-4" />
-                  Tr&aacute;mites
-                </NavLink>
+                > */}
+
+                <div className="flex items-center cursor-pointer">
+                  {/* <InboxIcon className="h-4 w-4 mr-2" /> */}
+                  <SubmenuItem
+                    label="Trámites"
+                    onClick={() => setShowTramitesSubmenu(!showTramitesSubmenu)}
+                    showSubmenu={showTramitesSubmenu}
+                  >
+                    <SubmenuItem
+                      label="Avalúos y Catastros"
+                      onClick={() => setShowAvaluosSubmenu(!showAvaluosSubmenu)}
+                      showSubmenu={showAvaluosSubmenu}
+                    >
+                      <NavLink
+                        to="/requests"
+                        className={({ isActive }) =>
+                          `${commonClasses} flex items-center ${isActive ? 'bg-muted text-primary' : 'text-muted-foreground hover:text-primary'}`
+                        }
+                      >
+                        <InboxIcon className="h-4 w-4 mr-2" />
+                        Ficha Catastral
+                      </NavLink>
+                    </SubmenuItem>
+                  </SubmenuItem>
+                </div>
 
                 <NavLink
                   to="/taxServices"
@@ -346,7 +416,6 @@ const Navbar = () => {
           {/* Menu Usuario */}
           {/* <UserMenu login={login} handlerLogout={handlerLogout} /> */}
 
-          {/* test */}
           {!login.isAuth ? (
             <div className="flex gap-3 text-zinc-700 text-sm">
               <NavLink to="/login" className="flex gap-1">
@@ -362,25 +431,6 @@ const Navbar = () => {
             <UserMenu login={login} handlerLogout={handlerLogout} />
           )}
         </header>
-
-        {/* Layout */}
-        {/* <main className='flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6'>
-          <div className='flex items-center'>
-            <h1 className='text-lg font-semibold md:text-2xl'>Usuarios</h1>
-          </div>
-
-          <div
-            className='flex flex-1 items-center justify-center rounded-lg border border-dashed shadow-sm'
-          >
-            <div className='flex flex-col items-center gap-1 text-center'>
-              <h3 className='text-2xl font-bold tracking-tight'>No tiene usuarios</h3>
-              <p className='text-sm text-muted-foreground'>
-                Puede comenzar a crear usuarios tan pronto como agregues uno nuevo..
-              </p>
-              <Button className='mt-4'>Add Cliente</Button>
-            </div>
-          </div>
-        </main> */}
       </div>
     </div>
   )

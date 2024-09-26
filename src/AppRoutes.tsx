@@ -27,7 +27,6 @@ const AppRoutes = () => {
 
   return (
     <>
-      {/* test */}
       <Navbar />
       <Routes>
         {login.isAuth ? (

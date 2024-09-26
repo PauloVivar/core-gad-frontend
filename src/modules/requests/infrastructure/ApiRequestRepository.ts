@@ -8,12 +8,12 @@ function createApiRequestRepository(): RequestRepository {
       const response = await requestsApi.get('/')
       return response.data
     },
-    findAllPaginated: async (page: number, size: number) => {
-      const response = await requestsApi.get('/page', {
-        params: { page, size }
-      })
-      return response.data
-    },
+    // findAllPaginated: async (page: number, size: number) => {
+    //   const response = await requestsApi.get('/page', {
+    //     params: { page, size }
+    //   })
+    //   return response.data
+    // },
     findById: async (id: number) => {
       const response = await requestsApi.get(`/${id}`)
       return response.data
