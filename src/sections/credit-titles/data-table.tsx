@@ -18,7 +18,7 @@ import { useMemo, useState } from 'react'
 import { Button } from '@/components/ui/button'
 // import { useCashInflows } from '../shared/hooks/useCashInflows'
 import { CreditTitle } from '@/modules/credit-titles/domain/CreditTitle'
-import { usePayments } from '../payments/usePayments'
+import { useCreatePayment } from '../payments/hooks'
 
 interface DataTableProps {
   columns: ColumnDef<CreditTitle, unknown>[]
@@ -27,8 +27,7 @@ interface DataTableProps {
 
 export function DataTable({ columns, data }: DataTableProps) {
   const [rowSelection, setRowSelection] = useState({})
-  // const { create: createCashInflow, get: getCashInflow } = useCashInflows()
-  const { createPayment } = usePayments()
+  const { mutate: createPayment } = useCreatePayment()
 
   const table = useReactTable({
     data,
@@ -74,17 +73,11 @@ export function DataTable({ columns, data }: DataTableProps) {
 
   const handlePayment = async () => {
     // alert(`Processing payment for $${totalValue.toFixed(2)}, first credit title: ${firtsCreditTitle}, amount: ${amountTotal}, interest: ${interestTotal}`)
-    await createPayment({
+    createPayment({
       concept: 'TITULOS DE CREDITO',
       value: totalValue,
       reference: firtsCreditTitle,
       creditTitles: creditTitles
-    }).then((data) => {
-      if (data?.processUrl) {
-        window.open(data.processUrl, '_blank')
-      } else {
-        console.error('No processUrl found in the response')
-      }
     })
   }
 
