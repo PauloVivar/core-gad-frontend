@@ -36,10 +36,18 @@ export const useCreatePayment = () => {
       queryClient.invalidateQueries({ queryKey: ['payments'] })
       console.log(data)
       if (data?.processUrl) {
-        window.open(data.processUrl, '_blank')
+        window.PlatestoPayLightbox.init(data.processUrl)
       } else {
         console.error('No processUrl found in the response')
       }
     }
   })
+}
+
+declare global {
+  interface Window {
+    PlatestoPayLightbox: {
+      init: (processUrl: string) => void
+    }
+  }
 }
