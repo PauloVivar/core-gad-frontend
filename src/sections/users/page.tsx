@@ -4,7 +4,7 @@ import { useUsers, useAuth } from '@/sections/shared/hooks'
 
 import { Layout } from '../../components/Layout'
 import { UserForm, UsersList } from '.'
-import { Paginator } from '@/components/Paginator'
+import { Paginator } from '@/components/paginator'
 
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
