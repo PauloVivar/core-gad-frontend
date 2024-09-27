@@ -1,3 +1,3 @@
-export { AttachDocumentsPage } from './AttachDocumentsPage'
-export { RequestListPage } from './RequestListPage'
-export { SelectRequestTypePage } from './SelectRequestTypePage'
+export { RequestForm } from './RequestForm'
+export { RequestList } from './RequestList'
+export { RequestsPage } from './RequestsPage'
