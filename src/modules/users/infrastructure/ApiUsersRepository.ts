@@ -37,12 +37,17 @@ const findAllPages = async (page: number = 0): Promise<AxiosResponse> => {
 }
 
 //const save = async ({ username, email, password, admin }) => {
-const save = async (
-  username: string,
-  email: string,
-  password: string,
-  admin: string
-): Promise<AxiosResponse> => {
+const save = async ({
+  username,
+  email,
+  password,
+  admin
+}: {
+  username: string
+  email: string
+  password: string
+  admin: boolean
+}): Promise<AxiosResponse> => {
   return await usersApi.post(BASE_URL, {
     username,
     email,
@@ -51,12 +56,17 @@ const save = async (
   })
 }
 
-const update = async (
-  id: number,
-  username: string,
-  email: string,
+const update = async ({
+  id,
+  username,
+  email,
+  admin
+}: {
+  id: number
+  username: string
+  email: string
   admin: boolean
-): Promise<AxiosResponse> => {
+}): Promise<AxiosResponse> => {
   return await usersApi.put(`${BASE_URL}/${id}`, {
     username,
     email,
