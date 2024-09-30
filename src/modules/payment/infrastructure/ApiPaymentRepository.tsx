@@ -36,7 +36,7 @@ async function search(query: string) {
 
 async function getByDni(dni: string) {
   const payment = await fetch(`http://localhost:8080/pagos/cedula/${dni}`).then(
-    (res) => res.json() as Promise<PaymentsResponse>
+    (res) => res.json() as Promise<PaymentsResponse | null>
   )
   return payment
 }
