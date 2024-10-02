@@ -19,6 +19,9 @@ import { Button } from '@/components/ui/button'
 // import { useCashInflows } from '../shared/hooks/useCashInflows'
 import { CreditTitle } from '@/modules/credit-titles/domain/CreditTitle'
 import { useCreatePayment } from '../payments/hooks'
+import { PaymentStatus } from '@/modules/payment/domain/Payment'
+import { Checkbox } from '@/components/ui/checkbox'
+import { Label } from '@radix-ui/react-label'
 
 interface DataTableProps {
   columns: ColumnDef<CreditTitle, unknown>[]
@@ -28,6 +31,7 @@ interface DataTableProps {
 export function DataTable({ columns, data }: DataTableProps) {
   const [rowSelection, setRowSelection] = useState({})
   const { mutate: createPayment } = useCreatePayment()
+  const [checked, setChecked] = useState(false)
 
   const table = useReactTable({
     data,
@@ -72,10 +76,10 @@ export function DataTable({ columns, data }: DataTableProps) {
   }, [table.getSelectedRowModel().rows])
 
   const handlePayment = async () => {
-    // alert(`Processing payment for $${totalValue.toFixed(2)}, first credit title: ${firtsCreditTitle}, amount: ${amountTotal}, interest: ${interestTotal}`)
     createPayment({
       concept: 'TITULOS DE CREDITO',
       value: totalValue,
+      status: PaymentStatus.PENDING,
       reference: firtsCreditTitle,
       creditTitles: creditTitles
     })
@@ -132,13 +136,29 @@ export function DataTable({ columns, data }: DataTableProps) {
             )}
           </TableBody>
         </Table>
-        <div className="bg-muted p-4 rounded-md flex justify-between items-center">
+        <div className="bg-muted p-5 rounded-md flex justify-between items-center">
           <div className="text-lg font-semibold">
             Total: ${totalValue.toFixed(2)}
           </div>
-          <Button onClick={handlePayment} disabled={totalValue === 0}>
-            Realizar pago
-          </Button>
+          <div className="flex flex-col">
+            <div className="flex justify-start items-center space-x-2 mb-4">
+              <Checkbox
+                id="terms"
+                checked={checked}
+                onCheckedChange={() => setChecked(!checked)}
+              />
+              <Label htmlFor="terms">Acepto los términos y condiciones</Label>
+            </div>
+            <Button
+              onClick={handlePayment}
+              disabled={totalValue === 0 || checked === false}
+            >
+              Realizar pago
+            </Button>
+          </div>
+        </div>
+        <div className="bg-muted p-4 rounded-md flex justify-between items-center">
+          <div />
           <div>
             <div className="flex gap-4 justify-center items-center">
               <img
