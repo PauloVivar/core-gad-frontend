@@ -1,9 +1,10 @@
-import { Payment, PaymentsResponse } from '../domain/Payment'
+import { Payment, UpdateStatusPaymentParams } from '../domain/Payment'
 import { PaymentRepository } from '../domain/PaymentRepository'
 
 export function createApiPaymentRepository(): PaymentRepository {
   return {
     create,
+    update,
     get,
     search,
     getByDni
@@ -13,6 +14,16 @@ export function createApiPaymentRepository(): PaymentRepository {
 async function create(payment: Payment) {
   await fetch('http://localhost:8080/pagos', {
     method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(payment)
+  })
+}
+
+async function update(payment: UpdateStatusPaymentParams) {
+  await fetch(`http://localhost:8080/pagos`, {
+    method: 'PUT',
     headers: {
       'Content-Type': 'application/json'
     },
@@ -36,7 +47,7 @@ async function search(query: string) {
 
 async function getByDni(dni: string) {
   const payment = await fetch(`http://localhost:8080/pagos/cedula/${dni}`).then(
-    (res) => res.json() as Promise<PaymentsResponse | null>
+    (res) => (res.status == 200 ? res.json() : null)
   )
   return payment
 }
