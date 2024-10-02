@@ -16,3 +16,9 @@ export interface Payment {
 export type PaymentsResponse = Response<Payment>
 
 export type UpdateStatusPaymentParams = Pick<Payment, 'id' | 'status'>
+
+export enum PaymentStatus {
+  PENDING = 'PENDIENTE',
+  REJECTED = 'RECHAZADO',
+  ACCEPTED = 'ACEPTADO'
+}
