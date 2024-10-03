@@ -7,7 +7,7 @@ const repository = createApiPaymentRepository()
 
 export const useSearchPayments = (query: string) => {
   return useQuery<Payment[]>({
-    queryKey: ['paymentsSearch', query],
+    queryKey: ['payments', query],
     queryFn: () => searchPayments(repository)(query)
   })
 }

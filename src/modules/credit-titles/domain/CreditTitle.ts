@@ -1,3 +1,5 @@
+import { Response } from '@/modules/shared/domain/response'
+
 export interface CreditTitle {
   code: string
   secondary: string
@@ -38,3 +40,5 @@ export interface CreditTitle {
   requestId: number
   processUrl: string
 }
+
+export type CreditTitlesResponse = Response<CreditTitle[]>

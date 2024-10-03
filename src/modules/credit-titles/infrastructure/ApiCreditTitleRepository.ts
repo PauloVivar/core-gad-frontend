@@ -1,4 +1,4 @@
-import { CreditTitle } from '../domain/CreditTitle'
+import { CreditTitle, CreditTitlesResponse } from '../domain/CreditTitle'
 import { CreditTitleRepository } from '../domain/CreditTitleRepository'
 
 export function createApiCreditTitlesRepository(): CreditTitleRepository {
@@ -19,7 +19,7 @@ async function get(id: string) {
 async function search(query: string) {
   const creditTitles = await fetch(
     `http://localhost:8080/titulos-de-credito?${query}`
-  ).then((response) => response.json())
+  ).then((response) => response.json() as Promise<CreditTitlesResponse>)
 
   return creditTitles
 }

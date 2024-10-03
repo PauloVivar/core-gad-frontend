@@ -13,8 +13,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react'
 export interface Paginator {
   pageSize: number
   pageNumber: number
-  totalPages: number
-  totalRows: number
+  totalPages: number | undefined
 }
 
 export interface PaginatorProps {

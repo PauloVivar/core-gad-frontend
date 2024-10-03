@@ -202,10 +202,20 @@ const useUsers = () => {
     try {
       //userSchema.parse(user);
       if (user.id === 0) {
-        response = await save(user)
+        response = await save({
+          username: user.username,
+          email: user.email,
+          password: user.password,
+          admin: user.admin
+        })
         dispatch(addUser(response.data))
       } else {
-        response = await update(user)
+        response = await update({
+          id: user.id,
+          username: user.username,
+          email: user.email,
+          admin: user.admin
+        })
         dispatch(updateUser(response.data))
       }
 
