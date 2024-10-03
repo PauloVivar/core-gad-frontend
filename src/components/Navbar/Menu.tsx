@@ -9,10 +9,61 @@ import {
 } from '@heroicons/react/24/solid'
 import { useAuth } from '@/sections/shared/hooks'
 
+//test
+import { ChevronDownIcon } from 'lucide-react'
+import { ReactNode, useState } from 'react'
+
+interface SubmenuItemProps {
+  label: string
+  to?: string
+  onClick: () => void
+  showSubmenu: boolean
+  children: ReactNode
+}
+//test
+
 export const MenuList = () => {
   const { login } = useAuth()
 
   const commonClasses = 'flex items-center gap-3 rounded-lg px-3 py-2'
+
+  //test
+  const [showTramitesSubmenu, setShowTramitesSubmenu] = useState(false)
+  const [showAvaluosSubmenu, setShowAvaluosSubmenu] = useState(false)
+
+  //test
+  //const SubmenuItem = ({ label, onClick, showSubmenu, children }) => (
+  const SubmenuItem: React.FC<SubmenuItemProps> = ({
+    label,
+    to,
+    onClick,
+    showSubmenu,
+    children
+  }) => (
+    <div className="relative">
+      {to ? (
+        <NavLink
+          to={to}
+          className={({ isActive }) =>
+            `${commonClasses} w-full flex justify-between items-center text-left ${isActive ? 'bg-muted text-primary' : 'text-muted-foreground hover:text-primary'}`
+          }
+        >
+          {label}
+        </NavLink>
+      ) : (
+        <button
+          onClick={onClick}
+          className={`${commonClasses} w-full flex justify-between items-center text-left`}
+        >
+          {label}
+          <ChevronDownIcon
+            className={`h-4 w-4 transition-transform ${showSubmenu ? 'rotate-180' : ''}`}
+          />
+        </button>
+      )}
+      {showSubmenu && <div className="ml-4 mt-2 space-y-2">{children}</div>}
+    </div>
+  )
 
   return (
     <>
@@ -48,6 +99,31 @@ export const MenuList = () => {
             <ShoppingCartIcon className="h-4 w-4" />
             Consulta y Pago de Obligaciones
           </NavLink>
+
+          <div className="flex items-center cursor-pointer">
+            {/* <InboxIcon className="h-4 w-4 mr-2" /> */}
+            <SubmenuItem
+              label="Trámites"
+              onClick={() => setShowTramitesSubmenu(!showTramitesSubmenu)}
+              showSubmenu={showTramitesSubmenu}
+            >
+              <SubmenuItem
+                label="Avalúos y Catastros"
+                onClick={() => setShowAvaluosSubmenu(!showAvaluosSubmenu)}
+                showSubmenu={showAvaluosSubmenu}
+              >
+                <NavLink
+                  to="/requests"
+                  className={({ isActive }) =>
+                    `${commonClasses} flex items-center ${isActive ? 'bg-muted text-primary' : 'text-muted-foreground hover:text-primary'}`
+                  }
+                >
+                  <InboxIcon className="h-4 w-4 mr-2" />
+                  Ficha Catastral
+                </NavLink>
+              </SubmenuItem>
+            </SubmenuItem>
+          </div>
 
           <NavLink
             to="/procedures"
