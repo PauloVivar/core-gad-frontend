@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const documentsApi = axios.create({
-  baseURL: `${import.meta.env.VITE_API_BASE_URL}/api/v1/documents`
+  baseURL: `${import.meta.env.VITE_API_BASE_REQUESTS_URL}/api/v1/dashboard`
 })
 
 documentsApi.interceptors.request.use((config) => {

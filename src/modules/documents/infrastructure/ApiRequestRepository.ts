@@ -1,27 +1,33 @@
-import { documentsApi } from '@/interceptors/documents/axios.interceptors'
+import { requestsApi } from '@/interceptors/requests/axios.interceptors'
 import { Document } from '../domain/Document'
 import { DocumentRepository } from '../domain/DocumentRepository'
 
 export function createApiDocumentRepository(): DocumentRepository {
   return {
-    findAllByRequestId: async (requestId: number) => {
-      const response = await documentsApi.get(`/request/${requestId}`)
+    list: async (requestId: number) => {
+      const response = await requestsApi.get(`/${requestId}/documents`)
       return response.data
     },
-    findById: async (id: number) => {
-      const response = await documentsApi.get(`/${id}`)
+    create: async (requestId: number, document: Omit<Document, 'id'>) => {
+      const response = await requestsApi.post(
+        `/${requestId}/documents`,
+        document
+      )
       return response.data
     },
-    create: async (document: Omit<Document, 'id'>) => {
-      const response = await documentsApi.post('/', document)
+    update: async (
+      requestId: number,
+      id: number,
+      document: Partial<Document>
+    ) => {
+      const response = await requestsApi.put(
+        `/${requestId}/documents/${id}`,
+        document
+      )
       return response.data
     },
-    update: async (id: number, document: Partial<Document>) => {
-      const response = await documentsApi.put(`/${id}`, document)
-      return response.data
-    },
-    remove: async (id: number) => {
-      await documentsApi.delete(`/${id}`)
+    remove: async (requestId: number, id: number) => {
+      await requestsApi.delete(`/${requestId}/documents/${id}`)
     }
   }
 }

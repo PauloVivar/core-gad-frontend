@@ -3,8 +3,9 @@ import { Document } from '../../documents/domain/Document'
 export interface RequestEntity {
   id: number
   entryDate: Date
-  status: RequestStatus
+  endDate: Date
   type: RequestType
+  status: RequestStatus
   citizenId: number
   cadastralCode: string
   assignedToUserId: number
@@ -15,8 +16,8 @@ export enum RequestStatus {
   INGRESADO = 'INGRESADO',
   EN_REVISION = 'EN_REVISION',
   PENDIENTE_SUBSANACION = 'PENDIENTE_SUBSANACION',
-  APROBADO = 'APROBADO',
-  RECHAZADO = 'RECHAZADO'
+  RECHAZADO = 'RECHAZADO',
+  APROBADO = 'APROBADO'
 }
 
 export enum RequestType {

@@ -2,6 +2,6 @@ import { DocumentRepository } from '../domain/DocumentRepository'
 
 export const getDocumentsByRequestId = (repository: DocumentRepository) => {
   return async (requestId: number) => {
-    return await repository.findAllByRequestId(requestId)
+    return await repository.list(requestId)
   }
 }

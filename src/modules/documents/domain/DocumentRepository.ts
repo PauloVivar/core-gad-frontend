@@ -1,9 +1,15 @@
 import { Document } from './Document'
 
 export interface DocumentRepository {
-  findAllByRequestId: (requestId: number) => Promise<Document[]>
-  findById: (id: number) => Promise<Document>
-  create: (document: Omit<Document, 'id'>) => Promise<Document>
-  update: (id: number, document: Partial<Document>) => Promise<Document>
-  remove: (id: number) => Promise<void>
+  list: (requestId: number) => Promise<Document[]>
+  create: (
+    requestId: number,
+    document: Omit<Document, 'id'>
+  ) => Promise<Document>
+  update: (
+    requestId: number,
+    id: number,
+    document: Partial<Document>
+  ) => Promise<Document>
+  remove: (requestId: number, id: number) => Promise<void>
 }
