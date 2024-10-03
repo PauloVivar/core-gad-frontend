@@ -16,7 +16,11 @@ export const TransactionsPage = () => {
 
   return (
     <Layout>
-      <DataTable columns={columns} data={data?.content} />
+      {data ? (
+        <DataTable columns={columns} data={data?.content} />
+      ) : (
+        <div>No se a encontrado ninguna transacción</div>
+      )}
     </Layout>
   )
 }

@@ -14,11 +14,13 @@ export const useCreatePayment = () => {
     mutationFn: async ({
       concept,
       value,
+      status,
       reference,
       creditTitles
     }: {
       concept: string
       value: number
+      status: string
       reference: string
       creditTitles: string[]
     }) => {
@@ -27,6 +29,7 @@ export const useCreatePayment = () => {
         id,
         concept,
         value,
+        status,
         reference,
         creditTitles
       })

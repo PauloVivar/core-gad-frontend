@@ -10,33 +10,38 @@ import {
   RequestsPage
 } from '@/sections'
 import { TransactionsPage } from '@/sections/transactions/page'
+import { PaymentPage } from '@/sections/payments/page'
+import { PaymentsProvider } from '@/sections/payments/payments-context'
 
 function UserRoutes() {
   const { login } = useAuth()
 
   return (
     <>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="users" element={<UsersPage />} />
-        <Route path="users/page/:page" element={<UsersPage />} />
-        <Route path="/requests" element={<RequestsPage />} />
+      <PaymentsProvider>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="users" element={<UsersPage />} />
+          <Route path="users/page/:page" element={<UsersPage />} />
+          <Route path="/requests" element={<RequestsPage />} />
 
-        {!login.isAdmin || (
-          <>
-            <Route
-              path="users/selectRegister"
-              element={<SelectRegisterPage />}
-            />
-            <Route path="users/edit/:id" element={<SelectRegisterPage />} />
-            <Route path="terms" element={<TermsPage />} />
-          </>
-        )}
-        <Route path="titulos-de-credito" element={<CreditTitlesPage />} />
-        <Route path="mis-transacciones" element={<TransactionsPage />} />
-        {/* <Route path='/' element={<Navigate to='/users' />} /> */}
-        <Route path="/" element={<Navigate to="/" />} />
-      </Routes>
+          {!login.isAdmin || (
+            <>
+              <Route
+                path="users/selectRegister"
+                element={<SelectRegisterPage />}
+              />
+              <Route path="users/edit/:id" element={<SelectRegisterPage />} />
+              <Route path="terms" element={<TermsPage />} />
+            </>
+          )}
+          <Route path="titulos-de-credito" element={<CreditTitlesPage />} />
+          <Route path="pagos" element={<PaymentPage />} />
+          <Route path="mis-transacciones" element={<TransactionsPage />} />
+          {/* <Route path='/' element={<Navigate to='/users' />} /> */}
+          <Route path="/" element={<Navigate to="/" />} />
+        </Routes>
+      </PaymentsProvider>
     </>
   )
 }

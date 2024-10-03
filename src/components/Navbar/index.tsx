@@ -36,6 +36,7 @@ interface SubmenuItemProps {
   showSubmenu: boolean
   children: ReactNode
 }
+import { MenuList } from './Menu'
 
 const Navbar = () => {
   const { login, handlerLogout } = useAuth()
@@ -269,11 +270,12 @@ const Navbar = () => {
                 )}
               </nav>
             </div>
+            <MenuList />
 
             {/* Card */}
-            <div className="mt-auto p-4">
-              <NewCard />
-            </div>
+            {/* <div className="mt-auto p-4"> */}
+            {/*   <NewCard /> */}
+            {/* </div> */}
           </div>
         </div>
       </div>
