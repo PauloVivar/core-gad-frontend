@@ -1,26 +1,32 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { createRequest } from '../../modules/requests/application/createRequest'
-import { createApiRequestRepository } from '../../modules/requests/infrastructure/ApiRequestRepository'
-import { Input } from '@/components/ui/input'
-import { Button } from '@/components/ui/button'
-import { RequestEntity } from '../../modules/requests/domain/RequestEntity'
-import {
-  RequestStatus,
-  RequestType
-} from '../../modules/requests/domain/RequestEntity'
-
+import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
-import { z } from 'zod'
+import * as z from 'zod'
+import { useCadastralRecordsByCitizen } from '@/sections/shared/hooks/useCadastralRecords'
+import { useAuth } from '@/sections/shared/hooks/useAuth'
+import {
+  RequestType,
+  CreateRequestDto
+} from '@/modules/requests/domain/RequestEntity'
+import { useRequests } from '@/sections/shared/hooks/useRequests'
+
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage
 } from '@/components/ui/form'
+import { Button } from '@/components/ui/button'
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow
+} from '@/components/ui/table'
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import {
   Select,
   SelectContent,
@@ -29,50 +35,64 @@ import {
   SelectValue
 } from '@/components/ui/select'
 
-const repository = createApiRequestRepository()
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
+import { AlertCircle } from 'lucide-react'
 
 const formSchema = z.object({
-  cadastralCode: z
-    .string()
-    .min(1, { message: 'Código catastral es requerido.' }),
-  type: z.nativeEnum(RequestType)
+  type: z.nativeEnum(RequestType),
+  cadastralCode: z.string().min(1, 'Debe seleccionar una ficha catastral')
 })
 
-type FormValues = z.infer<typeof formSchema>
+// type FormValues = z.infer<typeof formSchema>;
+
+// interface RequestFormProps {
+//   onSubmit: (data: FormValues) => Promise<void>;
+// }
 
 export function RequestForm() {
-  const queryClient = useQueryClient()
+  const { login } = useAuth()
+  const { cadastralRecords, isLoading, error } = useCadastralRecordsByCitizen()
+  const { createRequest } = useRequests()
 
-  const form = useForm<FormValues>({
+  const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      cadastralCode: '',
-      type: RequestType.FICHA_CATASTRAL
+      type: RequestType.FICHA_CATASTRAL,
+      cadastralCode: ''
     }
   })
 
-  const mutation = useMutation({
-    mutationFn: (newRequest: Omit<RequestEntity, 'id'>) =>
-      createRequest(repository)(newRequest),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['requests'] })
-      form.reset()
+  const onSubmit = async (data: z.infer<typeof formSchema>) => {
+    if (login.user?.id) {
+      const newRequest: CreateRequestDto = {
+        type: data.type,
+        cadastralCode: data.cadastralCode,
+        citizenId: login.user.id
+      }
+      try {
+        await createRequest(newRequest)
+        // Manejar éxito (por ejemplo, mostrar un mensaje, redirigir, etc.)
+      } catch (error) {
+        // Manejar error
+        console.error('Error al crear la solicitud:', error)
+      }
     }
-  })
+  }
 
-  const onSubmit = (data: FormValues) => {
-    const newRequest: Omit<RequestEntity, 'id'> = {
-      entryDate: new Date(),
-      status: RequestStatus.INGRESADO,
-      type: data.type,
-      cadastralCode: data.cadastralCode,
-      citizenId: 1, // Esto debería venir del usuario autenticado
-      assignedToUserId: 5,
-      documents: []
-      // assignedToUserId: null,
-      // Añade aquí otros campos necesarios según tu RequestEntity
-    }
-    mutation.mutate(newRequest)
+  if (isLoading) return <div>Cargando fichas catastrales...</div>
+  if (error) return <div>Error: {(error as Error).message}</div>
+
+  if (!cadastralRecords || cadastralRecords.length === 0) {
+    return (
+      <Alert variant="destructive">
+        <AlertCircle className="h-4 w-4" />
+        <AlertTitle>Atención</AlertTitle>
+        <AlertDescription>
+          No se encontraron predios asociados a su nombre. Por favor, contacte
+          con el departamento de catastro para más información.
+        </AlertDescription>
+      </Alert>
+    )
   }
 
   return (
@@ -80,26 +100,10 @@ export function RequestForm() {
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         <FormField
           control={form.control}
-          name="cadastralCode"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Código Catastral</FormLabel>
-              <FormControl>
-                <Input placeholder="Ingrese el código catastral" {...field} />
-              </FormControl>
-              <FormDescription>
-                Este es el código catastral de la propiedad.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
           name="type"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Tipo de Solicitud</FormLabel>
+              <FormLabel>Tipo de solicitud</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger>
@@ -110,27 +114,71 @@ export function RequestForm() {
                   <SelectItem value={RequestType.FICHA_CATASTRAL}>
                     Ficha Catastral
                   </SelectItem>
-                  <SelectItem value={RequestType.CERTIFICADO_NO_PERTENENCIA}>
-                    Certificado de No Pertenencia
+                  <SelectItem value={RequestType.CERTIFICADO_FRACCIONAMIENTO}>
+                    Certificado de Fraccionamiento
                   </SelectItem>
                 </SelectContent>
               </Select>
-              <FormDescription>
-                Seleccione el tipo de solicitud que desea realizar.
-              </FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button type="submit" disabled={mutation.isPending}>
-          {mutation.isPending ? 'Creando...' : 'Crear solicitud'}
-        </Button>
+
+        <FormField
+          control={form.control}
+          name="cadastralCode"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Ficha Catastral</FormLabel>
+              <Controller
+                name="cadastralCode"
+                control={form.control}
+                render={({ field }) => (
+                  <RadioGroup
+                    onValueChange={field.onChange}
+                    //defaultValue={field.value}
+                    value={field.value}
+                    className="flex flex-col space-y-1"
+                  >
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead>Seleccionar</TableHead>
+                          <TableHead>Código Catastral</TableHead>
+                          <TableHead>Ciudad</TableHead>
+                          <TableHead>Provincia</TableHead>
+                          <TableHead>País</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {cadastralRecords?.map((record) => (
+                          <TableRow key={record.cadastralCode}>
+                            <TableCell>
+                              <RadioGroupItem
+                                value={record.cadastralCode}
+                                id={record.cadastralCode}
+                                checked={field.value === record.cadastralCode}
+                                //onCheckedChange={() => field.onChange(record.cadastralCode)}
+                              />
+                            </TableCell>
+                            <TableCell>{record.cadastralCode}</TableCell>
+                            <TableCell>{record.city}</TableCell>
+                            <TableCell>{record.province}</TableCell>
+                            <TableCell>{record.country}</TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </RadioGroup>
+                )}
+              />
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <Button type="submit">Enviar solicitud</Button>
       </form>
-      {mutation.isError && (
-        <div className="text-red-500">
-          Error al crear la solicitud: {mutation.error.message}
-        </div>
-      )}
     </Form>
   )
 }

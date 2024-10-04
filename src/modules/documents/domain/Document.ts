@@ -1,7 +1,7 @@
 export interface Document {
-  id: number
+  id?: number
   type: DocumentType
-  uploadDate: Date
+  uploadDate?: Date
   fileUrl: string
   requestId: number
 }
@@ -13,4 +13,9 @@ export enum DocumentType {
   ESCRITURA = 'ESCRITURA',
   COMPROBANTE_PAGO = 'COMPROBANTE_PAGO',
   CERTIFICADO_NO_ADEUDAR = 'CERTIFICADO_NO_ADEUDAR'
+}
+
+export interface CreateDocumentDto {
+  type: DocumentType
+  fileUrl: string
 }

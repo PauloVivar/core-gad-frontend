@@ -1,5 +1,9 @@
 import { requestsApi } from '@/interceptors/requests'
-import { RequestEntity, RequestStatus } from '../domain/RequestEntity'
+import {
+  RequestEntity,
+  RequestStatus,
+  CreateRequestDto
+} from '../domain/RequestEntity'
 import { RequestRepository } from '../domain/RequestRepository'
 
 function createApiRequestRepository(): RequestRepository {
@@ -18,8 +22,8 @@ function createApiRequestRepository(): RequestRepository {
       const response = await requestsApi.get(`/${id}`)
       return response.data
     },
-    create: async (request: Omit<RequestEntity, 'id'>) => {
-      const response = await requestsApi.post('/', request)
+    create: async (request: CreateRequestDto): Promise<RequestEntity> => {
+      const response = await requestsApi.post('', request)
       return response.data
     },
     update: async (id: number, request: Partial<RequestEntity>) => {

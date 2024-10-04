@@ -1,15 +1,22 @@
-import { Document } from './Document'
+import { Document, CreateDocumentDto } from './Document'
 
 export interface DocumentRepository {
-  list: (requestId: number) => Promise<Document[]>
-  create: (
+  findAllByRequestId(requestId: number): Promise<Document[]>
+  findAllPageByRequestId(
     requestId: number,
-    document: Omit<Document, 'id'>
-  ) => Promise<Document>
-  update: (
+    page: number,
+    size?: number
+  ): Promise<{
+    content: Document[]
+    totalPages: number
+    totalElements: number
+  }>
+  findById(requestId: number, id: number): Promise<Document | null>
+  create(requestId: number, document: CreateDocumentDto): Promise<Document>
+  update(
     requestId: number,
     id: number,
     document: Partial<Document>
-  ) => Promise<Document>
-  remove: (requestId: number, id: number) => Promise<void>
+  ): Promise<Document | null>
+  remove(requestId: number, id: number): Promise<void>
 }

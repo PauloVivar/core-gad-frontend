@@ -8,8 +8,8 @@ export interface RequestEntity {
   status: RequestStatus
   citizenId: number
   cadastralCode: string
-  assignedToUserId: number
-  documents: Document[]
+  assignedToUserId: number | null
+  documents: Document[] | null
 }
 
 export enum RequestStatus {
@@ -22,5 +22,12 @@ export enum RequestStatus {
 
 export enum RequestType {
   FICHA_CATASTRAL = 'FICHA_CATASTRAL',
-  CERTIFICADO_NO_PERTENENCIA = 'CERTIFICADO_NO_PERTENENCIA'
+  CERTIFICADO_FRACCIONAMIENTO = 'CERTIFICADO_FRACCIONAMIENTO'
+}
+
+// Nuevo tipo para la creación de solicitudes
+export type CreateRequestDto = {
+  type: RequestType
+  citizenId: number
+  cadastralCode: string
 }

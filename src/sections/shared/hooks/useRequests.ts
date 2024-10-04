@@ -7,20 +7,27 @@ import {
   updateRequest,
   deleteRequest
 } from '../../../modules/requests/application'
-import { RequestEntity } from '../../../modules/requests/domain/RequestEntity'
+import {
+  RequestEntity,
+  CreateRequestDto
+} from '../../../modules/requests/domain/RequestEntity'
 
 const repository = createApiRequestRepository()
 
-export function useRequests(page: number = 0, size: number = 10) {
+export function useRequests(page: number = 0) {
   const queryClient = useQueryClient()
 
   const fetchRequests = useQuery({
-    queryKey: ['requests', page, size],
-    queryFn: () => getRequests(repository)(page, size)
+    queryKey: ['requests', page],
+    queryFn: () => getRequests(repository)(page)
   })
 
-  const createRequestMutation = useMutation({
-    mutationFn: (newRequest: Omit<RequestEntity, 'id'>) =>
+  const createRequestMutation = useMutation<
+    RequestEntity,
+    Error,
+    CreateRequestDto
+  >({
+    mutationFn: (newRequest: CreateRequestDto) =>
       createRequest(repository)(newRequest),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['requests'] })
