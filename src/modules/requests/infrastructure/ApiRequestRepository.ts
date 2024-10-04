@@ -12,10 +12,8 @@ function createApiRequestRepository(): RequestRepository {
       const response = await requestsApi.get('/')
       return response.data
     },
-    findAllPaginated: async (page: number) => {
-      const response = await requestsApi.get('/page', {
-        params: { page }
-      })
+    findAllPaginated: async (page: number = 0) => {
+      const response = await requestsApi.get(`/page/${page}`)
       return response.data
     },
     findById: async (id: number) => {

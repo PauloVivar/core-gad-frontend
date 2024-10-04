@@ -7,11 +7,13 @@ import {
   UsersPage,
   SelectRegisterPage,
   CreditTitlesPage,
-  RequestsPage
+  RequestsPage,
+  MyRequestsPage
 } from '@/sections'
+import { PaymentsProvider } from '@/sections/payments/payments-context'
 import { TransactionsPage } from '@/sections/transactions/page'
 import { PaymentPage } from '@/sections/payments/page'
-import { PaymentsProvider } from '@/sections/payments/payments-context'
+import { DocumentUploadPage } from '@/sections/documents'
 
 function UserRoutes() {
   const { login } = useAuth()
@@ -24,6 +26,9 @@ function UserRoutes() {
           <Route path="users" element={<UsersPage />} />
           <Route path="users/page/:page" element={<UsersPage />} />
           <Route path="/requests" element={<RequestsPage />} />
+          <Route path="/upload-documents" element={<DocumentUploadPage />} />
+          <Route path="/my-requests" element={<MyRequestsPage />} />
+          <Route path="/my-requests/page/:page" element={<MyRequestsPage />} />
 
           {!login.isAdmin || (
             <>

@@ -113,19 +113,37 @@ export const MenuList = () => {
                 showSubmenu={showAvaluosSubmenu}
               >
                 <NavLink
+                  to="/my-requests"
+                  className={({ isActive }) =>
+                    `${commonClasses} flex items-center ${isActive ? 'bg-muted text-primary' : 'text-muted-foreground hover:text-primary'}`
+                  }
+                >
+                  <InboxIcon className="h-4 w-4 mr-2" />
+                  Mis Trámites
+                </NavLink>
+                <NavLink
                   to="/requests"
                   className={({ isActive }) =>
                     `${commonClasses} flex items-center ${isActive ? 'bg-muted text-primary' : 'text-muted-foreground hover:text-primary'}`
                   }
                 >
                   <InboxIcon className="h-4 w-4 mr-2" />
-                  Ficha Catastral
+                  Nuevo Trámite
+                </NavLink>
+                <NavLink
+                  to="/upload-documents"
+                  className={({ isActive }) =>
+                    `${commonClasses} flex items-center ${isActive ? 'bg-muted text-primary' : 'text-muted-foreground hover:text-primary'}`
+                  }
+                >
+                  <InboxIcon className="h-4 w-4 mr-2" />
+                  Adjuntar Requisitos
                 </NavLink>
               </SubmenuItem>
             </SubmenuItem>
           </div>
 
-          <NavLink
+          {/* <NavLink
             to="/procedures"
             className={({ isActive }) =>
               `${commonClasses} ${
@@ -137,7 +155,7 @@ export const MenuList = () => {
           >
             <InboxIcon className="h-4 w-4" />
             Tr&aacute;mites
-          </NavLink>
+          </NavLink> */}
 
           <NavLink
             to="/taxServices"

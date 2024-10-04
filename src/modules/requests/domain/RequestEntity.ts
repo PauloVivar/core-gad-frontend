@@ -12,6 +12,13 @@ export interface RequestEntity {
   documents: Document[] | null
 }
 
+// Nuevo tipo para la creación de solicitudes
+export type CreateRequestDto = {
+  type: RequestType
+  citizenId: number
+  cadastralCode: string
+}
+
 export enum RequestStatus {
   INGRESADO = 'INGRESADO',
   EN_REVISION = 'EN_REVISION',
@@ -23,11 +30,4 @@ export enum RequestStatus {
 export enum RequestType {
   FICHA_CATASTRAL = 'FICHA_CATASTRAL',
   CERTIFICADO_FRACCIONAMIENTO = 'CERTIFICADO_FRACCIONAMIENTO'
-}
-
-// Nuevo tipo para la creación de solicitudes
-export type CreateRequestDto = {
-  type: RequestType
-  citizenId: number
-  cadastralCode: string
 }

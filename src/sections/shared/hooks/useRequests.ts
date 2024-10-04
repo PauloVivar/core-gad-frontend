@@ -29,8 +29,10 @@ export function useRequests(page: number = 0) {
   >({
     mutationFn: (newRequest: CreateRequestDto) =>
       createRequest(repository)(newRequest),
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ['requests'] })
+      console.log('useRequests', data)
+      return data
     }
   })
 
@@ -53,10 +55,16 @@ export function useRequests(page: number = 0) {
   })
 
   return {
-    requests: fetchRequests.data,
+    requests: fetchRequests.data?.content,
+    paginator: {
+      pageNumber: page,
+      totalPages: fetchRequests.data?.totalPages || 0,
+      totalElements: fetchRequests.data?.totalElements || 0
+    },
     isLoading: fetchRequests.isLoading,
     error: fetchRequests.error,
-    createRequest: createRequestMutation.mutate,
+    createRequest: (data: CreateRequestDto) =>
+      createRequestMutation.mutateAsync(data),
     updateRequest: updateRequestMutation.mutate,
     deleteRequest: deleteRequestMutation.mutate,
     isPending:

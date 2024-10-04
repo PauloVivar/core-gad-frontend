@@ -118,7 +118,7 @@ const Navbar = () => {
                   <ShoppingCartIcon className="h-5 w-5" />
                   Consulta y Pago de Obligaciones
                 </NavLink>
-                <NavLink
+                {/* <NavLink
                   to="/procedures"
                   className={({ isActive }) =>
                     `${commonClassesMobile} ${
@@ -130,7 +130,7 @@ const Navbar = () => {
                 >
                   <InboxIcon className="h-5 w-5" />
                   Tr&aacute;mites
-                </NavLink>
+                </NavLink> */}
                 <NavLink
                   to="/taxServices"
                   className={({ isActive }) =>
