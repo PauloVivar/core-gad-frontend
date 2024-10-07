@@ -7,13 +7,32 @@ export interface Payment {
   reference: string
   status: string
   creditTitles?: string[]
-  createdAt: string
+  createdAt?: string
   requestId?: number
   processUrl?: string
   cedula?: string
 }
 
-export type PaymentsResponse = Response<Payment>
+export interface PaymentResponse {
+  id: string
+  concept: string
+  value: number
+  reference: string
+  status: string
+  creditTitles?: CreditTitle[]
+  createdAt?: string
+  requestId?: number
+  processUrl?: string
+  cedula?: string
+}
+
+interface CreditTitle {
+  codigo: string
+  valor: number
+  detalle: string
+}
+
+export type PaymentsResponse = Response<PaymentResponse>
 
 export type UpdateStatusPaymentParams = Pick<Payment, 'id' | 'status'>
 

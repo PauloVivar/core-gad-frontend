@@ -1,21 +1,26 @@
-import { Payment } from '@/modules/payment/domain/Payment'
 import { create } from 'zustand'
 import { createJSONStorage, persist } from 'zustand/middleware'
 
 type State = {
-  lastPaymentPending: Payment | null
+  lastPaymentPending: Partial<PaymentResponse> | null
 }
 
 type Action = {
-  setLastPayment: (lastPaymentPending: Payment) => void
+  setLastPayment: (lastPaymentPending: Partial<PaymentResponse>) => void
 }
 
 export const useLastPaymentState = create<State & Action>()(
   persist(
     (set) => ({
       lastPaymentPending: null,
-      setLastPayment: (lastPaymentPending: Payment) =>
-        set({ lastPaymentPending })
+      setLastPayment: (updateFields) => {
+        set((state) => ({
+          lastPaymentPending: {
+            ...state.lastPaymentPending,
+            ...updateFields
+          }
+        }))
+      }
     }),
     {
       name: 'last-payment',

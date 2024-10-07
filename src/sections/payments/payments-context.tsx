@@ -1,9 +1,9 @@
 import { createContext } from 'react'
 import { useLastPayment } from './hooks/use-last-payment'
-import { Payment } from '@/modules/payment/domain/Payment'
+import { PaymentResponse } from '@/modules/payment/domain/Payment'
 
 export interface ContextState {
-  lastPaymentPending?: Payment | null
+  lastPaymentPending?: Partial<PaymentResponse> | null
 }
 
 export const PaymentsContext = createContext({} as ContextState)
