@@ -12,7 +12,7 @@ export function createApiPaymentRepository(): PaymentRepository {
 }
 
 async function create(payment: Payment) {
-  await fetch('http://localhost:8080/pagos', {
+  await fetch(`${import.meta.env.VITE_API_PAYMENT_BASE_URL}/pagos`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -22,7 +22,7 @@ async function create(payment: Payment) {
 }
 
 async function update(payment: UpdateStatusPaymentParams) {
-  await fetch(`http://localhost:8080/pagos`, {
+  await fetch(`${import.meta.env.VITE_API_PAYMENT_BASE_URL}/pagos`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json'
@@ -32,22 +32,22 @@ async function update(payment: UpdateStatusPaymentParams) {
 }
 
 async function get(id: string) {
-  const payment = await fetch(`http://localhost:8080/pagos/${id}`).then(
-    (res) => res.json() as Promise<Payment>
-  )
+  const payment = await fetch(
+    `${import.meta.env.VITE_API_PAYMENT_BASE_URL}/pagos/${id}`
+  ).then((res) => res.json() as Promise<Payment>)
   return payment
 }
 
 async function search(query: string) {
-  const payments = await fetch(`http://localhost:8080/pagos?${query}`).then(
-    (res) => res.json() as Promise<Payment[]>
-  )
+  const payments = await fetch(
+    `${import.meta.env.VITE_API_PAYMENT_BASE_URL}/pagos?${query}`
+  ).then((res) => res.json() as Promise<Payment[]>)
   return payments
 }
 
 async function getByDni(dni: string) {
-  const payment = await fetch(`http://localhost:8080/pagos/cedula/${dni}`).then(
-    (res) => (res.status == 200 ? res.json() : null)
-  )
+  const payment = await fetch(
+    `${import.meta.env.VITE_API_PAYMENT_BASE_URL}/pagos/cedula/${dni}`
+  ).then((res) => (res.status == 200 ? res.json() : null))
   return payment
 }

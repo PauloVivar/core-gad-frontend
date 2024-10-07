@@ -11,7 +11,7 @@ export function createApiCashInflowRepository(): CashInflowRepository {
 
 async function get(code: number) {
   const cashInflow = await fetch(
-    `http://localhost:8080/ingresos-caja/${code}`
+    `${import.meta.env.VITE_API_PAYMENT_BASE_URL}/ingresos-caja/${code}`
   ).then((response) => response.json() as Promise<CashInflow>)
 
   return cashInflow
@@ -19,14 +19,14 @@ async function get(code: number) {
 
 async function search(query: string) {
   const cashInflows = await fetch(
-    `http://localhost:8080/ingresos-caja?${query}`
+    `${import.meta.env.VITE_API_PAYMENT_BASE_URL}/ingresos-caja?${query}`
   ).then((response) => response.json())
 
   return cashInflows
 }
 
 async function create(cashInflow: CashInflow) {
-  await fetch(`http://localhost:8080/ingresos-caja`, {
+  await fetch(`${import.meta.env.VITE_API_PAYMENT_BASE_URL}/ingresos-caja`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
