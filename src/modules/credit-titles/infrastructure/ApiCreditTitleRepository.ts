@@ -10,7 +10,7 @@ export function createApiCreditTitlesRepository(): CreditTitleRepository {
 
 async function get(id: string) {
   const creditTitle = await fetch(
-    `http://localhost:8080/api/v1.0/titulos-credito/${id}`
+    `${import.meta.env.VITE_API_PAYMENT_BASE_URL}/api/v1.0/titulos-credito/${id}`
   ).then((response) => response.json() as Promise<CreditTitle>)
 
   return creditTitle
@@ -18,7 +18,7 @@ async function get(id: string) {
 
 async function search(query: string) {
   const creditTitles = await fetch(
-    `http://localhost:8080/titulos-de-credito?${query}`
+    `${import.meta.env.VITE_API_PAYMENT_BASE_URL}/titulos-de-credito?${query}`
   ).then((response) => response.json() as Promise<CreditTitlesResponse>)
 
   return creditTitles
