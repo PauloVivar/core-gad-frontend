@@ -16,9 +16,10 @@ import { ReactNode, useState } from 'react'
 interface SubmenuItemProps {
   label: string
   to?: string
-  onClick: () => void
-  showSubmenu: boolean
-  children: ReactNode
+  onClick?: () => void
+  showSubmenu?: boolean
+  children?: ReactNode
+  icon?: React.ElementType // Icono opcional
 }
 //test
 
@@ -32,36 +33,48 @@ export const MenuList = () => {
   const [showAvaluosSubmenu, setShowAvaluosSubmenu] = useState(false)
 
   //test
-  //const SubmenuItem = ({ label, onClick, showSubmenu, children }) => (
   const SubmenuItem: React.FC<SubmenuItemProps> = ({
     label,
     to,
     onClick,
     showSubmenu,
-    children
+    children,
+    icon: Icon
   }) => (
     <div className="relative">
       {to ? (
         <NavLink
           to={to}
           className={({ isActive }) =>
-            `${commonClasses} w-full flex justify-between items-center text-left ${isActive ? 'bg-muted text-primary' : 'text-muted-foreground hover:text-primary'}`
+            `${commonClasses} w-full flex justify-start items-center text-left space-x-2 ${
+              isActive
+                ? 'bg-muted text-primary'
+                : 'text-muted-foreground hover:text-primary'
+            }`
           }
         >
-          {label}
+          {Icon && <Icon className="h-4 w-4 text-muted-foreground" />}{' '}
+          {/* Icono si existe */}
+          <span>{label}</span>
         </NavLink>
       ) : (
         <button
           onClick={onClick}
-          className={`${commonClasses} w-full flex justify-between items-center text-left`}
+          className={`${commonClasses} w-full flex justify-start items-center text-left space-x-2 ${
+            showSubmenu
+              ? 'bg-muted text-primary'
+              : 'text-muted-foreground hover:text-primary'
+          }`}
         >
-          {label}
+          {Icon && <Icon className="h-4 w-4 text-muted-foreground" />}{' '}
+          {/* Icono si existe */}
+          <span>{label}</span>
           <ChevronDownIcon
             className={`h-4 w-4 transition-transform ${showSubmenu ? 'rotate-180' : ''}`}
           />
         </button>
       )}
-      {showSubmenu && <div className="ml-4 mt-2 space-y-2">{children}</div>}
+      {showSubmenu && <div className="ml-6 mt-2 space-y-2">{children}</div>}
     </div>
   )
 
@@ -101,8 +114,8 @@ export const MenuList = () => {
           </NavLink>
 
           <div className="flex items-center cursor-pointer">
-            {/* <InboxIcon className="h-4 w-4 mr-2" /> */}
             <SubmenuItem
+              icon={InboxIcon}
               label="Trámites"
               onClick={() => setShowTramitesSubmenu(!showTramitesSubmenu)}
               showSubmenu={showTramitesSubmenu}
@@ -142,20 +155,6 @@ export const MenuList = () => {
               </SubmenuItem>
             </SubmenuItem>
           </div>
-
-          {/* <NavLink
-            to="/procedures"
-            className={({ isActive }) =>
-              `${commonClasses} ${
-                isActive
-                  ? 'bg-muted text-primary transition-all hover:text-primary'
-                  : 'text-muted-foreground transition-all hover:text-primary'
-              }`
-            }
-          >
-            <InboxIcon className="h-4 w-4" />
-            Tr&aacute;mites
-          </NavLink> */}
 
           <NavLink
             to="/taxServices"
