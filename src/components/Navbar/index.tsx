@@ -26,6 +26,7 @@ import {
   ArrowRightEndOnRectangleIcon,
   UserPlusIcon
 } from '@heroicons/react/24/outline'
+
 import { MenuList } from './Menu'
 
 const Navbar = () => {
@@ -117,7 +118,7 @@ const Navbar = () => {
                   <ShoppingCartIcon className="h-5 w-5" />
                   Consulta y Pago de Obligaciones
                 </NavLink>
-                <NavLink
+                {/* <NavLink
                   to="/procedures"
                   className={({ isActive }) =>
                     `${commonClassesMobile} ${
@@ -129,7 +130,7 @@ const Navbar = () => {
                 >
                   <InboxIcon className="h-5 w-5" />
                   Tr&aacute;mites
-                </NavLink>
+                </NavLink> */}
                 <NavLink
                   to="/taxServices"
                   className={({ isActive }) =>
@@ -201,7 +202,6 @@ const Navbar = () => {
           {/* Menu Usuario */}
           {/* <UserMenu login={login} handlerLogout={handlerLogout} /> */}
 
-          {/* test */}
           {!login.isAuth ? (
             <div className="flex gap-3 text-zinc-700 text-sm">
               <NavLink to="/login" className="flex gap-1">
@@ -217,25 +217,6 @@ const Navbar = () => {
             <UserMenu login={login} handlerLogout={handlerLogout} />
           )}
         </header>
-
-        {/* Layout */}
-        {/* <main className='flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6'>
-          <div className='flex items-center'>
-            <h1 className='text-lg font-semibold md:text-2xl'>Usuarios</h1>
-          </div>
-
-          <div
-            className='flex flex-1 items-center justify-center rounded-lg border border-dashed shadow-sm'
-          >
-            <div className='flex flex-col items-center gap-1 text-center'>
-              <h3 className='text-2xl font-bold tracking-tight'>No tiene usuarios</h3>
-              <p className='text-sm text-muted-foreground'>
-                Puede comenzar a crear usuarios tan pronto como agregues uno nuevo..
-              </p>
-              <Button className='mt-4'>Add Cliente</Button>
-            </div>
-          </div>
-        </main> */}
       </div>
     </div>
   )

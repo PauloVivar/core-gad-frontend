@@ -9,10 +9,74 @@ import {
 } from '@heroicons/react/24/solid'
 import { useAuth } from '@/sections/shared/hooks'
 
+//test
+import { ChevronDownIcon } from 'lucide-react'
+import { ReactNode, useState } from 'react'
+
+interface SubmenuItemProps {
+  label: string
+  to?: string
+  onClick?: () => void
+  showSubmenu?: boolean
+  children?: ReactNode
+  icon?: React.ElementType // Icono opcional
+}
+//test
+
 export const MenuList = () => {
   const { login } = useAuth()
 
   const commonClasses = 'flex items-center gap-3 rounded-lg px-3 py-2'
+
+  //test
+  const [showTramitesSubmenu, setShowTramitesSubmenu] = useState(false)
+  const [showAvaluosSubmenu, setShowAvaluosSubmenu] = useState(false)
+
+  //test
+  const SubmenuItem: React.FC<SubmenuItemProps> = ({
+    label,
+    to,
+    onClick,
+    showSubmenu,
+    children,
+    icon: Icon
+  }) => (
+    <div className="relative">
+      {to ? (
+        <NavLink
+          to={to}
+          className={({ isActive }) =>
+            `${commonClasses} w-full flex justify-start items-center text-left space-x-2 ${
+              isActive
+                ? 'bg-muted text-primary'
+                : 'text-muted-foreground hover:text-primary'
+            }`
+          }
+        >
+          {Icon && <Icon className="h-4 w-4 text-muted-foreground" />}{' '}
+          {/* Icono si existe */}
+          <span>{label}</span>
+        </NavLink>
+      ) : (
+        <button
+          onClick={onClick}
+          className={`${commonClasses} w-full flex justify-start items-center text-left space-x-2 ${
+            showSubmenu
+              ? 'bg-muted text-primary'
+              : 'text-muted-foreground hover:text-primary'
+          }`}
+        >
+          {Icon && <Icon className="h-4 w-4 text-muted-foreground" />}{' '}
+          {/* Icono si existe */}
+          <span>{label}</span>
+          <ChevronDownIcon
+            className={`h-4 w-4 transition-transform ${showSubmenu ? 'rotate-180' : ''}`}
+          />
+        </button>
+      )}
+      {showSubmenu && <div className="ml-6 mt-2 space-y-2">{children}</div>}
+    </div>
+  )
 
   return (
     <>
@@ -49,19 +113,48 @@ export const MenuList = () => {
             Consulta y Pago de Obligaciones
           </NavLink>
 
-          <NavLink
-            to="/procedures"
-            className={({ isActive }) =>
-              `${commonClasses} ${
-                isActive
-                  ? 'bg-muted text-primary transition-all hover:text-primary'
-                  : 'text-muted-foreground transition-all hover:text-primary'
-              }`
-            }
-          >
-            <InboxIcon className="h-4 w-4" />
-            Tr&aacute;mites
-          </NavLink>
+          <div className="flex items-center cursor-pointer">
+            <SubmenuItem
+              icon={InboxIcon}
+              label="Trámites"
+              onClick={() => setShowTramitesSubmenu(!showTramitesSubmenu)}
+              showSubmenu={showTramitesSubmenu}
+            >
+              <SubmenuItem
+                label="Avalúos y Catastros"
+                onClick={() => setShowAvaluosSubmenu(!showAvaluosSubmenu)}
+                showSubmenu={showAvaluosSubmenu}
+              >
+                <NavLink
+                  to="/my-requests"
+                  className={({ isActive }) =>
+                    `${commonClasses} flex items-center ${isActive ? 'bg-muted text-primary' : 'text-muted-foreground hover:text-primary'}`
+                  }
+                >
+                  <InboxIcon className="h-4 w-4 mr-2" />
+                  Mis Trámites
+                </NavLink>
+                <NavLink
+                  to="/requests"
+                  className={({ isActive }) =>
+                    `${commonClasses} flex items-center ${isActive ? 'bg-muted text-primary' : 'text-muted-foreground hover:text-primary'}`
+                  }
+                >
+                  <InboxIcon className="h-4 w-4 mr-2" />
+                  Nuevo Trámite
+                </NavLink>
+                <NavLink
+                  to="/upload-documents"
+                  className={({ isActive }) =>
+                    `${commonClasses} flex items-center ${isActive ? 'bg-muted text-primary' : 'text-muted-foreground hover:text-primary'}`
+                  }
+                >
+                  <InboxIcon className="h-4 w-4 mr-2" />
+                  Adjuntar Requisitos
+                </NavLink>
+              </SubmenuItem>
+            </SubmenuItem>
+          </div>
 
           <NavLink
             to="/taxServices"

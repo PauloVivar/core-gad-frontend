@@ -5,6 +5,7 @@ import { termsSlice } from './states/terms'
 import { creditTitlesSlice } from './states/credit-titles'
 import { paymentCartSlice } from './states/payment-cart'
 import { cashInflowsSlice } from './states/cash-inflows'
+import { requestSlice } from './states/requests'
 import { paymentSlice } from '@/sections/payments/slices'
 
 //export default configureStore({
@@ -16,6 +17,7 @@ const store = configureStore({
     creditTitles: creditTitlesSlice.reducer,
     cashInflows: cashInflowsSlice.reducer,
     paymentCart: paymentCartSlice.reducer,
+    requests: requestSlice.reducer,
     payments: paymentSlice.reducer
   }
 })
