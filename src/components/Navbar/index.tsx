@@ -8,8 +8,7 @@ import {
   PresentationChartBarIcon,
   Bars3Icon,
   ShoppingCartIcon,
-  UsersIcon,
-  InboxIcon
+  UsersIcon
 } from '@heroicons/react/24/solid'
 
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
