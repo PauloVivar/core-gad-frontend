@@ -20,7 +20,7 @@ export interface PaymentResponse {
   reference: string
   status: string
   creditTitles?: CreditTitle[]
-  createdAt?: string
+  createdAt: string
   requestId?: number
   processUrl?: string
   cedula?: string
