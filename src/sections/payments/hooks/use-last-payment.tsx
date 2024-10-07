@@ -2,6 +2,7 @@ import { useAuth } from '@/sections/shared/hooks'
 import { useGetPaymentsByDni } from './use-get-by-dni'
 import { useEffect } from 'react'
 import { useLastPaymentState } from '../state'
+import { Payment } from '@/modules/payment/domain/Payment'
 
 export const useLastPayment = () => {
   const { login } = useAuth()
@@ -13,7 +14,9 @@ export const useLastPayment = () => {
 
   useEffect(() => {
     const lastPayment =
-      data?.content?.find((item) => item?.status === 'PENDIENTE') ?? null
+      (data?.content?.find(
+        (item) => item?.status === 'PENDIENTE'
+      ) as Payment) ?? null
     setLastPayment(lastPayment)
   }, [data?.content, setLastPayment])
 
