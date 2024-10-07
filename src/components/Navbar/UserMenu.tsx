@@ -12,11 +12,18 @@ import { Label } from '@/components/ui/label'
 
 import { UserCircleIcon } from '@heroicons/react/24/solid'
 //mod email
+//
 
-function UserMenu({ login, handlerLogout }) {
+function UserMenu({
+  username,
+  handlerLogout
+}: {
+  username: string
+  handlerLogout: () => void
+}) {
   return (
     <>
-      <Label className="text-zinc-500 text-sm">{login.user?.username}</Label>
+      <Label className="text-zinc-500 text-sm">{username}</Label>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="secondary" size="icon" className="rounded-full">
