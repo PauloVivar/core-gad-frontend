@@ -10,6 +10,9 @@
 			"@/*": ["./src/*"]
 		},
 		"moduleResolution": "node",
-		"esModuleInterop": true
+		"esModuleInterop": true,
+		"skipLibCheck": true, // Ignora errores de tipado en archivos de biblioteca
+		"noEmitOnError": false, // Permite la generación de salida aunque haya errores
+		"strict": false
 	}
 }

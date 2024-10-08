@@ -41,7 +41,6 @@ import {
 
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { AlertCircle } from 'lucide-react'
-import { useNavigate } from 'react-router-dom'
 
 const formSchema = z.object({
   type: z.nativeEnum(RequestType),
@@ -57,7 +56,6 @@ interface RequestFormProps {
 
 export function RequestForm({ onSubmit, onCancel }: RequestFormProps) {
   const { cadastralRecords, isLoading, error } = useCadastralRecordsByCitizen()
-  const navigate = useNavigate()
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -132,7 +130,7 @@ export function RequestForm({ onSubmit, onCancel }: RequestFormProps) {
             <FormField
               control={form.control}
               name="cadastralCode"
-              render={({ field }) => (
+              render={() => (
                 <FormItem>
                   <FormLabel>Clave Catastral</FormLabel>
                   <Controller

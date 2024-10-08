@@ -214,7 +214,7 @@ const Navbar = () => {
             </div>
           ) : (
             <UserMenu
-              login={login.user?.username}
+              username={login?.user?.username || ''}
               handlerLogout={handlerLogout}
             />
           )}

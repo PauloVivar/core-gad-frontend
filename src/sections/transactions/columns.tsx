@@ -1,9 +1,9 @@
 import { ColumnDef } from '@tanstack/react-table'
 
-import { Payment } from '@/modules/payment/domain/Payment'
+import { PaymentResponse } from '@/modules/payment/domain/Payment'
 import { format } from 'date-fns'
 
-export const columns: ColumnDef<Payment>[] = [
+export const columns: ColumnDef<PaymentResponse>[] = [
   {
     accessorKey: 'concept',
     header: 'Concepto'

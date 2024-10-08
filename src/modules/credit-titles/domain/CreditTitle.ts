@@ -41,4 +41,4 @@ export interface CreditTitle {
   processUrl: string
 }
 
-export type CreditTitlesResponse = Response<CreditTitle[]>
+export type CreditTitlesResponse = Response<CreditTitle>

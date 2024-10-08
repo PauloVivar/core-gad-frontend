@@ -3,7 +3,7 @@ import { useLastPayment } from './hooks/use-last-payment'
 import { PaymentResponse } from '@/modules/payment/domain/Payment'
 
 export interface ContextState {
-  lastPaymentPending?: Partial<PaymentResponse> | null
+  lastPaymentPending: Partial<PaymentResponse> | null
 }
 
 export const PaymentsContext = createContext({} as ContextState)

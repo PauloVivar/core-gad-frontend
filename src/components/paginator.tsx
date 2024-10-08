@@ -15,11 +15,9 @@ import {
 } from '@heroicons/react/24/outline'
 
 interface Paginator {
-  number: number
+  pageNumber: number
   totalPages: number
-  length: number
-  first: boolean
-  last: boolean
+  totalElements: number
 }
 
 interface PaginatorProps {

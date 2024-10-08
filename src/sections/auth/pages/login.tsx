@@ -3,7 +3,7 @@ import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { useAuth } from '@/sections/shared/hooks/useAuth'
 import { useUsers } from '@/sections/shared/hooks/useUsers'
-import { useTerms } from '@/sections/shared/hooks/useTerms'
+import { useTerms } from '@/sections/terms/hooks/use-terms'
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
@@ -360,7 +360,7 @@ const Login: FC = () => {
   //maneja la aceptación de términos para el registro. TermsInteractionDTO
   const handleTermsAcceptance = async (userId: number, accepted: boolean) => {
     try {
-      await getRecordTermsInteraction(userId, accepted)
+      await getRecordTermsInteraction(String(userId), accepted)
       if (accepted) {
         toast({
           title: 'Éxito',
@@ -391,8 +391,10 @@ const Login: FC = () => {
       console.log('test_onLoginSubmit:', loginResult)
 
       if (loginResult.isAuth && loginResult.user) {
-        const termsStatus = await getCheckUserTermsStatus(loginResult.user.id)
-        if (!termsStatus || !termsStatus.accepted) {
+        const termsStatus = await getCheckUserTermsStatus(
+          String(loginResult.user.id)
+        )
+        if (!termsStatus) {
           await getLatestTerms()
           setShowTerms(true)
         }
@@ -425,7 +427,7 @@ const Login: FC = () => {
 
       // Filtrar campos vacíos o nulos
       const filteredData = Object.fromEntries(
-        Object.entries(data).filter(([_, v]) => v != null && v !== '')
+        Object.entries(data).filter(([v]) => v != null && v !== '')
       ) as UserRegisterForm
 
       console.log('Datos filtrados:', filteredData)
@@ -477,6 +479,7 @@ const Login: FC = () => {
       getLatestTerms()
       setShowTerms(true)
     } catch (error) {
+      console.error(error)
       toast({
         title: 'Error',
         description: `No se pudieron cargar los términos más recientes: ${latestTermError}`,

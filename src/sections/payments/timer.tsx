@@ -22,7 +22,7 @@ export const Timer: React.FC<TimerProps> = ({ createdAt, onTimeUp }) => {
     }
 
     const timer = setInterval(() => {
-      setTimeLeft(timeLeft - 1)
+      setTimeLeft((prevTimeLeft) => Math.max(prevTimeLeft - 1, 0))
     }, 1000)
 
     return () => clearInterval(timer)

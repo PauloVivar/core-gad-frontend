@@ -2,12 +2,16 @@ import { configureStore } from '@reduxjs/toolkit'
 import { usersSlice } from './states/users'
 import { authSlice } from './states/auth'
 // import { termsSlice } from './states/terms'
-import { termsSlice } from '@/sections/terms/slices'
+import { termsSlice, TermsState } from '@/sections/terms/slices'
 import { creditTitlesSlice } from './states/credit-titles'
 import { paymentCartSlice } from './states/payment-cart'
 import { cashInflowsSlice } from './states/cash-inflows'
 import { requestSlice } from './states/requests'
 import { paymentSlice } from '@/sections/payments/slices'
+
+export interface AppStore {
+  terms: TermsState
+}
 
 //export default configureStore({
 const store = configureStore({

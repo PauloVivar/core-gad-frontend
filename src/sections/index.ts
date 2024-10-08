@@ -1,7 +1,5 @@
 export * from './home'
 export * from './not-found'
-export * from './users'
 export * from './select-register'
-export * from './terms'
 export * from './credit-titles'
 export * from './requests'

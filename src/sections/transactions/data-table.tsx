@@ -15,11 +15,11 @@ import {
   TableRow
 } from '@/components/ui/table'
 import { useState } from 'react'
-import { CreditTitle } from '@/modules/credit-titles/domain/CreditTitle'
+import { PaymentResponse } from '@/modules/payment/domain/Payment'
 
 interface DataTableProps {
-  columns: ColumnDef<CreditTitle, unknown>[]
-  data: CreditTitle[]
+  columns: ColumnDef<PaymentResponse, unknown>[]
+  data: PaymentResponse[]
 }
 
 export function DataTable({ columns, data }: DataTableProps) {

@@ -16,7 +16,7 @@ export const useLastPayment = () => {
     const lastPayment =
       (data?.content?.find(
         (item) => item?.status === 'PENDIENTE'
-      ) as PaymentResponse) ?? null
+      ) as Partial<PaymentResponse>) ?? null
     setLastPayment(lastPayment)
   }, [data?.content, setLastPayment])
 

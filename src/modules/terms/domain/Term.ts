@@ -1,4 +1,4 @@
-export interface Terms {
+export interface Term {
   effectiveDate: string
   createdDate: string
   id: string
