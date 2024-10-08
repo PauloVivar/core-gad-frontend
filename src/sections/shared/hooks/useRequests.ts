@@ -1,5 +1,10 @@
 // src/modules/requests/hooks/useRequests.ts
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import {
+  useQuery,
+  useMutation,
+  useQueryClient,
+  UseQueryResult
+} from '@tanstack/react-query'
 import { createApiRequestRepository } from '../../../modules/requests/infrastructure/ApiRequestRepository'
 import {
   getRequests,
@@ -11,16 +16,33 @@ import {
   RequestEntity,
   CreateRequestDto
 } from '../../../modules/requests/domain/RequestEntity'
+import { PaginatedResponse } from '@/modules/shared/domain/PaginatedResponse'
 
 const repository = createApiRequestRepository()
 
-export function useRequests(page: number = 0) {
+export function useRequests() {
   const queryClient = useQueryClient()
 
-  const fetchRequests = useQuery({
-    queryKey: ['requests', page],
-    queryFn: () => getRequests(repository)(page)
-  })
+  // const getRequestsQuery = (page: number = 0) => {
+  //   return useQuery<PaginatedResponse<RequestEntity>, Error>(
+  //     ['requests', page], () => getRequests(repository)(page), {
+  //       keepPreviousData: true,
+  //     }
+  //   )
+  // }
+
+  const getRequestsQuery = (
+    page: number = 0
+  ): UseQueryResult<PaginatedResponse<RequestEntity>, Error> => {
+    console.log('useRequests', page)
+    return useQuery({
+      queryKey: ['requests', page],
+      queryFn: () => getRequests(repository)(page),
+      staleTime: Infinity,
+      placeholderData: (previousData) => previousData,
+      gcTime: Infinity
+    })
+  }
 
   const createRequestMutation = useMutation<
     RequestEntity,
@@ -55,14 +77,7 @@ export function useRequests(page: number = 0) {
   })
 
   return {
-    requests: fetchRequests.data?.content,
-    paginator: {
-      pageNumber: page,
-      totalPages: fetchRequests.data?.totalPages || 0,
-      totalElements: fetchRequests.data?.totalElements || 0
-    },
-    isLoading: fetchRequests.isLoading,
-    error: fetchRequests.error,
+    getRequestsQuery,
     createRequest: (data: CreateRequestDto) =>
       createRequestMutation.mutateAsync(data),
     updateRequest: updateRequestMutation.mutate,

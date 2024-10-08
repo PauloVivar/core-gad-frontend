@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, FC } from 'react'
 import {
   Pagination,
   PaginationContent,
@@ -14,10 +14,16 @@ import {
   ChevronDoubleRightIcon
 } from '@heroicons/react/24/outline'
 
-const Paginator = ({ url, paginator }) => {
+interface PaginatorProps {
+  url: string
+  paginator: any
+}
+
+// const Paginator = ({ url, paginator }) => {
+const Paginator: FC<PaginatorProps> = ({ url, paginator }) => {
   const [activePage, setActivePage] = useState(paginator.number)
 
-  const handleClick = (page) => {
+  const handleClick = (page: number) => {
     setActivePage(page)
   }
 
