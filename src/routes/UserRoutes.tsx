@@ -2,9 +2,7 @@ import { Navigate, Route, Routes } from 'react-router-dom'
 import { useAuth } from '@/sections/shared/hooks'
 //import { Navbar } from '../components/Navbar';
 import {
-  TermsPage,
   Home,
-  UsersPage,
   SelectRegisterPage,
   CreditTitlesPage,
   RequestsPage,
@@ -23,8 +21,6 @@ function UserRoutes() {
       <PaymentsProvider>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="users" element={<UsersPage />} />
-          <Route path="users/page/:page" element={<UsersPage />} />
           <Route path="/requests" element={<RequestsPage />} />
           <Route path="/upload-documents" element={<DocumentUploadPage />} />
           <Route path="my-requests" element={<MyRequestsPage />} />
@@ -36,7 +32,6 @@ function UserRoutes() {
                 element={<SelectRegisterPage />}
               />
               <Route path="users/edit/:id" element={<SelectRegisterPage />} />
-              <Route path="terms" element={<TermsPage />} />
             </>
           )}
           <Route path="titulos-de-credito" element={<CreditTitlesPage />} />

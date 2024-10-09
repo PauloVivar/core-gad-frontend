@@ -1,8 +1,14 @@
+import { Term } from '@/modules/terms/domain/Term'
 import { createSlice } from '@reduxjs/toolkit'
 
-//Se inicializa id=0 para seleccionar y update.
-export const initialTermForm = {
-  id: 0,
+export type TermSelected = Pick<
+  Term,
+  'id' | 'version' | 'content' | 'effectiveDate'
+> &
+  Partial<Term>
+
+export const initialTermForm: TermSelected = {
+  id: '0',
   version: '',
   content: '',
   effectiveDate: ''
@@ -14,22 +20,37 @@ const initialErrors = {
   effectiveDate: ''
 }
 
+export interface TermsState {
+  terms: Term[]
+  termSelected: TermSelected
+  visibleForm: boolean
+  errors: typeof initialErrors
+
+  latestTerm: Term | null
+  latestTermError: string | null
+
+  userTermsStatus: string | null
+  recordingTermsInteraction: boolean
+  recordingTermsInteractionError: string | null
+}
+
+export const initialState: TermsState = {
+  terms: [],
+  termSelected: initialTermForm,
+  visibleForm: false,
+  errors: initialErrors,
+
+  latestTerm: null, //último término
+  latestTermError: null,
+
+  userTermsStatus: null, //status del término
+  recordingTermsInteraction: false, //grabar estado de la interacción
+  recordingTermsInteractionError: null
+}
+
 export const termsSlice = createSlice({
   name: 'terms',
-  initialState: {
-    terms: [],
-    termSelected: initialTermForm,
-    visibleForm: false,
-    errors: initialErrors,
-
-    latestTerm: null, //último término
-    latestTermError: null,
-
-    userTermsStatus: null, //status del término
-    recordingTermsInteraction: false, //grabar estado de la interacción
-    recordingTermsInteractionError: null,
-    isLoading: true
-  },
+  initialState,
   reducers: {
     addTerm: (state, action) => {
       // state.terms = [
@@ -70,7 +91,6 @@ export const termsSlice = createSlice({
     },
     loadingTerms: (state, action) => {
       state.terms = action.payload
-      state.isLoading = false
     },
     onSelectedTermForm: (state, action) => {
       state.termSelected = action.payload
@@ -86,7 +106,6 @@ export const termsSlice = createSlice({
 
     //últimos terms
     fetchLatestTermStart(state) {
-      state.isLoading = true
       state.latestTermError = null
     },
     fetchLatestTermSuccess(state, action) {
@@ -103,14 +122,11 @@ export const termsSlice = createSlice({
         // Agregar el nuevo término al principio del array
         state.terms.unshift(newLatestTerm)
       }
-      state.isLoading = false
       //old
       //state.latestTerm = action.payload;
-      //state.isLoading = false;
     },
     fetchLatestTermError(state, action) {
       state.latestTermError = action.payload
-      state.isLoading = false
     },
 
     //verificar el estado de los términos del usuario
@@ -135,7 +151,6 @@ export const termsSlice = createSlice({
     //error de terms
     loadingError: (state, action) => {
       state.errors = action.payload
-      //state.isLoading = false;
     }
   }
 })

@@ -213,7 +213,10 @@ const Navbar = () => {
               </NavLink>
             </div>
           ) : (
-            <UserMenu login={login} handlerLogout={handlerLogout} />
+            <UserMenu
+              username={login?.user?.username || ''}
+              handlerLogout={handlerLogout}
+            />
           )}
         </header>
       </div>

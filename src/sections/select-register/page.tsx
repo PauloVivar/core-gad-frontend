@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 
 import { Layout } from '../../components/Layout'
-import { UserForm } from '../users'
 import { useUsers } from '@/sections/shared/hooks'
 
 function Page() {
@@ -30,9 +29,7 @@ function Page() {
       </div>
       <div className="flex flex-1 items-center justify-center rounded-lg border border-dashed shadow-sm p-4">
         <div className="flex flex-col items-center gap-1">
-          <div className="w-[95%] h-full m-4 flex flex-row justify-center gap-4">
-            <UserForm userSelected={userSelected} />
-          </div>
+          <div className="w-[95%] h-full m-4 flex flex-row justify-center gap-4"></div>
         </div>
       </div>
     </Layout>

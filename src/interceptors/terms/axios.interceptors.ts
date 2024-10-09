@@ -6,10 +6,11 @@ const termsApi = axios.create({
 
 //interceptor de la cabecera
 termsApi.interceptors.request.use((config) => {
-  config.headers = {
-    ...config.headers,
-    Authorization: sessionStorage.getItem('token')
+  const token = sessionStorage.getItem('token')
+  if (config.headers) {
+    config.headers.set('Authorization', token ? `Bearer ${token}` : '')
   }
+
   return config
 })
 

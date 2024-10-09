@@ -11,22 +11,12 @@ import { Button } from '@/components/ui/button'
 import { PencilIcon, TrashIcon } from 'lucide-react'
 import { RequestEntity } from '../../modules/requests/domain/RequestEntity'
 import { Card } from '@/components/ui/card'
-// import { useRequests } from '../shared/hooks/useRequests'
-// import { Paginator } from '@/components/paginator'
-// import { useParams } from 'react-router-dom'
 
 interface RequestListProps {
   requests: RequestEntity[]
 }
 
 export function RequestList({ requests }: RequestListProps) {
-  // const { page } = useParams()
-  // const currentPage = page ? parseInt(page) : 0
-  // const { requests, paginator, isLoading, error } = useRequests(currentPage)
-
-  // if (isLoading) return <div>Cargando...</div>
-  // if (error) return <div>Error al cargar las solicitudes: {error.message}</div>
-
   return (
     <Card className="w-full p-2">
       <Table>

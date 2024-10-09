@@ -32,34 +32,12 @@ import {
 } from '@/redux/states/users'
 //} from '@/store/slices/users/usersSlice';
 import Swal from 'sweetalert2'
-
-interface User {
-  id: number
-  username: string
-  email: string
-  password: string
-  admin: boolean
-  acceptedTerms: boolean
-  //[key: string]: any;
-}
-
-interface UserForm extends User {
-  legalPerson: string | undefined
-  ci: string
-  fullName: string
-  address: string
-  phone: string
-  taxpayerCity: string
-  houseNumber: string
-  birthdate: Date | undefined
-  disabilityPercentage: number
-  maritalStatus: number
-}
+import { User } from '@/modules/users/domain/User'
 
 interface RootState {
   users: {
     users: User[]
-    userSelected: User
+    userSelected: UserSelected
     visibleForm: boolean
     errors: any
     isLoading: boolean
@@ -67,6 +45,10 @@ interface RootState {
     contribuyenteExists: boolean | undefined
     contribuyenteInfo: any | null
   }
+}
+
+export interface UserSelected extends User {
+  password: string
 }
 
 const useUsers = () => {
@@ -96,15 +78,14 @@ const useUsers = () => {
   //Obtiene la data de la API BACKEND con SPRING BOOT
   //const getUsers = async (page = 0) => {
   const getUsers = async (page: number = 0): Promise<void> => {
-    try {
-      const result = await findAllPages(page)
-      // console.log('list_u: ', result);
-      dispatch(loadingUsers(result.data))
-    } catch (error: any) {
-      if (error.response?.status == 401) {
-        handlerLogout()
-      }
-    }
+    const result = await findAllPages(page)
+      .then((res) => res.data)
+      .catch((error) => {
+        if (error.response?.status == 401) {
+          handlerLogout()
+        }
+      })
+    dispatch(loadingUsers(result))
   }
 
   //const handlerCheckContribuyenteExists = async (ci) => {
@@ -197,7 +178,7 @@ const useUsers = () => {
     throw new Error('Error desconocido al registrar usuario')
   }
 
-  const handlerAddUser = async (user: User): Promise<void> => {
+  const handlerAddUser = async (user: UserSelected): Promise<void> => {
     let response
     try {
       //userSchema.parse(user);
@@ -232,12 +213,12 @@ const useUsers = () => {
       handlerCloseForm()
       //Redirigir a UsersPage
       navigate('/users')
-    } catch (error: any) {
+    } catch (error) {
       handleAddUserError(error)
     }
   }
 
-  const handleAddUserError = (error: any): void => {
+  const handleAddUserError = (error): void => {
     if (error.response && error.response.status === 400) {
       dispatch(loadingError(error.response.data))
     } else if (
@@ -297,7 +278,7 @@ const useUsers = () => {
   }
 
   //const handlerSelectedUserForm = (user) => {
-  const handlerSelectedUserForm = (user: UserForm): void => {
+  const handlerSelectedUserForm = (user: Partial<User>): void => {
     //console.log(user);
     //Se muestra form al seleccionar
     dispatch(onSelectedUserForm({ ...user }))

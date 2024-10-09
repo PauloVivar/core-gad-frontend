@@ -14,13 +14,18 @@ import {
   ChevronDoubleRightIcon
 } from '@heroicons/react/24/outline'
 
-interface PaginatorProps {
-  url: string
-  paginator: any
+interface Paginator {
+  pageNumber: number
+  totalPages: number
+  totalElements: number
 }
 
-// const Paginator = ({ url, paginator }) => {
-const Paginator: FC<PaginatorProps> = ({ url, paginator }) => {
+interface PaginatorProps {
+  url: string
+  paginator: Paginator
+}
+
+const Paginator: React.FC<PaginatorProps> = ({ url, paginator }) => {
   const [activePage, setActivePage] = useState(paginator.number)
 
   const handleClick = (page: number) => {

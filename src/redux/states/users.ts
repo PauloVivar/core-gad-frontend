@@ -1,13 +1,18 @@
 //import { createSlice } from '@reduxjs/toolkit'
+import { Paginator } from '@/components/paginator'
+import { Taxpayer } from '@/modules/taxpayers/domain/Taxpayer'
+import { User } from '@/modules/users/domain/User'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 // Definición de la interfaz para el formulario de usuario
-interface UserForm {
+//
+//
+type UserPartial = Pick<User, 'id' | 'username' | 'email' | 'admin'> &
+  Partial<User>
+
+interface UserForm extends UserPartial {
   legalPerson: string | undefined
-  id: number
-  username: string
   password: string
-  email: string
 
   ci: string
   fullName: string
@@ -19,7 +24,6 @@ interface UserForm {
   disabilityPercentage: number
   maritalStatus: number
 
-  admin: boolean
   acceptedTerms: boolean
 }
 
@@ -35,13 +39,13 @@ interface ErrorState {
 // Definición de la interfaz para el estado completo
 interface UserState {
   users: UserForm[]
-  userSelected: UserForm
+  userSelected: User
   visibleForm: boolean
   errors: ErrorState
   isLoading: boolean
-  paginator: any // Idealmente, deberías definir una interfaz específica para el paginador
+  paginator: Paginator // Idealmente, deberías definir una interfaz específica para el paginador
   contribuyenteExists: boolean | undefined
-  contribuyenteInfo: any | null // Idealmente, deberías definir una interfaz para la información del contribuyente
+  contribuyenteInfo: Taxpayer | null // Idealmente, deberías definir una interfaz para la información del contribuyente
 }
 
 // Inicializamción del formulario de usuario, se inicializa id=0 para seleccionar y actualizar(update).
@@ -73,20 +77,28 @@ const initialErrors: ErrorState = {
   password: ''
 }
 
+export const initialState: UserState = {
+  users: [],
+  userSelected: initialUserForm, //selecionar row de tabla usuarios para update
+  visibleForm: false, //ocultar formulario
+  errors: initialErrors, //guardar errores config en el backend
+  isLoading: true, //espera hasta que carga la grilla(tabla)
+  paginator: {
+    number: 0,
+    totalPages: 0,
+    length: 0,
+    first: true,
+    last: false
+  },
+  contribuyenteExists: false,
+  contribuyenteInfo: null
+}
+
 export const usersSlice = createSlice({
   name: 'users',
-  initialState: {
-    users: [],
-    userSelected: initialUserForm, //selecionar row de tabla usuarios para update
-    visibleForm: false, //ocultar formulario
-    errors: initialErrors, //guardar errores config en el backend
-    isLoading: true, //espera hasta que carga la grilla(tabla)
-    paginator: {}, //paginacion
-    contribuyenteExists: false,
-    contribuyenteInfo: null
-  } as UserState,
+  initialState,
   reducers: {
-    addUser: (state, action: PayloadAction<UserForm>) => {
+    addUser: (state, action) => {
       state.users = [
         ...state.users,
         {
@@ -108,15 +120,12 @@ export const usersSlice = createSlice({
       state.userSelected = initialUserForm
       state.visibleForm = false
     },
-    loadingUsers: (
-      state,
-      action: PayloadAction<{ content: UserForm[]; [key: string]: any }>
-    ) => {
+    loadingUsers: (state, action) => {
       state.users = action.payload.content
       state.paginator = action.payload
       state.isLoading = false
     },
-    onSelectedUserForm: (state, action: PayloadAction<UserForm>) => {
+    onSelectedUserForm: (state, action: PayloadAction<Partial<User>>) => {
       state.userSelected = action.payload
       state.visibleForm = true
     },
@@ -133,10 +142,10 @@ export const usersSlice = createSlice({
       state.errors = action.payload
     },
 
-    setContribuyenteExists: (state, action: PayloadAction<boolean>) => {
+    setContribuyenteExists: (state, action) => {
       state.contribuyenteExists = action.payload
     },
-    setContribuyenteInfo: (state, action: PayloadAction<any>) => {
+    setContribuyenteInfo: (state, action) => {
       state.contribuyenteInfo = action.payload
     },
     clearContribuyenteInfo: (state) => {
