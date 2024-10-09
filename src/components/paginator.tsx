@@ -1,94 +1,90 @@
-import { useState, FC } from 'react'
 import {
   Pagination,
   PaginationContent,
-  PaginationEllipsis,
   PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious
+  PaginationLink
 } from '@/components/ui/pagination'
-
 import {
   ChevronDoubleLeftIcon,
   ChevronDoubleRightIcon
 } from '@heroicons/react/24/outline'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
 
-interface Paginator {
+export interface Paginator {
+  pageSize: number
   pageNumber: number
-  totalPages: number
-  totalElements: number
+  totalPages: number | undefined
 }
 
-interface PaginatorProps {
+export interface PaginatorProps {
   url: string
   paginator: Paginator
 }
 
-const Paginator: React.FC<PaginatorProps> = ({ url, paginator }) => {
-  const [activePage, setActivePage] = useState(paginator.number)
-
-  const handleClick = (page: number) => {
-    setActivePage(page)
-  }
-
+export const Paginatior: React.FC<PaginatorProps> = ({ url, paginator }) => {
+  const { pageSize, pageNumber, totalPages } = paginator
+  console.log('prueba', paginator)
   return (
-    <Pagination className="mt-2 justify-start">
-      {paginator?.length == 1 || (
+    <Pagination>
+      {totalPages == 1 || (
         <PaginationContent>
-          {paginator.number == 0 || (
-            <PaginationItem>
-              <PaginationPrevious
-                href={`${url}/${paginator.number - 1}`}
-                isActive
-              />
-            </PaginationItem>
-          )}
+          <section>
+            <span className="text-sm font-medium">
+              Pagina {pageNumber} de {totalPages}
+            </span>
+          </section>
 
           <PaginationItem>
             <PaginationLink
-              href={`${url}/0`}
-              isActive={activePage == 0}
-              onClick={() => handleClick(0)}
-              className={paginator.first ? 'disabled' : ''}
+              href={`${url}?pageSize=${pageSize}&pageNumber=${1}`}
+              isActive
+              className={
+                pageNumber == 1 ? 'pointer-events-none opacity-50' : ''
+              }
             >
               <ChevronDoubleLeftIcon className="size-4" />
             </PaginationLink>
           </PaginationItem>
 
-          <PaginationItem>
-            <PaginationLink href="#">{paginator.number + 1}</PaginationLink>
-          </PaginationItem>
-
-          {paginator.number >= paginator.totalPages - 1 || (
+          {pageNumber == 0 || (
             <PaginationItem>
-              <PaginationEllipsis />
+              <PaginationLink
+                href={`${url}?pageSize=${pageSize}&pageNumber=${pageNumber - 1}`}
+                isActive
+                className={
+                  pageNumber == 1 ? 'pointer-events-none opacity-50' : ''
+                }
+              >
+                <ChevronLeft className="size-4" />
+              </PaginationLink>
             </PaginationItem>
           )}
 
           <PaginationItem>
             <PaginationLink
-              href={`${url}/${paginator.totalPages - 1}`}
-              isActive={activePage == paginator.totalPages - 1}
-              onClick={() => handleClick(paginator.totalPages - 1)}
-              className={paginator.last ? 'disabled' : ''}
+              href={`${url}?pageSize=${pageSize}&pageNumber=${pageNumber + 1}`}
+              isActive
+              className={
+                totalPages == pageNumber ? 'pointer-events-none opacity-50' : ''
+              }
+            >
+              <ChevronRight className="size-4" />
+            </PaginationLink>
+          </PaginationItem>
+
+          <PaginationItem>
+            <PaginationLink
+              href={`${url}?pageSize=${pageSize}&pageNumber=${totalPages}`}
+              isActive
+              className={
+                totalPages == pageNumber ? 'pointer-events-none opacity-50' : ''
+              }
             >
               <ChevronDoubleRightIcon className="size-4" />
             </PaginationLink>
           </PaginationItem>
-
-          {paginator.number >= paginator.totalPages - 1 || (
-            <PaginationItem>
-              <PaginationNext
-                href={`${url}/${paginator.number + 1}`}
-                isActive
-              />
-            </PaginationItem>
-          )}
         </PaginationContent>
       )}
     </Pagination>
   )
 }
-
-export { Paginator }

@@ -1,14 +1,10 @@
-//import { Paginator } from '@/components/paginator'
-import { Paginatior } from '@/sections/credit-titles/paginator'
+import { Paginatior } from '@/components/paginator'
 import { RequestList } from './RequestList'
 import { Layout } from '@/components/Layout'
-import { useParams, useSearchParams } from 'react-router-dom'
+import { useSearchParams } from 'react-router-dom'
 import { useRequests } from '../shared/hooks/useRequests'
 
 export function MyRequestsPage() {
-  // const { page: pageParam } = useParams();
-  // const page = pageParam ? parseInt(pageParam, 5) : 0;
-
   const [searchParams] = useSearchParams()
   const pageSize = Number(searchParams.get('pageSize')) || 5
   const pageNumber = Number(searchParams.get('pageNumber')) || 1
@@ -36,16 +32,11 @@ export function MyRequestsPage() {
     )
 
   // const { content: requests, number, size: pageSize, totalPages } = data;
-  const { content: requests, number, size, totalPages } = data
-
-  console.log('requests', requests)
-  console.log('number', number)
-  console.log('size', size)
-  console.log('totalPages', totalPages)
+  const { content: requests, totalPages } = data
 
   const paginator = {
-    pageNumber, // Usa 0 si number es undefined
-    pageSize: pageNumber, // Usa 5 por defecto si size es undefined
+    pageNumber: pageNumber,
+    pageSize: pageSize,
     totalPages: totalPages
   }
 
@@ -61,7 +52,6 @@ export function MyRequestsPage() {
               <h1 className="text-2xl font-bold mb-4">Mis Trámites</h1>
               <RequestList requests={requests} />
               <Paginatior url="/my-requests" paginator={paginator} />
-              {/* <Paginatior url="/titulos-de-credito" paginator={paginator} /> */}
             </div>
           </div>
         </div>
