@@ -5,7 +5,7 @@ import {
   CreateRequestDto
 } from '../domain/RequestEntity'
 import { RequestRepository } from '../domain/RequestRepository'
-import { PaginatedResponse } from '@/modules/shared/domain/PaginatedResponse'
+import { Response } from '@/modules/shared/domain/response'
 
 function createApiRequestRepository(): RequestRepository {
   return {
@@ -13,8 +13,8 @@ function createApiRequestRepository(): RequestRepository {
       const response = await requestsApi.get('/')
       return response.data
     },
-    findAllPages: async (page: number = 0) => {
-      const response = await requestsApi.get<PaginatedResponse<RequestEntity>>(
+    findAllPages: async (page: number): Promise<Response<RequestEntity>> => {
+      const response = await requestsApi.get<Response<RequestEntity>>(
         `/page/${page}`
       )
       return response.data

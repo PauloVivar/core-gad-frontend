@@ -10,6 +10,7 @@ import {
 import { Button } from '@/components/ui/button'
 import { PencilIcon, TrashIcon } from 'lucide-react'
 import { RequestEntity } from '../../modules/requests/domain/RequestEntity'
+import { Card } from '@/components/ui/card'
 // import { useRequests } from '../shared/hooks/useRequests'
 // import { Paginator } from '@/components/paginator'
 // import { useParams } from 'react-router-dom'
@@ -27,7 +28,7 @@ export function RequestList({ requests }: RequestListProps) {
   // if (error) return <div>Error al cargar las solicitudes: {error.message}</div>
 
   return (
-    <>
+    <Card className="w-full p-2">
       <Table>
         <TableCaption>Lista de solicitudes</TableCaption>
         <TableHeader>
@@ -62,7 +63,6 @@ export function RequestList({ requests }: RequestListProps) {
           ))}
         </TableBody>
       </Table>
-      {/* <Paginator url="/requests/page" paginator={paginator} /> */}
-    </>
+    </Card>
   )
 }

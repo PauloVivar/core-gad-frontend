@@ -16,29 +16,22 @@ import {
   RequestEntity,
   CreateRequestDto
 } from '../../../modules/requests/domain/RequestEntity'
-import { PaginatedResponse } from '@/modules/shared/domain/PaginatedResponse'
+import { Response } from '@/modules/shared/domain/response'
 
 const repository = createApiRequestRepository()
 
 export function useRequests() {
   const queryClient = useQueryClient()
 
-  // const getRequestsQuery = (page: number = 0) => {
-  //   return useQuery<PaginatedResponse<RequestEntity>, Error>(
-  //     ['requests', page], () => getRequests(repository)(page), {
-  //       keepPreviousData: true,
-  //     }
-  //   )
-  // }
-
   const getRequestsQuery = (
     page: number = 0
-  ): UseQueryResult<PaginatedResponse<RequestEntity>, Error> => {
+  ): UseQueryResult<Response<RequestEntity>, Error> => {
     console.log('useRequests', page)
     return useQuery({
       queryKey: ['requests', page],
       queryFn: () => getRequests(repository)(page),
-      staleTime: Infinity,
+      //staleTime: Infinity,
+      staleTime: 5 * 60 * 1000, // 5 minutos
       placeholderData: (previousData) => previousData,
       gcTime: Infinity
     })

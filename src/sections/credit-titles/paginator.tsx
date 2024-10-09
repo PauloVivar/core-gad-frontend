@@ -23,7 +23,7 @@ export interface PaginatorProps {
 
 export const Paginatior: React.FC<PaginatorProps> = ({ url, paginator }) => {
   const { pageSize, pageNumber, totalPages } = paginator
-
+  console.log('prueba', paginator)
   return (
     <Pagination>
       {totalPages == 1 || (

@@ -1,22 +1,53 @@
-import { Paginator } from '@/components/paginator'
+//import { Paginator } from '@/components/paginator'
+import { Paginatior } from '@/sections/credit-titles/paginator'
 import { RequestList } from './RequestList'
 import { Layout } from '@/components/Layout'
-import { useParams } from 'react-router-dom'
+import { useParams, useSearchParams } from 'react-router-dom'
 import { useRequests } from '../shared/hooks/useRequests'
 
 export function MyRequestsPage() {
-  const { page: pageParam } = useParams()
-  const page = pageParam ? parseInt(pageParam, 10) : 0
-  const { getRequestsQuery } = useRequests()
-  const { data, isLoading, error } = getRequestsQuery(page)
+  // const { page: pageParam } = useParams();
+  // const page = pageParam ? parseInt(pageParam, 5) : 0;
 
-  if (isLoading) return <div>Cargando...</div>
+  const [searchParams] = useSearchParams()
+  const pageSize = Number(searchParams.get('pageSize')) || 5
+  const pageNumber = Number(searchParams.get('pageNumber')) || 1
+
+  const { getRequestsQuery } = useRequests()
+  const { data, isLoading, error } = getRequestsQuery(pageNumber)
+
+  if (isLoading)
+    return (
+      <Layout>
+        <div>Cargando...</div>
+      </Layout>
+    )
   if (error)
     return (
-      <div>Error al cargar las solicitudes: {(error as Error).message}</div>
+      <Layout>
+        <div>Error al cargar las solicitudes: {(error as Error).message}</div>
+      </Layout>
+    )
+  if (!data)
+    return (
+      <Layout>
+        <div>No hay datos disponibles</div>
+      </Layout>
     )
 
-  const { content: requests = [], ...paginationInfo } = data || { content: [] }
+  // const { content: requests, number, size: pageSize, totalPages } = data;
+  const { content: requests, number, size, totalPages } = data
+
+  console.log('requests', requests)
+  console.log('number', number)
+  console.log('size', size)
+  console.log('totalPages', totalPages)
+
+  const paginator = {
+    pageNumber, // Usa 0 si number es undefined
+    pageSize: pageNumber, // Usa 5 por defecto si size es undefined
+    totalPages: totalPages
+  }
 
   return (
     <Layout>
@@ -29,7 +60,8 @@ export function MyRequestsPage() {
             <div className="container mx-auto p-4">
               <h1 className="text-2xl font-bold mb-4">Mis Trámites</h1>
               <RequestList requests={requests} />
-              <Paginator url="requests/page" paginator={paginationInfo} />
+              <Paginatior url="/my-requests" paginator={paginator} />
+              {/* <Paginatior url="/titulos-de-credito" paginator={paginator} /> */}
             </div>
           </div>
         </div>

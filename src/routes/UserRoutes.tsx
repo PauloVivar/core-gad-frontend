@@ -28,7 +28,6 @@ function UserRoutes() {
           <Route path="/requests" element={<RequestsPage />} />
           <Route path="/upload-documents" element={<DocumentUploadPage />} />
           <Route path="my-requests" element={<MyRequestsPage />} />
-          <Route path="my-requests/page/:page" element={<MyRequestsPage />} />
 
           {!login.isAdmin || (
             <>
