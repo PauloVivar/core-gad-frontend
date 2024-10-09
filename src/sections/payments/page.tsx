@@ -18,7 +18,6 @@ import { usePaymentsContext } from './hooks/use-payments-context'
 import { useEffect } from 'react'
 import { useLastPaymentState } from './state'
 import { PaymentStatus } from '@/modules/payment/domain/Payment'
-import { Layout } from '@/components/Layout'
 
 export function PaymentPage() {
   const { mutate: updatePayment } = useUpdatePayment()
@@ -56,7 +55,7 @@ export function PaymentPage() {
 
   return (
     data && (
-      <Layout>
+      <>
         <div className="flex justify-center items-center">
           {data.createdAt && (
             <Timer createdAt={data.createdAt} onTimeUp={cancelPayment} />
@@ -123,7 +122,7 @@ export function PaymentPage() {
               </CardFooter>
             </Card>
           )}
-      </Layout>
+      </>
     )
   )
 }

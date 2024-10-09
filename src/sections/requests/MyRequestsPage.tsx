@@ -1,9 +1,8 @@
 import { RequestList } from './RequestList'
-import { Layout } from '@/components/Layout'
 
 export function MyRequestsPage() {
   return (
-    <Layout>
+    <div>
       <div className="flex items-center">
         <h1 className="text-lg font-semibold md:text-2xl">Trámites en Linea</h1>
       </div>
@@ -17,6 +16,6 @@ export function MyRequestsPage() {
           </div>
         </div>
       </div>
-    </Layout>
+    </div>
   )
 }

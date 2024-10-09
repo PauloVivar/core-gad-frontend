@@ -59,7 +59,6 @@ import { Checkbox } from '@/components/ui/checkbox'
 import { Calendar } from '@/components/ui/calendar'
 import { Input } from '@/components/ui/input'
 import { useToast } from '@/components/ui/use-toast'
-import { Layout } from '@/components/Layout'
 import { Separator } from '@/components/ui/separator'
 import { format } from 'date-fns'
 import { cn } from '@/lib/utils'
@@ -398,7 +397,7 @@ const Login: FC = () => {
           await getLatestTerms()
           setShowTerms(true)
         }
-        navigate('/users')
+        navigate('/')
       }
     } catch (error) {
       toast({
@@ -507,7 +506,7 @@ const Login: FC = () => {
   }, [location.pathname])
 
   return (
-    <Layout>
+    <>
       <div className="w-full h-full flex flex-col justify-center items-center gap-4">
         <Accordion type="single" collapsible className="w-[80%]">
           <AccordionItem value="item-1">
@@ -1157,7 +1156,7 @@ const Login: FC = () => {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-    </Layout>
+    </>
   )
 }
 

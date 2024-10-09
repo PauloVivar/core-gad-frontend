@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom'
 
 import { RequestForm } from './RequestForm'
 import { Button } from '@/components/ui/button'
-import { Layout } from '@/components/Layout'
 import Swal from 'sweetalert2'
 
 import {
@@ -93,7 +92,7 @@ export function RequestsPage() {
   }
 
   return (
-    <Layout>
+    <>
       <div className="flex items-center">
         <h1 className="text-lg font-semibold md:text-2xl">Trámites en Linea</h1>
       </div>
@@ -137,6 +136,6 @@ export function RequestsPage() {
           </div>
         </div>
       </div>
-    </Layout>
+    </>
   )
 }

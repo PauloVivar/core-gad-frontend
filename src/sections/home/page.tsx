@@ -1,4 +1,3 @@
-import { Layout } from '@/components/Layout'
 import {
   Card,
   CardContent,
@@ -16,13 +15,13 @@ import {
 
 export function Page() {
   return (
-    <Layout>
+    <>
       <div className="flex items-center">
         <h1 className="text-lg font-semibold md:text-2xl">Bienvenido</h1>
       </div>
       <Separator />
-      <div className="w-full h-full justify-center gap-4 m-5 grid grid-rows-4 lg:grid-rows-1 grid-flow-col">
-        <Card className="w-[350px] h-[350px] lg:w-[250px] lg:h-[250px]">
+      <div className="flex justify-center md:justify-start w-full gap-4 flex-wrap">
+        <Card className="grow basis-1/4">
           <CardHeader>
             <CardTitle>Aval&uacute;os y Catastros</CardTitle>
             <CardDescription>
@@ -34,7 +33,7 @@ export function Page() {
           </CardContent>
         </Card>
 
-        <Card className="w-[350px] h-[350px] lg:w-[250px] lg:h-[250px]">
+        <Card className="grow basis-1/4">
           <CardHeader>
             <CardTitle>Pago de impuestos</CardTitle>
             <CardDescription>
@@ -46,7 +45,7 @@ export function Page() {
           </CardContent>
         </Card>
 
-        <Card className="w-[350px] h-[350px] lg:w-[250px] lg:h-[250px]">
+        <Card className="grow basis-1/4">
           <CardHeader>
             <CardTitle>Control Urbano</CardTitle>
             <CardDescription>
@@ -58,7 +57,7 @@ export function Page() {
           </CardContent>
         </Card>
 
-        <Card className="w-[350px] h-[350px] lg:w-[250px] lg:h-[250px]">
+        <Card className="grow basis-0">
           <CardHeader>
             <CardTitle>Varios</CardTitle>
             <CardDescription>
@@ -70,6 +69,6 @@ export function Page() {
           </CardContent>
         </Card>
       </div>
-    </Layout>
+    </>
   )
 }

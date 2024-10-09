@@ -36,9 +36,9 @@ export function CreditTitlesPage() {
   if (error) return 'An error has occurred: ' + error.message
 
   return (
-    <Layout>
+    <>
       <DataTable columns={columns} data={data?.content} />
       <Paginatior url="/titulos-de-credito" paginator={paginator} />
-    </Layout>
+    </>
   )
 }

@@ -4,10 +4,9 @@ import { useAuth } from './sections/shared/hooks'
 import { UserRoutes } from './routes/UserRoutes'
 import { Skeleton } from './components/ui/skeleton'
 
-import { Navbar } from './components/Navbar'
-
 import { Home, NotFound } from './sections'
 import { AccountRecovery, Login } from './sections/auth/pages'
+import { Layout } from './components/Layout'
 
 const AppRoutes = () => {
   const { login } = useAuth()
@@ -27,21 +26,21 @@ const AppRoutes = () => {
 
   return (
     <>
-      <Navbar />
       <Routes>
-        {login.isAuth ? (
-          <Route path="/*" element={<UserRoutes />} />
-        ) : (
-          <>
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Login />} />
-            <Route path="/recover-account" element={<AccountRecovery />} />
-
-            <Route path="/" element={<Home />} />
-            <Route path="/*" element={<NotFound />} />
-            {/* <Route path='/*' element={<Navigate to='/login' />} /> */}
-          </>
-        )}
+        <Route path="/" element={<Layout />}>
+          {login.isAuth ? (
+            <Route path="*" element={<UserRoutes />} />
+          ) : (
+            <>
+              <Route index element={<Home />} />
+              <Route path="login" element={<Login />} />
+              <Route path="register" element={<Login />} />
+              <Route path="recover-account" element={<AccountRecovery />} />
+              <Route path="*" element={<NotFound />} />
+              {/* <Route path='/*' element={<Navigate to='/login' />} /> */}
+            </>
+          )}
+        </Route>
       </Routes>
     </>
   )

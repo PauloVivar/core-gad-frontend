@@ -1,4 +1,3 @@
-import { Layout } from '@/components/Layout'
 import { DataTable } from './data-table'
 import { useAuth } from '../shared/hooks'
 import { columns } from './columns'
@@ -14,13 +13,9 @@ export const TransactionsPage = () => {
 
   if (error) return 'An error has occurred: ' + error.message
 
-  return (
-    <Layout>
-      {data ? (
-        <DataTable columns={columns} data={data?.content} />
-      ) : (
-        <div>No se a encontrado ninguna transacción</div>
-      )}
-    </Layout>
+  return data ? (
+    <DataTable columns={columns} data={data?.content} />
+  ) : (
+    <div>No se a encontrado ninguna transacción</div>
   )
 }

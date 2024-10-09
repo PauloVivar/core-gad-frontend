@@ -84,7 +84,7 @@ export const MenuList = () => {
       <div className="flex-1 bg-muted overflow-y-scroll">
         <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
           <NavLink
-            to="/"
+            to=""
             className={({ isActive }) =>
               `${commonClasses} ${
                 isActive
@@ -100,7 +100,7 @@ export const MenuList = () => {
             </Badge>
           </NavLink>
           <NavLink
-            to="/payments"
+            to="payments"
             className={({ isActive }) =>
               `${commonClasses} ${
                 isActive
@@ -126,7 +126,7 @@ export const MenuList = () => {
                 showSubmenu={showAvaluosSubmenu}
               >
                 <NavLink
-                  to="/my-requests"
+                  to="my-requests"
                   className={({ isActive }) =>
                     `${commonClasses} flex items-center ${isActive ? 'bg-muted text-primary' : 'text-muted-foreground hover:text-primary'}`
                   }
@@ -157,7 +157,7 @@ export const MenuList = () => {
           </div>
 
           <NavLink
-            to="/taxServices"
+            to="taxServices"
             className={({ isActive }) =>
               `${commonClasses} ${
                 isActive
@@ -170,7 +170,7 @@ export const MenuList = () => {
             Servicios Tributarios
           </NavLink>
           <NavLink
-            to="/citizenAttention"
+            to="citizenAttention"
             className={({ isActive }) =>
               `${commonClasses} ${
                 isActive
@@ -183,7 +183,7 @@ export const MenuList = () => {
             Atenci&oacute;n Ciudadana
           </NavLink>
           <NavLink
-            to="/users"
+            to="users"
             className={({ isActive }) =>
               `${commonClasses} ${
                 isActive
@@ -196,7 +196,7 @@ export const MenuList = () => {
             Usuarios{' '}
           </NavLink>
           <NavLink
-            to="/titulos-de-credito"
+            to="titulos-de-credito"
             className={({ isActive }) =>
               `${commonClasses} ${
                 isActive
@@ -209,7 +209,7 @@ export const MenuList = () => {
             Deudas pendientes
           </NavLink>
           <NavLink
-            to="/mis-transacciones"
+            to="mis-transacciones"
             className={({ isActive }) =>
               `${commonClasses} ${
                 isActive
@@ -222,7 +222,7 @@ export const MenuList = () => {
             Mis transacciones
           </NavLink>
           <NavLink
-            to="/preguntas-frecuentes.pdf"
+            to="preguntas-frecuentes.pdf"
             target="_blank"
             className={({ isActive }) =>
               `${commonClasses} ${

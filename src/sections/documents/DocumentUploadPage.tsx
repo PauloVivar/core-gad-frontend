@@ -1,6 +1,5 @@
 import { useLocation } from 'react-router-dom'
 import { DocumentUploadForm } from './DocumentUploadForm'
-import { Layout } from '@/components/Layout'
 
 export function DocumentUploadPage() {
   const location = useLocation()
@@ -8,18 +7,16 @@ export function DocumentUploadPage() {
 
   if (!requestId) {
     return (
-      <Layout>
-        <div className="flex items-center justify-center h-full">
-          <div className="text-center p-4 bg-red-100 text-red-700 rounded-lg">
-            <p>Error: No se proporcionó un ID de solicitud.</p>
-          </div>
+      <div className="flex items-center justify-center h-full">
+        <div className="text-center p-4 bg-red-100 text-red-700 rounded-lg">
+          <p>Error: No se proporcionó un ID de solicitud.</p>
         </div>
-      </Layout>
+      </div>
     )
   }
 
   return (
-    <Layout>
+    <>
       <div className="flex items-center">
         <h1 className="text-lg font-semibold md:text-2xl">Trámites en Linea</h1>
       </div>
@@ -36,6 +33,6 @@ export function DocumentUploadPage() {
           </div>
         </div>
       </div>
-    </Layout>
+    </>
   )
 }
