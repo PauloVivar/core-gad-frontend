@@ -23,7 +23,6 @@ import {
 import { useToast } from '@/components/ui/use-toast'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import { Layout } from '@/components/Layout'
 
 // Validation schemas
 const requestResetSchema = z.object({
@@ -133,7 +132,7 @@ const AccountRecovery: FC = () => {
   }
 
   return (
-    <Layout>
+    <>
       <div className="flex justify-center items-center h-screen bg-gray-100">
         <Card className="w-[400px]">
           <CardHeader>
@@ -247,7 +246,7 @@ const AccountRecovery: FC = () => {
           </CardFooter>
         </Card>
       </div>
-    </Layout>
+    </>
   )
 }
 
