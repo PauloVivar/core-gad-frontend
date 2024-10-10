@@ -1,5 +1,4 @@
 export * from './home'
 export * from './not-found'
-export * from './select-register'
 export * from './credit-titles'
 export * from './requests'
