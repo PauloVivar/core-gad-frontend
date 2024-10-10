@@ -10,28 +10,24 @@ import {
 import { Button } from '@/components/ui/button'
 import { PencilIcon, TrashIcon } from 'lucide-react'
 import { RequestEntity } from '../../modules/requests/domain/RequestEntity'
-import { useRequests } from '../shared/hooks/useRequests'
-import { useParams } from 'react-router-dom'
+import { Card } from '@/components/ui/card'
 
-export function RequestList() {
-  const { page } = useParams()
-  const currentPage = page ? parseInt(page) : 0
-  const { requests, isLoading, error } = useRequests(currentPage)
+interface RequestListProps {
+  requests: RequestEntity[]
+}
 
-  if (isLoading) return <div>Cargando...</div>
-  if (error) return <div>Error al cargar las solicitudes: {error.message}</div>
-
+export function RequestList({ requests }: RequestListProps) {
   return (
-    <>
+    <Card className="w-full p-2">
       <Table>
         <TableCaption>Lista de solicitudes</TableCaption>
         <TableHeader>
           <TableRow>
             <TableHead>ID</TableHead>
             <TableHead>Fecha de entrada</TableHead>
-            <TableHead>Estado</TableHead>
-            <TableHead>Tipo</TableHead>
             <TableHead>Código catastral</TableHead>
+            <TableHead>Tipo</TableHead>
+            <TableHead>Estado</TableHead>
             <TableHead>Acciones</TableHead>
           </TableRow>
         </TableHeader>
@@ -42,9 +38,9 @@ export function RequestList() {
               <TableCell>
                 {new Date(request.entryDate).toLocaleDateString()}
               </TableCell>
-              <TableCell>{request.status}</TableCell>
-              <TableCell>{request.type}</TableCell>
               <TableCell>{request.cadastralCode}</TableCell>
+              <TableCell>{request.type}</TableCell>
+              <TableCell>{request.status}</TableCell>
               <TableCell>
                 <Button variant="ghost" size="icon">
                   <PencilIcon className="h-4 w-4" />
@@ -57,6 +53,6 @@ export function RequestList() {
           ))}
         </TableBody>
       </Table>
-    </>
+    </Card>
   )
 }

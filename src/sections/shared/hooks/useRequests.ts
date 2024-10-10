@@ -1,5 +1,10 @@
 // src/modules/requests/hooks/useRequests.ts
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import {
+  useQuery,
+  useMutation,
+  useQueryClient,
+  UseQueryResult
+} from '@tanstack/react-query'
 import { createApiRequestRepository } from '../../../modules/requests/infrastructure/ApiRequestRepository'
 import {
   getRequests,
@@ -11,16 +16,26 @@ import {
   RequestEntity,
   CreateRequestDto
 } from '../../../modules/requests/domain/RequestEntity'
+import { Response } from '@/modules/shared/domain/response'
 
 const repository = createApiRequestRepository()
 
-export function useRequests(page: number = 0) {
+export function useRequests() {
   const queryClient = useQueryClient()
 
-  const fetchRequests = useQuery({
-    queryKey: ['requests', page],
-    queryFn: () => getRequests(repository)(page)
-  })
+  const getRequestsQuery = (
+    page: number = 0
+  ): UseQueryResult<Response<RequestEntity>, Error> => {
+    console.log('useRequests', page)
+    return useQuery({
+      queryKey: ['requests', page],
+      queryFn: () => getRequests(repository)(page),
+      //staleTime: Infinity,
+      staleTime: 5 * 60 * 1000, // 5 minutos
+      placeholderData: (previousData) => previousData,
+      gcTime: Infinity
+    })
+  }
 
   const createRequestMutation = useMutation<
     RequestEntity,
@@ -55,14 +70,7 @@ export function useRequests(page: number = 0) {
   })
 
   return {
-    requests: fetchRequests.data?.content,
-    paginator: {
-      pageNumber: page,
-      totalPages: fetchRequests.data?.totalPages || 0,
-      totalElements: fetchRequests.data?.totalElements || 0
-    },
-    isLoading: fetchRequests.isLoading,
-    error: fetchRequests.error,
+    getRequestsQuery,
     createRequest: (data: CreateRequestDto) =>
       createRequestMutation.mutateAsync(data),
     updateRequest: updateRequestMutation.mutate,

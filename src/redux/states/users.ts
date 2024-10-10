@@ -43,9 +43,9 @@ interface UserState {
   visibleForm: boolean
   errors: ErrorState
   isLoading: boolean
-  paginator: Paginator // Idealmente, deberías definir una interfaz específica para el paginador
+  paginator: Paginator
   contribuyenteExists: boolean | undefined
-  contribuyenteInfo: Taxpayer | null // Idealmente, deberías definir una interfaz para la información del contribuyente
+  contribuyenteInfo: Taxpayer | null
 }
 
 // Inicializamción del formulario de usuario, se inicializa id=0 para seleccionar y actualizar(update).

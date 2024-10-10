@@ -29,6 +29,7 @@ const findAll = async (): Promise<AxiosResponse> => {
 const findAllPages = async (page: number = 0): Promise<AxiosResponse> => {
   try {
     const response = await usersApi.get(`${BASE_URL}/page/${page}`)
+    console.log('usuarios', response)
     return response
   } catch (error) {
     console.error(error)
