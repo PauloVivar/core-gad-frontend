@@ -14,9 +14,10 @@ import { Card } from '@/components/ui/card'
 
 interface RequestListProps {
   requests: RequestEntity[]
+  onEdit: (request: RequestEntity) => void
 }
 
-export function RequestList({ requests }: RequestListProps) {
+export function RequestList({ requests, onEdit }: RequestListProps) {
   return (
     <Card className="w-full p-2">
       <Table>
@@ -42,7 +43,11 @@ export function RequestList({ requests }: RequestListProps) {
               <TableCell>{request.type}</TableCell>
               <TableCell>{request.status}</TableCell>
               <TableCell>
-                <Button variant="ghost" size="icon">
+                <Button
+                  onClick={() => onEdit(request)}
+                  variant="ghost"
+                  size="icon"
+                >
                   <PencilIcon className="h-4 w-4" />
                 </Button>
                 <Button variant="ghost" size="icon">
