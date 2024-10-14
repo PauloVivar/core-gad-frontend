@@ -1,6 +1,5 @@
 import { columns } from './columns'
 import { DataTable } from './data-table'
-import { Layout } from '@/components/Layout'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 //import { Paginatior } from './paginator'
 import { Paginatior } from '../../components/paginator'
