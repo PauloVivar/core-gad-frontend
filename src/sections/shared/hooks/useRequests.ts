@@ -1,4 +1,3 @@
-// src/modules/requests/hooks/useRequests.ts
 import {
   useQuery,
   useMutation,
@@ -26,7 +25,6 @@ export function useRequests() {
   const getRequestsQuery = (
     page: number = 0
   ): UseQueryResult<Response<RequestEntity>, Error> => {
-    console.log('useRequests', page)
     return useQuery({
       queryKey: ['requests', page],
       queryFn: () => getRequests(repository)(page),

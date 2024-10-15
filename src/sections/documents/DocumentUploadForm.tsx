@@ -24,8 +24,30 @@ import { toast } from '@/components/ui/use-toast'
 import { useNavigate } from 'react-router-dom'
 import { useRequests } from '../shared/hooks/useRequests'
 import { Card } from '@/components/ui/card'
+import { RequestType } from '@/modules/requests/domain/RequestEntity'
+import Swal from 'sweetalert2'
 
 const MAX_FILE_SIZE = 20 * 1024 * 1024 // 20MB
+
+//test
+const requestTypeConfig = {
+  FICHA_CATASTRAL: {
+    requiredDocuments: [
+      DocumentType.CEDULA,
+      DocumentType.PAPELETA_VOTACION,
+      DocumentType.FORMULARIO,
+      DocumentType.ESCRITURA,
+      DocumentType.COMPROBANTE_PAGO,
+      DocumentType.CERTIFICADO_NO_ADEUDAR
+    ]
+  },
+  CERTIFICADO_FRACCIONAMIENTO: {
+    requiredDocuments: [
+      DocumentType.ESCRITURA,
+      DocumentType.CERTIFICADO_NO_ADEUDAR
+    ]
+  }
+}
 
 const documentTypes = [
   {
@@ -76,9 +98,13 @@ type FormValues = z.infer<typeof schema>
 
 interface DocumentUploadFormProps {
   requestId: number
+  requestType: RequestType //test
 }
 
-export function DocumentUploadForm({ requestId }: DocumentUploadFormProps) {
+export function DocumentUploadForm({
+  requestId,
+  requestType
+}: DocumentUploadFormProps) {
   const navigate = useNavigate()
   const { createDocument, deleteDocument, documents } = useDocuments(requestId)
   const [uploadedDocuments, setUploadedDocuments] = useState<
@@ -88,7 +114,6 @@ export function DocumentUploadForm({ requestId }: DocumentUploadFormProps) {
     {} as Record<DocumentType, HTMLInputElement | null>
   )
 
-  //test
   const { deleteRequest } = useRequests()
 
   const form = useForm<FormValues>({
@@ -101,29 +126,75 @@ export function DocumentUploadForm({ requestId }: DocumentUploadFormProps) {
     }
   })
 
+  //test
+  const requiredDocuments =
+    requestTypeConfig[requestType]?.requiredDocuments || []
+
+  //test
+  const isFormValid = () => {
+    return requiredDocuments.every((type) => uploadedDocuments[type])
+  }
+
+  // const onSubmit = async (data: FormValues) => {
+  //   for (const [type, file] of Object.entries(data.files)) {
+  //     if (file) {
+  //       const documentData: CreateDocumentDto = {
+  //         type: type as DocumentType,
+  //         fileUrl: URL.createObjectURL(file)
+  //       }
+  //       try {
+  //         await createDocument(documentData)
+  //         setUploadedDocuments((prev) => ({ ...prev, [type]: true }))
+  //         toast({
+  //           title: 'Documento cargado',
+  //           description: `El documento ${documentTypes.find((d) => d.type === type)?.label} ha sido cargado exitosamente.`
+  //         })
+  //       } catch (error) {
+  //         console.error(`Error uploading ${type}:`, error)
+  //         toast({
+  //           title: 'Error',
+  //           description: `Hubo un problema al cargar el documento ${documentTypes.find((d) => d.type === type)?.label}.`,
+  //           variant: 'destructive'
+  //         })
+  //       }
+  //     }
+  //   }
+  // }
+
   const onSubmit = async (data: FormValues) => {
-    for (const [type, file] of Object.entries(data.files)) {
-      if (file) {
-        const documentData: CreateDocumentDto = {
-          type: type as DocumentType,
-          fileUrl: URL.createObjectURL(file)
-        }
-        try {
+    if (!isFormValid()) {
+      Swal.fire({
+        title: 'Error',
+        text: 'Por favor, adjunte todos los documentos requeridos antes de guardar.',
+        icon: 'error'
+      })
+      return
+    }
+
+    try {
+      for (const [type, file] of Object.entries(data.files)) {
+        if (file && requiredDocuments.includes(type as DocumentType)) {
+          const documentData: CreateDocumentDto = {
+            type: type as DocumentType,
+            fileUrl: URL.createObjectURL(file)
+          }
           await createDocument(documentData)
           setUploadedDocuments((prev) => ({ ...prev, [type]: true }))
-          toast({
-            title: 'Documento cargado',
-            description: `El documento ${documentTypes.find((d) => d.type === type)?.label} ha sido cargado exitosamente.`
-          })
-        } catch (error) {
-          console.error(`Error uploading ${type}:`, error)
-          toast({
-            title: 'Error',
-            description: `Hubo un problema al cargar el documento ${documentTypes.find((d) => d.type === type)?.label}.`,
-            variant: 'destructive'
-          })
         }
       }
+
+      Swal.fire({
+        title: 'Éxito',
+        text: 'Todos los documentos han sido guardados correctamente.',
+        icon: 'success'
+      })
+    } catch (error) {
+      console.error('Error al guardar documentos:', error)
+      Swal.fire({
+        title: 'Error',
+        text: 'Hubo un problema al guardar los documentos. Por favor, inténtelo de nuevo.',
+        icon: 'error'
+      })
     }
   }
 
@@ -214,58 +285,66 @@ export function DocumentUploadForm({ requestId }: DocumentUploadFormProps) {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {documentTypes.map(({ type, label, description }) => (
-                <TableRow key={type}>
-                  <TableCell>{label}</TableCell>
-                  <TableCell>{description}</TableCell>
-                  <TableCell>
-                    {getFileFormat(form.watch(`files.${type}`))}
-                  </TableCell>
-                  <TableCell>
-                    {getFileSize(form.watch(`files.${type}`))}
-                  </TableCell>
-                  <TableCell>
-                    <div className="flex items-center space-x-2">
-                      <input
-                        type="file"
-                        accept=".pdf,.jpg,.jpeg,.png"
-                        onChange={(e) =>
-                          handleFileChange(type, e.target.files?.[0] || null)
-                        }
-                        ref={(el) => (fileInputRefs.current[type] = el)}
-                        className="hidden"
-                      />
-                      <Button
-                        type="button"
-                        variant="outline"
-                        size="sm"
-                        onClick={() => fileInputRefs.current[type]?.click()}
-                      >
-                        <Paperclip className="h-4 w-4" />
-                      </Button>
-                      {form.watch(`files.${type}`) && (
-                        <Button
-                          type="button"
-                          variant="destructive"
-                          size="sm"
-                          onClick={() =>
-                            removeDocument(
-                              documents?.find((d) => d.type === type)?.id!,
-                              type
-                            )
-                          }
-                        >
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
-                      )}
-                    </div>
-                  </TableCell>
-                </TableRow>
-              ))}
+              {documentTypes.map(
+                ({ type, label, description }) =>
+                  requiredDocuments.includes(type) && (
+                    <TableRow key={type}>
+                      <TableCell>{label}</TableCell>
+                      <TableCell>{description}</TableCell>
+                      <TableCell>
+                        {getFileFormat(form.watch(`files.${type}`))}
+                      </TableCell>
+                      <TableCell>
+                        {getFileSize(form.watch(`files.${type}`))}
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex items-center space-x-2">
+                          <input
+                            type="file"
+                            accept=".pdf,.jpg,.jpeg,.png"
+                            onChange={(e) =>
+                              handleFileChange(
+                                type,
+                                e.target.files?.[0] || null
+                              )
+                            }
+                            ref={(el) => (fileInputRefs.current[type] = el)}
+                            className="hidden"
+                          />
+                          <Button
+                            type="button"
+                            variant="outline"
+                            size="sm"
+                            onClick={() => fileInputRefs.current[type]?.click()}
+                          >
+                            <Paperclip className="h-4 w-4" />
+                          </Button>
+                          {form.watch(`files.${type}`) && (
+                            <Button
+                              type="button"
+                              variant="destructive"
+                              size="sm"
+                              onClick={() =>
+                                removeDocument(
+                                  documents?.find((d) => d.type === type)?.id!,
+                                  type
+                                )
+                              }
+                            >
+                              <Trash2 className="h-4 w-4" />
+                            </Button>
+                          )}
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  )
+              )}
             </TableBody>
           </Table>
           <div className="flex justify-between">
-            <Button type="submit">Guardar Documentos</Button>
+            <Button type="submit" disabled={!isFormValid()}>
+              Guardar Documentos
+            </Button>
             <div>
               <Button
                 type="button"
