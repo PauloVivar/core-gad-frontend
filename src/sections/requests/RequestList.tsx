@@ -8,7 +8,7 @@ import {
   TableRow
 } from '@/components/ui/table'
 import { Button } from '@/components/ui/button'
-import { PencilIcon, TrashIcon } from 'lucide-react'
+import { PencilIcon } from 'lucide-react'
 import { RequestEntity } from '../../modules/requests/domain/RequestEntity'
 import { Card } from '@/components/ui/card'
 
@@ -48,11 +48,11 @@ export function RequestList({ requests, onEdit }: RequestListProps) {
                   variant="ghost"
                   size="icon"
                 >
-                  <PencilIcon className="h-4 w-4" />
+                  <PencilIcon className="h-4 w-4 text-zinc-500" />
                 </Button>
-                <Button variant="ghost" size="icon">
+                {/* <Button variant="ghost" size="icon">
                   <TrashIcon className="h-4 w-4" />
-                </Button>
+                </Button> */}
               </TableCell>
             </TableRow>
           ))}

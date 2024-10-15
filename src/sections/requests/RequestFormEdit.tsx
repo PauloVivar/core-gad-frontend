@@ -1,4 +1,3 @@
-import React from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
@@ -25,6 +24,7 @@ import {
   RequestType,
   RequestStatus
 } from '../../modules/requests/domain/RequestEntity'
+import { Card } from '@/components/ui/card'
 
 const formSchema = z.object({
   status: z.nativeEnum(RequestStatus),
@@ -53,72 +53,78 @@ export function RequestFormEdit({
   })
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <FormField
-          control={form.control}
-          name="status"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Estado</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Seleccione un estado" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  {Object.values(RequestStatus).map((status) => (
-                    <SelectItem key={status} value={status}>
-                      {status}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              <FormDescription>
-                El estado actual de la solicitud.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+    <Card className="w-full p-4">
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          <div className="w-full flex flex-row justify-between space-x-2">
+            <FormField
+              control={form.control}
+              name="status"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Estado</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Seleccione un estado" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {Object.values(RequestStatus).map((status) => (
+                        <SelectItem key={status} value={status}>
+                          {status}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormDescription>
+                    El estado actual de la solicitud.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="type"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Tipo de Solicitud</FormLabel>
+                  <FormControl>
+                    <Input {...field} readOnly />
+                  </FormControl>
+                  <FormDescription>
+                    El tipo de solicitud no puede ser modificado.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-        <FormField
-          control={form.control}
-          name="type"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Tipo de Solicitud</FormLabel>
-              <FormControl>
-                <Input {...field} readOnly />
-              </FormControl>
-              <FormDescription>
-                El tipo de solicitud no puede ser modificado.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+            <FormField
+              control={form.control}
+              name="cadastralCode"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Código Catastral</FormLabel>
+                  <FormControl>
+                    <Input {...field} readOnly />
+                  </FormControl>
+                  <FormDescription>
+                    El código catastral no puede ser modificado.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
 
-        <FormField
-          control={form.control}
-          name="cadastralCode"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Código Catastral</FormLabel>
-              <FormControl>
-                <Input {...field} readOnly />
-              </FormControl>
-              <FormDescription>
-                El código catastral no puede ser modificado.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <Button type="submit">Actualizar Solicitud</Button>
-      </form>
-    </Form>
+          <Button type="submit">Actualizar Solicitud</Button>
+        </form>
+      </Form>
+    </Card>
   )
 }

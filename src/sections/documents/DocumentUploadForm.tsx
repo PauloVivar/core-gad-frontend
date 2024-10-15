@@ -23,6 +23,7 @@ import {
 import { toast } from '@/components/ui/use-toast'
 import { useNavigate } from 'react-router-dom'
 import { useRequests } from '../shared/hooks/useRequests'
+import { Card } from '@/components/ui/card'
 
 const MAX_FILE_SIZE = 20 * 1024 * 1024 // 20MB
 
@@ -199,86 +200,92 @@ export function DocumentUploadForm({ requestId }: DocumentUploadFormProps) {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <Table>
-          <TableCaption>Documentos Requeridos</TableCaption>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Tipo</TableHead>
-              <TableHead>Descripción</TableHead>
-              <TableHead>Formato</TableHead>
-              <TableHead>Tamaño</TableHead>
-              <TableHead>Acción</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {documentTypes.map(({ type, label, description }) => (
-              <TableRow key={type}>
-                <TableCell>{label}</TableCell>
-                <TableCell>{description}</TableCell>
-                <TableCell>
-                  {getFileFormat(form.watch(`files.${type}`))}
-                </TableCell>
-                <TableCell>
-                  {getFileSize(form.watch(`files.${type}`))}
-                </TableCell>
-                <TableCell>
-                  <div className="flex items-center space-x-2">
-                    <input
-                      type="file"
-                      accept=".pdf,.jpg,.jpeg,.png"
-                      onChange={(e) =>
-                        handleFileChange(type, e.target.files?.[0] || null)
-                      }
-                      ref={(el) => (fileInputRefs.current[type] = el)}
-                      className="hidden"
-                    />
-                    <Button
-                      type="button"
-                      variant="outline"
-                      size="sm"
-                      onClick={() => fileInputRefs.current[type]?.click()}
-                    >
-                      <Paperclip className="h-4 w-4" />
-                    </Button>
-                    {form.watch(`files.${type}`) && (
+      <Card className="w-full p-2">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          <Table>
+            <TableCaption>Documentos Requeridos</TableCaption>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Tipo</TableHead>
+                <TableHead>Descripción</TableHead>
+                <TableHead>Formato</TableHead>
+                <TableHead>Tamaño</TableHead>
+                <TableHead>Acciones</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {documentTypes.map(({ type, label, description }) => (
+                <TableRow key={type}>
+                  <TableCell>{label}</TableCell>
+                  <TableCell>{description}</TableCell>
+                  <TableCell>
+                    {getFileFormat(form.watch(`files.${type}`))}
+                  </TableCell>
+                  <TableCell>
+                    {getFileSize(form.watch(`files.${type}`))}
+                  </TableCell>
+                  <TableCell>
+                    <div className="flex items-center space-x-2">
+                      <input
+                        type="file"
+                        accept=".pdf,.jpg,.jpeg,.png"
+                        onChange={(e) =>
+                          handleFileChange(type, e.target.files?.[0] || null)
+                        }
+                        ref={(el) => (fileInputRefs.current[type] = el)}
+                        className="hidden"
+                      />
                       <Button
                         type="button"
-                        variant="destructive"
+                        variant="outline"
                         size="sm"
-                        onClick={() =>
-                          removeDocument(
-                            documents?.find((d) => d.type === type)?.id!,
-                            type
-                          )
-                        }
+                        onClick={() => fileInputRefs.current[type]?.click()}
                       >
-                        <Trash2 className="h-4 w-4" />
+                        <Paperclip className="h-4 w-4" />
                       </Button>
-                    )}
-                  </div>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-        <div className="flex justify-between">
-          <Button type="submit">Guardar Documentos</Button>
-          <div>
-            <Button
-              type="button"
-              variant="outline"
-              onClick={handleBack}
-              className="mr-2"
-            >
-              Atrás
-            </Button>
-            <Button type="button" variant="destructive" onClick={handleCancel}>
-              Cancelar
-            </Button>
+                      {form.watch(`files.${type}`) && (
+                        <Button
+                          type="button"
+                          variant="destructive"
+                          size="sm"
+                          onClick={() =>
+                            removeDocument(
+                              documents?.find((d) => d.type === type)?.id!,
+                              type
+                            )
+                          }
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      )}
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+          <div className="flex justify-between">
+            <Button type="submit">Guardar Documentos</Button>
+            <div>
+              <Button
+                type="button"
+                variant="outline"
+                onClick={handleBack}
+                className="mr-2"
+              >
+                Atrás
+              </Button>
+              <Button
+                type="button"
+                variant="destructive"
+                onClick={handleCancel}
+              >
+                Cancelar
+              </Button>
+            </div>
           </div>
-        </div>
-      </form>
+        </form>
+      </Card>
 
       {documents && documents.length > 0 && (
         <Alert className="text-yellow-700 mt-4">

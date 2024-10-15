@@ -23,14 +23,14 @@ export interface PaginatorProps {
 
 export const Paginatior: React.FC<PaginatorProps> = ({ url, paginator }) => {
   const { pageSize, pageNumber, totalPages } = paginator
-  console.log('prueba', paginator)
+  // console.log('prueba', paginator)
   return (
-    <Pagination>
+    <Pagination className="p-2">
       {totalPages == 1 || (
         <PaginationContent>
           <section>
             <span className="text-sm font-medium">
-              Pagina {pageNumber} de {totalPages}
+              Página {pageNumber} de {totalPages}
             </span>
           </section>
 

@@ -22,24 +22,24 @@ export function MyRequestsPage() {
   const pageSize = Number(searchParams.get('pageSize')) || 5
   const pageNumber = Number(searchParams.get('pageNumber')) || 1
 
-  //test
   const [selectedRequest, setSelectedRequest] = useState<RequestEntity | null>(
     null
   )
   const [openAccordion, setOpenAccordion] = useState<string>('requests')
-  //test
 
   const { getRequestsQuery, updateRequest } = useRequests()
   const { data, isLoading, error } = getRequestsQuery(pageNumber)
 
-  //test
   const { technicalReviews, isLoading: isLoadingReviews } = useTechnicalReviews(
     selectedRequest?.id ?? 0
   )
-  const { documents, isLoading: isLoadingDocuments } = useDocuments(
+
+  // const { documents, isLoading: isLoadingDocuments } = useDocuments(
+  //   selectedRequest?.id ?? 0
+  // )
+  const { isLoading: isLoadingDocuments } = useDocuments(
     selectedRequest?.id ?? 0
   )
-  //test
 
   if (isLoading) return <div>Cargando...</div>
   if (error)
@@ -80,11 +80,11 @@ export function MyRequestsPage() {
   return (
     <div>
       <div className="flex items-center">
-        <h1 className="text-lg font-semibold md:text-2xl">Trámites en Linea</h1>
+        <h1 className="font-bold m-4 text-lg md:text-2xl">Trámites en Linea</h1>
       </div>
-      <div className="w-full h-full flex flex-1 items-center justify-center rounded-lg border border-dashed shadow-sm p-2 bg-blue-500">
-        <div className="w-full flex flex-col items-center gap-1 bg-red-400">
-          <h1 className="text-2xl font-bold mb-4">Mis Trámites</h1>
+      <div className="w-full h-full flex flex-1 justify-center items-center rounded-lg border border-dashed shadow-sm">
+        <div className="w-full flex flex-col items-center gap-1 px-6">
+          <h2 className="font-semibold text-2xl">Mis Trámites</h2>
 
           <Accordion
             type="single"
@@ -93,7 +93,9 @@ export function MyRequestsPage() {
             className="w-full"
           >
             <AccordionItem value="requests">
-              <AccordionTrigger>Lista de Solicitudes</AccordionTrigger>
+              <AccordionTrigger className="text-amber-700">
+                Lista de Solicitudes
+              </AccordionTrigger>
               <AccordionContent>
                 <RequestList requests={requests} onEdit={handleEdit} />
                 <Paginatior url="/my-requests" paginator={paginator} />
@@ -103,8 +105,10 @@ export function MyRequestsPage() {
             {selectedRequest && (
               <>
                 <AccordionItem value="editRequest">
-                  <AccordionTrigger>Editar Solicitud</AccordionTrigger>
-                  <AccordionContent>
+                  <AccordionTrigger className="text-amber-700">
+                    Editar Solicitud
+                  </AccordionTrigger>
+                  <AccordionContent className="px-2">
                     {selectedRequest && (
                       <RequestFormEdit
                         selectedRequest={selectedRequest}
@@ -115,20 +119,25 @@ export function MyRequestsPage() {
                 </AccordionItem>
 
                 <AccordionItem value="technicalReviews">
-                  <AccordionTrigger>Revisiones Técnicas</AccordionTrigger>
+                  <AccordionTrigger className="text-amber-700">
+                    Revisiones Técnicas
+                  </AccordionTrigger>
                   <AccordionContent>
                     {isLoadingReviews ? (
                       <div>Cargando revisiones técnicas...</div>
                     ) : (
                       <TechnicalReviewList
                         technicalReviews={technicalReviews?.content ?? []}
+                        requestId={selectedRequest?.id ?? 0}
                       />
                     )}
                   </AccordionContent>
                 </AccordionItem>
 
                 <AccordionItem value="documents">
-                  <AccordionTrigger>Documentos</AccordionTrigger>
+                  <AccordionTrigger className="text-amber-700">
+                    Documentos
+                  </AccordionTrigger>
                   <AccordionContent>
                     {isLoadingDocuments ? (
                       <div>Cargando documentos...</div>
