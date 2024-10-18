@@ -1,36 +1,17 @@
 import { useLocation } from 'react-router-dom'
 import { DocumentUploadForm } from './DocumentUploadForm'
-import {
-  RequestEntity,
-  RequestType
-} from '@/modules/requests/domain/RequestEntity'
-import { useEffect, useState } from 'react'
 import { useRequests } from '../shared/hooks/useRequests'
 import { Skeleton } from '@/components/ui/skeleton'
-import { Response } from '@/modules/shared/domain/response'
 
 export function DocumentUploadPage() {
   const location = useLocation()
-  const requestId = location.state?.requestId
+  const requestId = location.state?.requestId as number
 
   //test
-  const [requestType, setRequestType] = useState<RequestType | null>(null)
-  const { getRequestsQuery } = useRequests()
+  const { getRequestByIdQuery } = useRequests()
+  const { data: request, isLoading, error } = getRequestByIdQuery(requestId)
 
-  console.log('tipo', requestType)
-
-  const { data, isLoading, error } = getRequestsQuery(0)
-
-  //test
-  useEffect(() => {
-    if (data && !isLoading && !error && requestId) {
-      const requestData = data as Response<RequestEntity>
-      const request = requestData.content.find((req) => req.id === requestId)
-      if (request) {
-        setRequestType(request.type)
-      }
-    }
-  }, [data, isLoading, error, requestId])
+  console.log('tipo', requestId)
 
   if (!requestId) {
     return (
@@ -66,7 +47,7 @@ export function DocumentUploadPage() {
     )
   }
 
-  if (!requestType) {
+  if (!request) {
     return (
       <div className="flex items-center justify-center h-full">
         <div className="text-center p-4 bg-yellow-100 text-yellow-700 rounded-lg">
@@ -90,7 +71,7 @@ export function DocumentUploadPage() {
                 <h2>Cargar Documentos para la Solicitud #{requestId}</h2>
                 <DocumentUploadForm
                   requestId={requestId}
-                  requestType={requestType}
+                  requestType={request.type}
                 />
               </div>
             </div>

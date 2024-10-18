@@ -6,10 +6,11 @@ import {
 } from '@tanstack/react-query'
 import { createApiRequestRepository } from '../../../modules/requests/infrastructure/ApiRequestRepository'
 import {
-  getRequests,
   createRequest,
-  updateRequest,
-  deleteRequest
+  deleteRequest,
+  getRequestById,
+  getRequests,
+  updateRequest
 } from '../../../modules/requests/application'
 import {
   RequestEntity,
@@ -32,6 +33,16 @@ export function useRequests() {
       staleTime: 5 * 60 * 1000, // 5 minutos
       placeholderData: (previousData) => previousData,
       gcTime: Infinity
+    })
+  }
+
+  const getRequestByIdQuery = (
+    id: number
+  ): UseQueryResult<RequestEntity, Error> => {
+    return useQuery({
+      queryKey: ['request', id],
+      queryFn: () => getRequestById(repository)(id),
+      staleTime: 5 * 60 * 1000 // 5 minutos
     })
   }
 
@@ -69,6 +80,7 @@ export function useRequests() {
 
   return {
     getRequestsQuery,
+    getRequestByIdQuery,
     createRequest: (data: CreateRequestDto) =>
       createRequestMutation.mutateAsync(data),
     updateRequest: updateRequestMutation.mutate,

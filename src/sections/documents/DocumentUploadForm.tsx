@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
@@ -29,7 +29,6 @@ import Swal from 'sweetalert2'
 
 const MAX_FILE_SIZE = 20 * 1024 * 1024 // 20MB
 
-//test
 const requestTypeConfig = {
   FICHA_CATASTRAL: {
     requiredDocuments: [
@@ -98,7 +97,7 @@ type FormValues = z.infer<typeof schema>
 
 interface DocumentUploadFormProps {
   requestId: number
-  requestType: RequestType //test
+  requestType: RequestType
 }
 
 export function DocumentUploadForm({
@@ -126,40 +125,23 @@ export function DocumentUploadForm({
     }
   })
 
-  //test
   const requiredDocuments =
     requestTypeConfig[requestType]?.requiredDocuments || []
 
-  //test
   const isFormValid = () => {
     return requiredDocuments.every((type) => uploadedDocuments[type])
   }
 
-  // const onSubmit = async (data: FormValues) => {
-  //   for (const [type, file] of Object.entries(data.files)) {
-  //     if (file) {
-  //       const documentData: CreateDocumentDto = {
-  //         type: type as DocumentType,
-  //         fileUrl: URL.createObjectURL(file)
-  //       }
-  //       try {
-  //         await createDocument(documentData)
-  //         setUploadedDocuments((prev) => ({ ...prev, [type]: true }))
-  //         toast({
-  //           title: 'Documento cargado',
-  //           description: `El documento ${documentTypes.find((d) => d.type === type)?.label} ha sido cargado exitosamente.`
-  //         })
-  //       } catch (error) {
-  //         console.error(`Error uploading ${type}:`, error)
-  //         toast({
-  //           title: 'Error',
-  //           description: `Hubo un problema al cargar el documento ${documentTypes.find((d) => d.type === type)?.label}.`,
-  //           variant: 'destructive'
-  //         })
-  //       }
-  //     }
-  //   }
-  // }
+  //test
+  useEffect(() => {
+    if (documents) {
+      const newUploadedDocuments = { ...uploadedDocuments }
+      documents.forEach((doc) => {
+        newUploadedDocuments[doc.type] = true
+      })
+      setUploadedDocuments(newUploadedDocuments)
+    }
+  }, [documents])
 
   const onSubmit = async (data: FormValues) => {
     if (!isFormValid()) {
@@ -221,6 +203,7 @@ export function DocumentUploadForm({
     if (file) {
       if (file.size <= MAX_FILE_SIZE) {
         form.setValue(`files.${type}`, file)
+        setUploadedDocuments((prev) => ({ ...prev, [type]: true }))
         toast({
           title: 'Archivo seleccionado',
           description: `${file.name} ha sido seleccionado para ${documentTypes.find((d) => d.type === type)?.label}.`
@@ -232,6 +215,8 @@ export function DocumentUploadForm({
           variant: 'destructive'
         })
       }
+    } else {
+      setUploadedDocuments((prev) => ({ ...prev, [type]: false }))
     }
   }
 
